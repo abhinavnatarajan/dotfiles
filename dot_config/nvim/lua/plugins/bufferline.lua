@@ -5,7 +5,9 @@ return {
   event = 'User FileOpened',
   version = '*',
   dependencies = {
-    "tokyonight.nvim",
+    -- "tokyonight.nvim",
+    "navarasu/onedark.nvim",
+		-- "sainnhe/sonokai",
     "nvim-tree/nvim-web-devicons",
     "abhinavnatarajan/winpick.nvim",
   },
@@ -30,6 +32,12 @@ return {
         show_buffer_icons = true,
         show_buffer_close_icons = true,
         show_close_icon = true, -- for tabpages
+        color_icons = true,
+        indicator = {
+          style = 'icon',
+          icon = '▎',
+        },
+        separator_style = "slope",
         show_tab_indicators = true,
         move_wraps_at_ends = false, -- moving buffers wraps around at ends
         enforce_regular_tabs = false, -- enforce all visual tabs have same size

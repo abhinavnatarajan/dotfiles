@@ -30,10 +30,10 @@ function M.load_defaults()
     mouse              = "a", -- allow the mouse to be used in neovim
     number             = true, -- set numbered lines
     numberwidth        = 3, -- set number column width to 2 {default 4}
-    pumblend           = 5, -- translucent popup menu
+    pumblend           = 8, -- translucent popup menu
     pumheight          = 150, -- pop up menu height
     ruler              = false,
-    scrolloff          = 4, -- minimal number of screen lines to keep above and below the cursor.
+    scrolloff          = 2, -- minimal number of screen lines to keep above and below the cursor.
     sessionoptions     = {
       "blank",
       "buffers",
@@ -64,7 +64,7 @@ function M.load_defaults()
     undofile           = true, -- enable persistent undo
     updatetime         = 100, -- faster completion
     whichwrap          = '<>[]lh',
-    winblend           = 5, -- translucent floating windows
+    winblend           = 8, -- translucent floating windows
     wrap               = true, -- display lines as one long line
     writebackup        = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
   }
