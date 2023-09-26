@@ -172,6 +172,7 @@ M.defaults = {
       ["<C-Right>"] = { "<CMD>vertical resize +2<CR>", icons.ui.ExpandHorizontal .. " Expand window horizontally" },
       -- Terminal keys
       ["<A-`>"] = { icons.ui.Terminal .. " Toggle terminal" },
+      ["<C-CR>"] = { [[<CMD>ToggleTermSendCurrentLine<CR>]], icons.ui.Terminal .." Run line in terminal" },
     }
   },
 
@@ -260,6 +261,8 @@ M.defaults = {
         end,
         "Find and replace highlighted"
       },
+      ["<A-CR>"] = { [[<CMD>ToggleTermSendVisualSelection<CR>]], icons.ui.Terminal .. " Run selection in terminal"},
+      ["<C-CR>"] = { [[<CMD>ToggleTermSendVisualLines<CR>]], icons.ui.Terminal .. " Run selected lines in terminal" },
     }
   },
   {
@@ -302,6 +305,11 @@ M.defaults = {
       ["<C-l>"] = { [[<CMD>wincmd l<CR>]], icons.ui.ChevronRightBoxOutline .. " Go to the right window" },
     }
   },
+  {
+    -- Terminal commands
+    mapping = {
+    }
+  }
 }
 function M.load_defaults()
   local wk = require("which-key")
