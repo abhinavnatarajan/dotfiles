@@ -4,20 +4,58 @@ return {
 	event = "VimEnter",
 	config = function()
 		local icons = require("icons")
+		-- custom toggleterm statusline
+		local toggleterm = {
+			sections = {
+				lualine_a = {
+					function() return "Terminal " .. vim.b.toggle_number end
+				},
+				lualine_b = {
+					function()
+						local ttt = require("toggleterm.terminal")
+						return ttt.get(ttt.get_focused_id(), false).display_name or
+							string.gsub(ttt.get(ttt.get_focused_id(), false).name, ";#toggleterm#[0-9]+", "")
+					end
+				},
+			},
+			winbar = {},
+			inactive_winbar = {},
+			filetypes = { "toggleterm" },
+		}
+		-- add on_click for trouble
+		local function get_trouble_mode()
+			local opts = require('trouble.config').options
+			local words = vim.split(opts.mode, '[%W]')
+			for i, word in ipairs(words) do
+				words[i] = word:sub(1, 1):upper() .. word:sub(2)
+			end
+			return table.concat(words, ' ')
+		end
+		local trouble = {
+			filetypes = {"Trouble"},
+			sections = {
+				lualine_a = {
+					{
+						get_trouble_mode,
+						on_click = function() require("trouble").toggle() end
+					},
+				},
+			}
+		}
 		require("lualine").setup {
 			theme = "tokyonight-night",
 			extensions = {
 				"nvim-tree",
 				"lazy",
 				"fzf",
-				"toggleterm",
+				toggleterm,
 				"quickfix",
 				"nvim-dap-ui",
-				"trouble"
+				trouble
 			},
 			options = {
 				disabled_filetypes = {
-					winbar = {"NvimTree", "alpha" },
+					winbar = {"NvimTree", "alpha",},
 					statusline = {"alpha"},
 				},
 				component_separators = { left = icons.ui.RoundDividerRight, right = icons.ui.RoundDividerLeft},
@@ -52,7 +90,10 @@ return {
 				},
 			},
 			sections = {
-				lualine_a = {'mode'},
+				lualine_a = {
+
+					'mode',
+				},
 				lualine_b = {
 					'branch',
 					'diff',

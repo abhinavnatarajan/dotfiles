@@ -4,8 +4,8 @@ return {
   lazy = true,
   event = 'User FileOpened',
   version = '*',
-  dependencies = { 
-    "tokyonight.nvim", 
+  dependencies = {
+    "tokyonight.nvim",
     "nvim-tree/nvim-web-devicons",
     "abhinavnatarajan/winpick.nvim",
   },
