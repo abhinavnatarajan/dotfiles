@@ -3,7 +3,9 @@ return {
   lazy = true,
   cmd = { 'NvimTreeOpen', 'NvimTreeToggle', 'NvimTreeFocus', 'NvimTreeFindFileToggle' },
   event = "User DirOpened",
-  dependencies = { "s1n7ax/nvim-window-picker" },
+  dependencies = {
+    "abhinavnatarajan/winpick.nvim",
+  },
   init = function()
     vim.g.loaded_netrw = 1
     vim.g.loaded_netrwPlugin = 1
@@ -145,12 +147,14 @@ return {
           resize_window = false,
           window_picker = {
             enable = true,
-            picker = require('window-picker').pick_window,
-            chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-            exclude = {
-              filetype = { "notify", "lazy", "qf", "diff", "fugitive", "fugitiveblame" },
-              buftype = { "nofile", "terminal", "help" },
-            },
+            picker = function()
+              return require('winpick').select()
+            end,
+            -- chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+            -- exclude = {
+            --   filetype = { "notify", "lazy", "qf", "diff", "fugitive", "fugitiveblame" },
+            --   buftype = { "nofile", "terminal", "help" },
+            -- },
           },
         },
         remove_file = {

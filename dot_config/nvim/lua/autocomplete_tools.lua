@@ -130,7 +130,7 @@ function M.setup()
             option = {
               trailing_slash = true,
               label_trailing_slash = true,
-              get_cwd = vim.fn.getcwd
+              -- get_cwd = vim.fn.getcwd
             },
           },
         },

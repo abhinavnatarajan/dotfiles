@@ -57,8 +57,11 @@ return {
     telescope.load_extension("file_browser")
     telescope.load_extension("fzf")
     telescope.load_extension("lazy")
-    if package.loaded["notify"] then
-      telescope.load_extension("notify")
+    -- if package.loaded["notify"] then
+    --   telescope.load_extension("notify")
+    -- end
+    if package.loaded["noice"] then
+      telescope.load_extension("noice")
     end
   end,
 }

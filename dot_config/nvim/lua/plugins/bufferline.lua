@@ -4,7 +4,11 @@ return {
   lazy = true,
   event = 'User FileOpened',
   version = '*',
-  dependencies = { "tokyonight.nvim", 'nvim-tree/nvim-web-devicons' },
+  dependencies = { 
+    "tokyonight.nvim", 
+    "nvim-tree/nvim-web-devicons",
+    "abhinavnatarajan/winpick.nvim",
+  },
   config = function()
     local bufferline = require('bufferline')
     bufferline.setup {
@@ -16,12 +20,20 @@ return {
         tab_size = 14,
         close_command = ':Bdelete %d',
         right_mouse_command = ':Bdelete %d',
+        left_mouse_command = function(bufnr)
+          local window = require('winpick').select()
+          if window then
+            vim.api.nvim_set_current_win(window)
+            vim.api.nvim_win_set_buf(window, bufnr)
+          end
+        end,
         show_buffer_icons = true,
         show_buffer_close_icons = true,
         show_close_icon = true, -- for tabpages
         show_tab_indicators = true,
         move_wraps_at_ends = false, -- moving buffers wraps around at ends
         enforce_regular_tabs = false, -- enforce all visual tabs have same size
+        persist_buffer_sort = true,
         offsets = {
           {
             filetype = 'NvimTree',

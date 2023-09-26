@@ -18,6 +18,38 @@ function M.remove_trailing_whitespace()
   vim.api.nvim_feedkeys(k, "t", true)
 end
 
+function M.set_indent()
+  vim.ui.select(
+    {"Spaces", "Tabs"},
+    {prompt = "Choose indent method"},
+    function(indent_method)
+      if indent_method then
+        vim.ui.input(
+          {prompt = "Set auto-indent width:"},
+          function(input)
+            local indent_w = tonumber(input)
+            if indent_method == "Spaces" then
+              vim.bo.expandtab = true
+              vim.bo.tabstop = indent_w
+              vim.bo.shiftwidth = 0
+            elseif indent_method == "Tabs" then
+              vim.bo.expandtab = false
+              vim.bo.tabstop = indent_w
+              vim.bo.shiftwidth = indent_w
+            end
+          end
+        )
+      end
+    end
+  )
+end
+
+function M.str2chars(str)
+  local res = {}
+  for letter in str:gmatch(".") do res[#res + 1] = letter end
+  return res
+end
+
 local function max_len_line(lines)
   local max_len = 0
 

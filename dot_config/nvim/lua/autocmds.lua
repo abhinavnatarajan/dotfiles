@@ -268,6 +268,7 @@ local defaults = {
     {
       group = "lsp_keybindings",
       callback = function(args)
+        local icons = require("icons")
         local opts = {buffer = args.buf}
         local bufmap = function(mode, lhs, rhs, desc) vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", opts, {desc = desc})) end
         local client_capabilities = vim.lsp.get_client_by_id(args.data.client_id).server_capabilities
@@ -276,7 +277,7 @@ local defaults = {
         --   bufmap('n', 'K', vim.lsp.buf.hover, "Hover symbol info")
         -- end
         if client_capabilities.renameProvider then
-          bufmap('n', '<F51>', vim.lsp.buf.rename, "Rename symbol")
+          bufmap('n', '<F51>', vim.lsp.buf.rename, icons.syntax.Object .. " Rename symbol")
         end
         if client_capabilities.definitionProvider then
           bufmap('n', 'gd', vim.lsp.buf.definition, "Go to definition")

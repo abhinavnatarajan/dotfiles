@@ -7,81 +7,83 @@ local DefaultOpts = require("utils").prototype {
   noremap = true, -- use `noremap` when creating keymaps
   nowait = true, -- use `nowait` when creating keymaps
 }
+local icons = require("icons")
 
 M.defaults = {
   {
     -- File shortcuts
     mapping = {
       ["<leader>"] = {
-        name = "File shortcuts",
-        [";"] = { "<CMD>Alpha<CR>", "Dashboard" },
-        ["n"] = { [[<CMD>lua require("telescope_custom_pickers").new_file()<CR>]], "New file" },
-        ["w"] = { [[<CMD>lua require("telescope_custom_pickers").check_save_as()<CR>]], "Save" },
-        ["<C-w>"] = { [[<CMD>lua require("telescope_custom_pickers").save_as()<CR>]], "Save as" },
-        ["W"] = { "<CMD>wa!<CR>", "Save all" },
-        ["c"] = { "<CMD>confirm Bdelete<CR>", "Close buffer" },
-        ["e"] = { "<CMD>silent NvimTreeToggle<CR>", "Explorer" },
-        ["q"] = { "<CMD>confirm q<CR>", "Close window" },
-        ["Q"] = { "<CMD>qa!<CR>", "Quit" },
-        ["%"] = { "<CMD>cd %:p:h<CR>", "Set working directory from active buffer" },
-        ["-"] = { "<CMD>cd ..<CR>", "cd .." },
-        ["h"] = { "<CMD>Telescope help_tags<CR>", "Search in help topics" },
-        ["\\"] = { "<CMD>Telescope notify<CR>", "Notification history" },
+        name = icons.ui.Files .. " File shortcuts",
+        [";"] = { "<CMD>Alpha<CR>", icons.ui.Dashboard .. " Dashboard" },
+        ["n"] = { [[<CMD>lua require("telescope_custom_pickers").new_file()<CR>]], icons.ui.NewFile .. " New file" },
+        ["w"] = { [[<CMD>lua require("telescope_custom_pickers").check_save_as()<CR>]], icons.ui.Save .. " Save" },
+        ["<A-w>"] = { [[<CMD>lua require("telescope_custom_pickers").save_as()<CR>]], icons.ui.SaveAs .. " Save as" },
+        ["W"] = { "<CMD>wa!<CR>", icons.ui.SaveAll .. " Save all" },
+        ["c"] = { "<CMD>confirm Bdelete<CR>", icons.ui.BoldClose .. " Close buffer" },
+        ["e"] = { "<CMD>silent NvimTreeToggle<CR>", icons.ui.FileTree .. " Explorer" },
+        ["q"] = { "<CMD>confirm q<CR>", icons.ui.BoldClose .. " Close window" },
+        ["Q"] = { "<CMD>qa!<CR>", icons.ui.BoldClose .. " Quit" },
+        ["%"] = { "<CMD>cd %:p:h<CR>", icons.ui.FolderActive .. " Set working directory from active buffer" },
+        ["-"] = { "<CMD>cd ..<CR>", icons.ui.FolderUp .. " cd .." },
+        ["h"] = { "<CMD>Telescope help_tags<CR>", icons.ui.FindFile .. " Search in help topics" },
+        ["\\"] = { "<CMD>Noice telescope<CR>", icons.ui.Notification .. " Notification history" },
         ["s"] = {
-          name = "Settings",
-          ["c"] = { "<CMD>Telescope colorscheme enable_preview=true<CR>", "Colorscheme" },
-          ["f"] = { [[lua require("telescope_custom_pickers").config]], "Browse config files" },
+          name = icons.ui.Gear.. " Settings",
+          ["c"] = { "<CMD>Telescope colorscheme enable_preview=true<CR>", icons.ui.ColourScheme .. " Colorscheme" },
+          ["f"] = { [[lua require("telescope_custom_pickers").config]], icons.ui.ConfigFolder .. " Browse config files" },
         },
         ["k"] = {
-          name = "Workspaces",
-          ["f"] = { [[<CMD>SessionManager load_session<CR>]],"Find workspace" },
-          ["w"] = { "<CMD>SessionManager save_current_session<CR>", "Save current workspace" },
+          name = icons.ui.Project .. " Workspaces",
+          ["f"] = { [[<CMD>SessionManager load_session<CR>]], icons.ui.FindFolder .. " Load workspace" },
+          ["d"] = { [[<CMD>SessionManager delete_session<CR>]], icons.ui.Trash .. " Delete workspace"},
+          ["w"] = { "<CMD>SessionManager save_current_session<CR>", icons.ui.Save .. " Save current workspace" },
         },
         ["f"] = {
-          name = "Files",
-          ["f"] = { [[<CMD>lua require("telescope_custom_pickers").smart_find_files()<CR>]], "Find files in cwd" },
-          ["d"] = { "<CMD>Telescope file_browser<CR>", "Browse files" },
-          ["g"] = { [[<CMD>lua require("telescope_custom_pickers").live_grep()<CR>]], "Search text" },
-          ["r"] = { [[<CMD>lua require("telescope_custom_pickers").oldfiles()<CR>]], "Recent files" },
+          name = icons.ui.Files .. " Files",
+          ["f"] = { [[<CMD>lua require("telescope_custom_pickers").smart_find_files()<CR>]], icons.ui.FindFile .. " Find files in cwd" },
+          ["d"] = { "<CMD>Telescope file_browser<CR>", icons.ui.FolderOpen .. " Browse files" },
+          ["g"] = { [[<CMD>lua require("telescope_custom_pickers").live_grep()<CR>]], icons.ui.FindText .. " Search text" },
+          ["r"] = { [[<CMD>lua require("telescope_custom_pickers").oldfiles()<CR>]], icons.ui.History .. " Recent files" },
         },
         ["P"] = {
-          name = "Plugins",
-          ["m"] = { "<CMD>Lazy home<CR>", "Manage plugins" },
-          ["f"] = { "<CMD>Telescope lazy<CR>", "Explore plugin files" },
+          name = icons.ui.ToolBox .. " Plugins",
+          ["m"] = { "<CMD>Lazy home<CR>", icons.ui.Configure .. " Manage plugins" },
+          ["f"] = { "<CMD>Telescope lazy<CR>", icons.ui.FolderOpen .. " Explore plugin files" },
         },
         ["b"] = {
-          name = "Buffers",
-          ["j"] = { "<CMD>BufferLinePick<CR>", "Jump to buffer" },
-          ["f"] = { [[<CMD> lua require("telescope_custom_pickers").buffers()<CR>]], "Find buffer" },
-          ["p"] = { "<CMD>BufferLineTogglePin<CR>", "Pin buffer" },
+          name = icons.ui.Files .. " Buffers",
+          ["j"] = { "<CMD>BufferLinePick<CR>", icons.ui.GotoFile .. " Jump to buffer" },
+          ["f"] = { [[<CMD> lua require("telescope_custom_pickers").buffers()<CR>]], icons.ui.FindFile .. " Find buffer" },
+          ["p"] = { "<CMD>BufferLineTogglePin<CR>", icons.ui.Pin .. " Pin buffer" },
         },
-        ["gg"] = { "<CMD>LazyGit<CR>", "Lazy git UI" },
+        ["gg"] = { "<CMD>LazyGit<CR>", icons.git.Branch .. " Lazy git UI" },
         ["x"] = {
-          name = "Diagnostics",
-          ["x"] = { "<CMD>TroubleToggle<CR>", "Toggle diagnostics" },
-          ["w"] = { "<CMD>TroubleToggle workspace_diagnostics<CR>", "Workspace diagnostics" },
-          ["d"] = { "<CMD>TroubleToggle document_diagnostics<CR>", "Document diagnostics" },
-          ["q"] = { "<CMD>TroubleToggle quickfix<CR>", "Quickfix" },
-          ["l"] = { "<CMD>TroubleToggle loclist<CR>", "Location list" },
+          name = icons.ui.DebugConsole .. " Diagnostics",
+          ["x"] = { "<CMD>TroubleToggle<CR>", icons.ui.DebugConsole .. " Toggle diagnostics" },
+          ["w"] = { "<CMD>TroubleToggle workspace_diagnostics<CR>", icons.ui.Project .. " Workspace diagnostics" },
+          ["d"] = { "<CMD>TroubleToggle document_diagnostics<CR>", icons.ui.CodeFile .. " Document diagnostics" },
+          ["q"] = { "<CMD>TroubleToggle quickfix<CR>", icons.ui.Fix .. " Quickfix" },
+          ["l"] = { "<CMD>TroubleToggle loclist<CR>", icons.ui.Location .. " Location list" },
         },
         ["L"] = {
-          name="LSP",
-          ["m"] = { "<CMD>Mason<CR>", "Manage installed LSP servers" },
-          ["i"] = { "<CMD>LspInfo<CR>", "LSP Info" },
+          name = icons.ui.Lightbulb .. " LSP",
+          ["m"] = { "<CMD>Mason<CR>", icons.ui.Configure .. " Manage installed LSP servers" },
+          ["i"] = { "<CMD>LspInfo<CR>", icons.diagnostics.Information .. " LSP info" },
         },
         ["t"] = {
-          name="Tabs",
-          ["e"] = { "<CMD>tab split<CR>", "Edit in new tab" },
+          name = icons.ui.Tab .. " Tabs",
+          ["e"] = { "<CMD>tab split<CR>", icons.ui.Edit .. " Edit in new tab" },
           ["o"] = { "<CMD>tabonly<CR>", "Close all other tabs" },
-          ["n"] = { "<CMD>tab split<CR>", "New file in new tab" },
+          ["n"] = { "<CMD>tab split<CR>", icons.ui.OpenInNew .. " New file in new tab" },
           ["c"] = { "<CMD>tab close<CR>", "Close current tab" },
-          ["h"] = { "<CMD>silent! tabmove -1<CR>", "Move tab to the left" },
-          ["l"] = { "<CMD>silent! tabmove +1<CR>", "Move tab to the right" },
-          ["f"] = { "<CMD>tabs<CR>", "Find tabs" },
+          ["h"] = { "<CMD>silent! tabmove -1<CR>", icons.ui.BoldArrowLeft .. " Move tab to the left" },
+          ["l"] = { "<CMD>silent! tabmove +1<CR>", icons.ui.BoldArrowRight .. " Move tab to the right" },
+          ["f"] = { "<CMD>tabs<CR>", icons.ui.FindTab .. " Find tabs" },
           ["j"] = {
-            function() 
+            function()
               vim.ui.input(
-                {prompt = "Go to tab:" }, 
+                {prompt = "Go to tab:" },
                 function(input)
                   vim.cmd("silent! tabnext" .. input)
                 end
@@ -89,15 +91,14 @@ M.defaults = {
             end,
             "Jump to tab"
           }
+        },
+        ["`"] = {
+          name = icons.ui.Terminal .. " Terminals",
+          ["f"] = {"<CMD>TermSelect<CR>", icons.ui.Select .. " Select terminal"},
+          ["r"] = {"<CMD>ToggleTermSetName<CR>", icons.syntax.String .. " Rename terminal"}
         }
       },
-      ["\\"] = {
-        -- dismiss notifications
-        function()
-          require('notify').dismiss({pending = true, silent=true})
-        end,
-        "Dismiss notifications"
-      },
+      ["\\"] = { [[<CMD>lua require('notify').dismiss({pending = true, silent=true})<CR>]], "Dismiss notifications"},
     }
   },
 
@@ -105,55 +106,72 @@ M.defaults = {
     -- Window navigation and resizing
     mapping = {
       -- Buffer movement
-      ["<A-h>"] = { "<CMD>BufferLineCyclePrev<CR>", "Previous buffer" },
-      ["<A-l>"] = { "<CMD>BufferLineCycleNext<CR>", "Next buffer" },
-      ["<A-H>"] = { "<CMD>BufferLineMovePrev<CR>", "Move buffer left" },
-      ["<A-L>"] = { "<CMD>BufferLineMoveNext<CR>", "Move buffer right" },
+      ["<A-h>"] = { "<CMD>BufferLineCyclePrev<CR>", icons.ui.ChevronLeftCircleOutline .. " Previous buffer", mode = {"n", "i"} },
+      ["<A-l>"] = { "<CMD>BufferLineCycleNext<CR>", icons.ui.ChevronRightCircleOutline .. " Next buffer", mode = {"n", "i"} },
+      ["<A-H>"] = { "<CMD>BufferLineMovePrev<CR>", icons.ui.ChevronLeftCircle .. " Move buffer left", mode = {"n", "i"} },
+      ["<A-L>"] = { "<CMD>BufferLineMoveNext<CR>", icons.ui.ChevronRightCircle .. " Move buffer right", mode = {"n", "i"} },
       -- Window movement
-      ["<C-h>"] = { "<C-w>h", "Go to the left window" },
-      ["<C-j>"] = { "<C-w>j", "Go to the down window" },
-      ["<C-k>"] = { "<C-w>k", "Go to the up window" },
-      ["<C-l>"] = { "<C-w>l", "Go to the right window" },
+      ["<C-w>"] = { icons.ui.Window .. " Manage windows" },
+      ["<C-h>"] = { "<CMD>wincmd h<CR>", icons.ui.ChevronLeftBoxOutline .. " Go to the left window", mode = {"n", "i"} },
+      ["<C-j>"] = { "<CMD>wincmd j<CR>", icons.ui.ChevronDownBoxOutline .. " Go to the down window", mode = {"n", "i"} },
+      ["<C-k>"] = { "<CMD>wincmd k<CR>", icons.ui.ChevronUpBoxOutline .. " Go to the up window", mode = {"n", "i"} },
+      ["<C-l>"] = { "<CMD>wincmd l<CR>", icons.ui.ChevronRightBoxOutline .. " Go to the right window", mode = {"n", "i"} },
       -- Tab movement
-      ["<A-C-h>"] = { "<CMD>tabprevious<CR>", "Previous tab" },
-      ["<A-C-l>"] = { "<CMD>tabnext<CR>", "Next tab" },
+      ["<A-C-h>"] = { "<CMD>tabprevious<CR>", icons.ui.ArrowLeft .. " Previous tab", mode = {"n", "i"} },
+      ["<A-C-l>"] = { "<CMD>tabnext<CR>", icons.ui.ArrowRight .. " Next tab", mode = {"n", "i"} },
       -- Smooth scrolling
       ["<C-y>"] = {
         function() neoscroll.scroll(-0.1, true, 100) end,
-        "Scroll up 10% of window height",
+        icons.ui.ChevronUp .. " Scroll up 10% of window height",
+        mode = {"n", "i", "s"},
       },
       ["<C-u>"] = {
-        function() neoscroll.scroll(-vim.wo.scroll, true, 350) end,
-        "Scroll up",
+        function()
+          if not require("noice.lsp").scroll(-4) then
+            neoscroll.scroll(-vim.wo.scroll, true, 350)
+          end
+        end,
+        icons.ui.ChevronDoubleUp .. " Scroll up",
+        mode = {"n", "i", "s"},
       },
       ["<C-e>"] = {
         function() neoscroll.scroll(0.1, true, 100) end,
-        "Scroll down 10% of window height",
+        icons.ui.ChevronDown .. " Scroll down 10% of window height",
+        mode = {"n", "i", "s"},
       },
       ["<C-d>"] = {
-        function() neoscroll.scroll(vim.wo.scroll, true, 350) end,
-        "Scroll down",
+        function()
+          if not require("noice.lsp").scroll(4) then
+            neoscroll.scroll(vim.wo.scroll, true, 350)
+          end
+        end,
+        icons.ui.ChevronDoubleDown .. " Scroll down",
+        mode = {"n", "i", "s"},
       },
       ["<C-b>"] = {
         function()
           neoscroll.scroll(-vim.api.nvim_win_get_height(0), true, 550)
         end,
-        "Page up",
+        icons.ui.ChevronTripleUp .. " Page up",
+        mode = {"n", "i", "s"},
       },
       ["<C-f>"] = {
         function()
           neoscroll.scroll(vim.api.nvim_win_get_height(0), true, 550)
         end,
-        "Page down",
+        icons.ui.ChevronTripleDown .. " Page down",
+        mode = {"n", "i", "s"},
       },
       ["zz"] = { function() neoscroll.zz(200) end, "Centre cursor line in window" },
       ["zt"] = { function() neoscroll.zt(200) end, "Align cursor line with top of window" },
       ["zb"] = { function() neoscroll.zb(200) end, "Align cursor line with bottom of window" },
       -- Resize with arrows
-      ["<C-Up>"] = { "<CMD>resize +2<CR>", "Shrink window vertically" },
-      ["<C-Down>"] = { "<CMD>resize -2<CR>", "Expand window vertically" },
-      ["<C-Left>"] = { "<CMD>vertical resize -2<CR>", "Shrink window horizontally" },
-      ["<C-Right>"] = { "<CMD>vertical resize +2<CR>", "Expand window horizontally" },
+      ["<C-Up>"] = { "<CMD>resize +2<CR>", icons.ui.ExpandVertical .. " Shrink window vertically" },
+      ["<C-Down>"] = { "<CMD>resize -2<CR>", icons.ui.ExpandVertical .. " Expand window vertically" },
+      ["<C-Left>"] = { "<CMD>vertical resize -2<CR>", icons.ui.ExpandHorizontal .. " Shrink window horizontally" },
+      ["<C-Right>"] = { "<CMD>vertical resize +2<CR>", icons.ui.ExpandHorizontal .. " Expand window horizontally" },
+      -- Terminal keys
+      ["<A-`>"] = { icons.ui.Terminal .. " Toggle terminal" },
     }
   },
 
@@ -161,16 +179,16 @@ M.defaults = {
     -- Normal mode editing shortcuts
     mapping = {
       -- Move current line / block with Alt-j/k a la vscode.
-      ["<A-k>"] = { "<CMD>move .-2<CR>==", "Move line up" },
-      ["<A-j>"] = { "<CMD>move .+1<CR>==", "Move line down" },
-      ["<A-/>"] = { "<Plug>(comment_toggle_linewise_current)", "Toggle comment" },
+      ["<A-k>"] = { "<CMD>move .-2<CR>==", icons.ui.MoveUp .. " Move line up" },
+      ["<A-j>"] = { "<CMD>move .+1<CR>==", icons.ui.MoveDown .. " Move line down" },
+      ["<A-/>"] = { "<Plug>(comment_toggle_linewise_current)", icons.ui.Comment .. " Toggle comment" },
       -- QuickFix
-      ["]q"] = { "<CMD>cnext<CR>", "Next error" },
-      ["[q"] = { "<CMD>cprev<CR>", "Previous error" },
-      ["<C-q>"] = { "<CMD>call QuickFixToggle()<CR>", "Toggle quickfix" },
+      ["]q"] = { "<CMD>cnext<CR>", icons.diagnostics.Next .. " Next error" },
+      ["[q"] = { "<CMD>cprev<CR>", icons.diagnostics.Previous .. " Previous error" },
+      -- ["<C-q>"] = { "<CMD>call QuickFixToggle()<CR>", "Toggle quickfix" },
       -- Indentation and whitespace formatting
-      ["<leader>="] = { require("utils").silent_auto_indent, "Auto-indent file" },
-      ["<leader>$"] = { require("utils").remove_trailing_whitespace, "Remove trailing whitespace" },
+      ["<leader>="] = { require("utils").silent_auto_indent, icons.ui.Indent .. " Auto-indent file" },
+      ["<leader>$"] = { require("utils").remove_trailing_whitespace, icons.ui.WhiteSpace .. " Remove trailing whitespace" },
       ["ga"] = { "<Plug>(EasyAlign)", "Align lines" },
       ["gA"] = { "<Plug>(LiveEasyAlign)", "Align lines with preview" },
       -- Delimiter formatting
@@ -186,24 +204,24 @@ M.defaults = {
           local k = vim.api.nvim_replace_termcodes(":%s/<C-R><C-w>", true, false, true)
           vim.api.nvim_feedkeys(k, "t", false)
         end,
-        "Find and replace"
+        icons.ui.FindAndReplace .. " Find and replace"
       },
       ["<F50>"] = {
         function()
           local k = vim.api.nvim_replace_termcodes(":%s/\\<<C-R><C-w>\\>", true, false, true)
           vim.api.nvim_feedkeys(k, "t", false)
         end,
-        "Find and replace (whole word)"
+        icons.ui.FindAndReplace .. " Find and replace (whole word)"
       },
-      ["<F3>"] = { "<CMD>noh<CR>", "Clear search highlights" },
+      ["<F3>"] = { "<CMD>noh<CR>", icons.ui.Highlight .. " Clear search highlights" },
       ["*"] = { "Search forwards (whole word)" },
       ["#"] = { "Search backwards (whole word)" },
       ["g*"] = { "Search forwards" },
       ["g#"] = { "Search backwards" },
       -- provided by vim-illuminate
-      -- already documented, just putting it here so I know it exists
-      -- ["<A-n>"] = { "Go to next reference under cursor" },
-      -- ["<A-p>"] = { "Go to previous reference under cursor" },
+      -- already registered, just putting it here so I know it exists
+      ["<A-n>"] = { icons.ui.Next .. " Move to next reference" },
+      ["<A-p>"] = { icons.ui.Previous .. " Move to previous reference" },
     },
   },
 
@@ -211,9 +229,10 @@ M.defaults = {
     -- insert mode editing shorcuts
     mode = "i",
     mapping = {
-      ["<A-j>"] = { "<Esc>:m .+1<CR>==gi", "Move line down" },
-      ["<A-k>"] = { "<Esc>:m .-2<CR>==gi", "Move line up" },
-      ["<A-/>"] = { "<Esc>gccgi", "Toggle comment", noremap = false},
+      ["<A-j>"] = { "<Esc>:m .+1<CR>==gi", icons.ui.MoveDown .. " Move line down" },
+      ["<A-k>"] = { "<Esc>:m .-2<CR>==gi", icons.ui.MoveUp .. " Move line up" },
+      ["<A-/>"] = { "<Esc>gccgi", "Toggle comment", noremap = false },
+      ["<F3>"] = { "<CMD>noh<CR>", "Turn off search highlights" },
       -- Delimiter formatting
       -- ["<C-g>s"] = { "<Plug>(nvim-surround-insert)", "Surround" },
       -- ["<C-g>S"] = { "<Plug>(nvim-surround-insert-line)", "Surround on new lines" },
@@ -223,15 +242,15 @@ M.defaults = {
     -- visual block mode editing shortcuts
     mode = "x",
     mapping = {
-      ["<A-k>"] = { ":m '<-2<CR>gv-gv", "Move selection up" },
-      ["<A-j>"] = { ":m '>+1<CR>gv-gv", "Move selection down" },
+      ["<A-k>"] = { ":m '<-2<CR>gv-gv", icons.ui.MoveUp .. " Move selection up" },
+      ["<A-j>"] = { ":m '>+1<CR>gv-gv", icons.ui.MoveDown .. " Move selection down" },
       ["<A-/>"] = { "<Plug>(comment_toggle_linewise_visual)gv", "Toggle comment" },
       -- Delimiter formatting
       ["<A-s>"] = { "<Plug>(nvim-surround-visual)", "Surround" },
       ["<A-S>"] = { "<Plug>(nvim-surround-visual-line)", "Surround on new lines" },
       -- Indentation and whitespace formatting
-      ["<"] = { "<gv", "Decrease indent" },
-      [">"] = { ">gv", "Increase indent" },
+      ["<"] = { "<gv", icons.ui.IndentDecrease .. " Decrease indent" },
+      [">"] = { ">gv", icons.ui.IndentIncrease .. " Increase indent" },
       ["ga"] = { "<Plug>(EasyAlign)", "Align lines" },
       ["gA"] = { "<Plug>(LiveEasyAlign)", "Align lines with preview" },
       ["<F2>"] = {
@@ -274,12 +293,13 @@ M.defaults = {
   },
   {
     -- Terminal mode mappings
-    mode = "t",
+    opts = DefaultOpts {mode = "t"},
     mapping = {
-      ["<C-k>"] = { "<C-\\><C-N><C-w>k", "Go to the up window" },
-      ["<C-j>"] = { "<C-\\><C-N><C-w>j", "Go to the down window" },
-      ["<C-h>"] = { "<C-\\><C-N><C-w>h", "Go to the left window" },
-      ["<C-l>"] = { "<C-\\><C-N><C-w>l", "Go to the right window" }
+      ["<Esc>"] = { [[<C-\><C-n>]], "Normal mode"},
+      ["<C-k>"] = { [[<CMD>wincmd k<CR>]], icons.ui.ChevronUpBoxOutline .. " Go to the up window" },
+      ["<C-j>"] = { [[<CMD>wincmd j<CR>]], icons.ui.ChevronDownBoxOutline .. " Go to the down window" },
+      ["<C-h>"] = { [[<CMD>wincmd h<CR>]], icons.ui.ChevronLeftBoxOutline .. " Go to the left window" },
+      ["<C-l>"] = { [[<CMD>wincmd l<CR>]], icons.ui.ChevronRightBoxOutline .. " Go to the right window" },
     }
   },
 }

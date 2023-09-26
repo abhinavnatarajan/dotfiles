@@ -100,9 +100,9 @@ M.config = function(opts)
   return require("telescope").extensions.file_browser.file_browser(vim.tbl_extend("force", opts or {}, {path=(string.gsub(vim.env.MYVIMRC, "/init.lua$", "")), prompt_title="Browse config files"}))
 end
 
-M.workspaces = function(opts)
-  return require('auto-session.session-lens').search_session(vim.tbl_extend("force", opts or {}, {previewer = false, prompt_title="Find workspace"}))
-end
+-- M.workspaces = function(opts)
+--   return require('auto-session.session-lens').search_session(vim.tbl_extend("force", opts or {}, {previewer = false, prompt_title="Find workspace"}))
+-- end
 
 M.smart_find_files = function(opts)
   local builtin = require("telescope.builtin")
@@ -113,7 +113,7 @@ M.smart_find_files = function(opts)
 end
 
 M.new_file = function()
-  local window = require('window-picker').pick_window()
+  local window = require('winpick').select()
   if window then
     vim.api.nvim_set_current_win(window)
     vim.cmd([[ene | startinsert]])

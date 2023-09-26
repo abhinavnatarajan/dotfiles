@@ -6,7 +6,7 @@ function M.load_defaults()
     -- shadafile       = join_paths(get_cache_dir(), "lvim.shada"),
     autochdir          = false, -- do not change cwd on file open
     backup             = false, -- creates a backup file
-    breakat            = " ^I!@*-+;,/?",
+    breakat            = " ^!@*-+;,/?",
     breakindent        = true,
     cindent            = true, -- smart indenting for new lines
     clipboard          = "unnamedplus", -- allows neovim to access the system clipboard
@@ -71,7 +71,21 @@ function M.load_defaults()
   for k, v in pairs(defaults) do
     vim.opt[k] = v
   end
+  if vim.fn.has('win32') then
+    local powershell_opts = {
+      shell = vim.fn.executable "pwsh" == 1 and "pwsh" or "powershell",
+      shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
+      shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait",
+      shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode",
+      shellquote = "",
+      shellxquote = "",
+    }
+    for k, v in ipairs(powershell_opts) do
+      vim.opt[k] = v
+    end
+  end
   -- vim.opt.guioptions:append("b")
+  vim.opt.fillchars:append("eob: ")
   vim.g.mapleader = " "
 end
 
