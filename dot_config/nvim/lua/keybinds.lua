@@ -9,7 +9,7 @@ local DefaultOpts = require("utils").prototype {
 }
 local icons = require("icons")
 
-M.defaults = {
+M.which_key_defaults = {
   {
     -- File shortcuts
     mapping = {
@@ -305,16 +305,18 @@ M.defaults = {
       ["<C-l>"] = { [[<CMD>wincmd l<CR>]], icons.ui.ChevronRightBoxOutline .. " Go to the right window" },
     }
   },
-  {
-    -- Terminal commands
-    mapping = {
-    }
-  }
+}
+
+M.other_defaults = {
+  { mode = "i", lhs = "<Tab>", rhs = "<C-F>", opts = { noremap = true } },
 }
 function M.load_defaults()
   local wk = require("which-key")
-  for _,v in ipairs(M.defaults) do
+  for _,v in ipairs(M.which_key_defaults) do
     wk.register(v.mapping, v.opts or DefaultOpts{mode = v.mode or "n" })
+  end
+  for _, mapping in pairs(M.other_defaults) do
+    vim.keymap.set(mapping.mode, mapping.lhs, mapping.rhs, mapping.opts)
   end
 end
 
