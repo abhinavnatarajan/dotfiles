@@ -16,11 +16,19 @@ return {
           function() return "Terminal " .. vim.b.toggle_number end
         },
         lualine_b = {
+          {
+
           function()
             local ttt = require("toggleterm.terminal")
             return ttt.get(ttt.get_focused_id(), false).display_name or
               string.gsub(ttt.get(ttt.get_focused_id(), false).name, ";#toggleterm#[0-9]+", "")
-          end
+          end, 
+            on_click = function()
+              local ttt = require("toggleterm.terminal")
+              local termid = tostring(ttt.get_focused_id())
+              vim.cmd(termid .. "ToggleTermSetname")
+            end
+          }
         },
       },
       winbar = {},

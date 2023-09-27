@@ -190,15 +190,15 @@ M.which_key_defaults = {
       -- Indentation and whitespace formatting
       ["<leader>="] = { require("utils").silent_auto_indent, icons.ui.Indent .. " Auto-indent file" },
       ["<leader>$"] = { require("utils").remove_trailing_whitespace, icons.ui.WhiteSpace .. " Remove trailing whitespace" },
-      ["ga"] = { "<Plug>(EasyAlign)", "Align lines" },
-      ["gA"] = { "<Plug>(LiveEasyAlign)", "Align lines with preview" },
+      ["ga"] = { "<Plug>(EasyAlign)", icons.ui.Align .. " Align lines" },
+      ["gA"] = { "<Plug>(LiveEasyAlign)", icons.ui.Align .. "Align lines with preview" },
       -- Delimiter formatting
-      ["ys"] = { "<Plug>(nvim-surround-normal)", "Surround" },
-      ["yss"] = { "<Plug>(nvim-surround-normal-cur)", "Surround line" },
-      ["yS"] = { "<Plug>(nvim-surround-normal-line)", "Surround on new lines" },
-      ["ySS"] = { "<Plug>(nvim-surround-normal-cur-line)", "Surround line on new lines" },
-      ["ds"] = { "<Plug>(nvim-surround-delete)", "Delete delimiter" },
-      ["cs"] = { "<Plug>(nvim-surround-change)", "Change delimiter" },
+      ["ys"] = { "<Plug>(nvim-surround-normal)", icons.ui.DelimiterPair .. " Surround" },
+      ["yss"] = { "<Plug>(nvim-surround-normal-cur)", icons.ui.DelimiterPair .. "Surround line" },
+      ["yS"] = { "<Plug>(nvim-surround-normal-line)", icons.ui.DelimiterPair .. "Surround on new lines" },
+      ["ySS"] = { "<Plug>(nvim-surround-normal-cur-line)", icons.ui.DelimiterPair .. "Surround line on new lines" },
+      ["ds"] = { "<Plug>(nvim-surround-delete)", icons.ui.DelimiterPair .. "Delete delimiter" },
+      ["cs"] = { "<Plug>(nvim-surround-change)", icons.ui.DelimiterPair .. "Change delimiter" },
       -- Find and replace
       ["<F2>"] = {
         function()
@@ -232,7 +232,7 @@ M.which_key_defaults = {
     mapping = {
       ["<A-j>"] = { "<Esc>:m .+1<CR>==gi", icons.ui.MoveDown .. " Move line down" },
       ["<A-k>"] = { "<Esc>:m .-2<CR>==gi", icons.ui.MoveUp .. " Move line up" },
-      ["<A-/>"] = { "<Esc>gccgi", "Toggle comment", noremap = false },
+      ["<A-/>"] = { "<Esc>gccgi", icons.ui.Comment .. " Toggle comment", noremap = false },
       ["<F3>"] = { "<CMD>noh<CR>", "Turn off search highlights" },
       -- Delimiter formatting
       -- ["<C-g>s"] = { "<Plug>(nvim-surround-insert)", "Surround" },
@@ -245,15 +245,15 @@ M.which_key_defaults = {
     mapping = {
       ["<A-k>"] = { ":m '<-2<CR>gv-gv", icons.ui.MoveUp .. " Move selection up" },
       ["<A-j>"] = { ":m '>+1<CR>gv-gv", icons.ui.MoveDown .. " Move selection down" },
-      ["<A-/>"] = { "<Plug>(comment_toggle_linewise_visual)gv", "Toggle comment" },
+      ["<A-/>"] = { "<Plug>(comment_toggle_linewise_visual)gv", icons.ui.Comment .. " Toggle comment" },
       -- Delimiter formatting
-      ["<A-s>"] = { "<Plug>(nvim-surround-visual)", "Surround" },
-      ["<A-S>"] = { "<Plug>(nvim-surround-visual-line)", "Surround on new lines" },
+      ["<A-s>"] = { "<Plug>(nvim-surround-visual)", icons.ui.DelimiterPair .. "Surround" },
+      ["<A-S>"] = { "<Plug>(nvim-surround-visual-line)", icons.ui.DelimiterPair .. "Surround on new lines" },
       -- Indentation and whitespace formatting
       ["<"] = { "<gv", icons.ui.IndentDecrease .. " Decrease indent" },
       [">"] = { ">gv", icons.ui.IndentIncrease .. " Increase indent" },
-      ["ga"] = { "<Plug>(EasyAlign)", "Align lines" },
-      ["gA"] = { "<Plug>(LiveEasyAlign)", "Align lines with preview" },
+      ["ga"] = { "<Plug>(EasyAlign)", icons.ui.Align .. "Align lines" },
+      ["gA"] = { "<Plug>(LiveEasyAlign)", icons.ui.Align .. "Align lines with preview" },
       ["<F2>"] = {
         function()
           local k = vim.api.nvim_replace_termcodes(":s/", true, false, true)
@@ -310,6 +310,56 @@ M.which_key_defaults = {
 M.other_defaults = {
   { mode = "i", lhs = "<Tab>", rhs = "<C-F>", opts = { noremap = true } },
 }
+
+M.autocmd_keybinds = {
+  {
+    -- escape from terminal mode in toggleterm
+    "TermOpen",
+    {
+      group = "escape_in_toggleterm",
+      pattern = "term://*toggleterm#*",
+      callback = function(args)
+        vim.keymap.set('t', "<Esc>", [[<C-\><C-N>]], {desc = "Normal mode"})
+      end,
+    }
+  },
+  {
+    -- LSp keymaps
+    "LspAttach",
+    {
+      group = "lsp_keybindings",
+      callback = function(args)
+        local icons = require("icons")
+        local opts = {buffer = args.buf}
+        local bufmap = function(mode, lhs, rhs, desc) vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", opts, {desc = desc})) end
+        local client_capabilities = vim.lsp.get_client_by_id(args.data.client_id).server_capabilities
+
+        -- if client_capabilities.hoverProvider then
+        --   bufmap('n', 'K', vim.lsp.buf.hover, "Hover symbol info")
+        -- end
+        if client_capabilities.renameProvider then
+          bufmap('n', '<F51>', vim.lsp.buf.rename, icons.syntax.Object .. " Rename symbol")
+        end
+        if client_capabilities.definitionProvider then
+          bufmap('n', 'gd', vim.lsp.buf.definition, "Go to definition")
+        end
+        if client_capabilities.declarationProvider then
+          bufmap('n', 'gD', vim.lsp.buf.declaration, "Go to declaration")
+        end
+        if client_capabilities.signatureHelpProvider then
+          bufmap('n', 'gs', vim.lsp.buf.signature_help, "Go to signature")
+        end
+        if client_capabilities.codeActionProvider then
+          bufmap('n', '<F4>', vim.lsp.buf.code_action, "Code actions")
+          bufmap('x', '<F4>', vim.lsp.buf.code_action, "Code actions")
+        end
+        bufmap('n', '[d', vim.diagnostic.goto_prev, "Previous diagnostic")
+        bufmap('n', ']d', vim.diagnostic.goto_next, "Next diagnostic")
+      end
+    }
+  }
+}
+
 function M.load_defaults()
   local wk = require("which-key")
   for _,v in ipairs(M.which_key_defaults) do
@@ -318,6 +368,7 @@ function M.load_defaults()
   for _, mapping in pairs(M.other_defaults) do
     vim.keymap.set(mapping.mode, mapping.lhs, mapping.rhs, mapping.opts)
   end
+  require("autocmds").define_autocmds(M.autocmd_keybinds)
 end
 
 --

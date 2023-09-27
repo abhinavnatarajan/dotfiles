@@ -37,7 +37,7 @@ return {
             file_browser = true,
             folder_browser = true,
           },
-          collapse_dirs = true,
+          collapse_dirs = false,
           use_fd = true,
           git_status = true,
           prompt_path = true

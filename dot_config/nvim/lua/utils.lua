@@ -18,6 +18,16 @@ function M.remove_trailing_whitespace()
   vim.api.nvim_feedkeys(k, "t", true)
 end
 
+function M.is_directory(name)
+  local stat = vim.loop.fs_stat(name)
+  return stat and stat.type == 'directory' or false
+end
+
+function M.is_file(name)
+  local stat = vim.loop.fs_stat(name)
+  return stat and stat.type == 'file' or false
+end
+
 function M.set_indent()
   vim.ui.select(
     {"Spaces", "Tabs"},
