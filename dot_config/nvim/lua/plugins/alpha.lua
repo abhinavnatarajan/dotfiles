@@ -15,7 +15,7 @@ return {
       "                                                     ",
     }
     dashboard.section.buttons.val = {
-      dashboard.button( "n", icons.ui.NewFile .. " New file" , ":lua ene | startinsert <CR>", { desc = 'New file' }),
+      dashboard.button( "n", icons.ui.NewFile .. " New file" , ":ene | startinsert <CR>", { desc = 'New file' }),
       dashboard.button( "f", icons.ui.FindFile .. " Find files", [[:lua require("telescope.builtin").find_files()<CR>]], { desc = 'Find files' }),
       dashboard.button( "r", icons.ui.History .. " Recent files", [[:lua require("telescope_custom_pickers").oldfiles()<CR>]], { desc = 'Recent files' }),
       dashboard.button( "g", icons.ui.FindText .. " Search text", [[:lua require("telescope_custom_pickers").live_grep()<CR>]], { desc = "Search text"}),

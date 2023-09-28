@@ -5,9 +5,9 @@ return {
   event = "VimEnter",
   -- version = "v2.*",
   config = function()
-    local close_nvim_tree = function()
-      if require("nvim-tree.api").tree.is_visible() then vim.cmd("NvimTreeClose") end
-    end
+    -- local close_nvim_tree = function()
+    --   if require("nvim-tree.api").tree.is_visible() then vim.cmd("NvimTreeClose") end
+    -- end
     local Path = require('plenary.path')
     local config = require('session_manager.config')
     require('session_manager').setup({
@@ -21,8 +21,15 @@ return {
       autosave_ignore_filetypes = { -- All buffers of these file types will be closed before the session is saved.
         'gitcommit',
         'gitrebase',
+        'toggleterm',
+        'NvimTree',
+        'mason',
+        'lspinfo',
+        'lazy'
       },
-      autosave_ignore_buftypes = {}, -- All buffers of these bufer types will be closed before the session is saved.
+      autosave_ignore_buftypes = {
+        'terminal',
+      }, -- All buffers of these bufer types will be closed before the session is saved.
       autosave_only_in_session = false, -- Always autosaves session. If true, only autosaves after a session is active.
       max_path_length = 120,  -- Shorten the display path if length exceeds this threshold. Use 0 if don't want to shorten the path at all.
     })
