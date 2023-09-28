@@ -153,7 +153,6 @@ local defaults = {
 					vim.api.nvim_list_bufs()
 				)
 
-				print("number of files left" .. numbufs)
 				if numbufs == 1 then
 					local fallback_name = vim.api.nvim_buf_get_name(args.buf)
 					local fallback_ft = vim.api.nvim_buf_get_option(args.buf, "filetype")
