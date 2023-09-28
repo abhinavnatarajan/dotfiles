@@ -26,7 +26,7 @@ return {
 						on_click = function()
 							local ttt = require("toggleterm.terminal")
 							local termid = tostring(ttt.get_focused_id())
-							vim.cmd(termid .. "ToggleTermSetname")
+							vim.cmd(termid .. "ToggleTermSetName")
 						end
 					}
 				},

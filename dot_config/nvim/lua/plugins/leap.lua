@@ -3,7 +3,7 @@ return {
   event = "User FileOpened",
   config = function() 
     require("leap").add_default_mappings()
-    require('leap').opts.safe_labels = {}
+    -- require('leap').opts.safe_labels = {}
     local c = require("onedark.colors")
     vim.api.nvim_set_hl(0, 'LeapBackdrop', { link = 'Comment' }) -- or some grey
     vim.api.nvim_set_hl(0, 'LeapMatch', {

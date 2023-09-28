@@ -31,7 +31,7 @@ M.which_key_defaults = {
 				["s"] = {
 					name = icons.ui.Gear.. " Settings",
 					["c"] = { "<CMD>Telescope colorscheme enable_preview=true<CR>", icons.ui.ColourScheme .. " Colorscheme" },
-					["f"] = { [[lua require("telescope_custom_pickers").config]], icons.ui.ConfigFolder .. " Browse config files" },
+					["f"] = { [[<CMD>lua require("telescope_custom_pickers").config()<CR>]], icons.ui.ConfigFolder .. " Browse config files" },
 				},
 				["k"] = {
 					name = icons.ui.Project .. " Workspaces",
@@ -262,8 +262,8 @@ M.which_key_defaults = {
 				end,
 				"Find and replace highlighted"
 			},
-			["<A-CR>"] = { [[<CMD>ToggleTermSendVisualSelection<CR>]], icons.ui.Terminal .. " Run selection in terminal"},
-			["<C-CR>"] = { [[<CMD>ToggleTermSendVisualLines<CR>]], icons.ui.Terminal .. " Run selected lines in terminal" },
+			["<A-CR>"] = { [[:ToggleTermSendVisualSelection<CR>gv]], icons.ui.Terminal .. " Run selection in terminal"},
+			["<C-CR>"] = { [[:ToggleTermSendVisualLines<CR>gv]], icons.ui.Terminal .. " Run selected lines in terminal" },
 		}
 	},
 	{
@@ -299,7 +299,6 @@ M.which_key_defaults = {
 		-- Terminal mode mappings
 		opts = DefaultOpts {mode = "t"},
 		mapping = {
-			["<Esc>"] = { [[<C-\><C-n>]], "Normal mode"},
 			["<C-k>"] = { [[<CMD>wincmd k<CR>]], icons.ui.ChevronUpBoxOutline .. " Go to the up window" },
 			["<C-j>"] = { [[<CMD>wincmd j<CR>]], icons.ui.ChevronDownBoxOutline .. " Go to the down window" },
 			["<C-h>"] = { [[<CMD>wincmd h<CR>]], icons.ui.ChevronLeftBoxOutline .. " Go to the left window" },
@@ -320,7 +319,7 @@ M.autocmd_keybinds = {
 			group = "escape_in_toggleterm",
 			pattern = "term://*toggleterm#*",
 			callback = function()
-				vim.keymap.set('t', "<Esc>", [[<C-\><C-N>]], {desc = "Normal mode"})
+				vim.keymap.set('t', "<Esc>", [[<C-\><C-n>]], {desc = "Normal mode", buffer=true})
 			end,
 		}
 	},

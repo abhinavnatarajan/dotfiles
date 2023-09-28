@@ -6,6 +6,23 @@ function M.setup()
   local icons = require("icons")
   local select_opts = {behaviour = cmp.SelectBehavior.Select}
   cmp.setup({
+    completion = {
+      autocomplete = false,
+    },
+    preselect = cmp.PreselectMode.None,
+    matching = {
+      -- setting the option disallow_prefix_unmatching to true means that 
+      -- matches where the first few characters do not match
+      -- will be discarded
+      disallow_prefix_unmatching = false,
+      -- partial_matching allows an input like "bode" to be matched to "border"
+      disallow_partial_matching = false,
+      disallow_fuzzy_matching = false,
+      -- if the following option is true, then
+      -- the fuzzy matcher will not be used unless prefixes are matched
+      disallow_partial_fuzzy_matching = false,
+      disallow_fullfuzzy_matching = false,
+    },
     snippet = {
       -- REQUIRED - you must specify a snippet engine
       expand = function(args)
@@ -23,7 +40,9 @@ function M.setup()
         border = "rounded"
       }
     },
-    preselect = cmp.PreselectMode.None,
+    experimental = {
+      ghost_text = true,
+    },
     mapping = {
       ['<C-u>'] = cmp.mapping.scroll_docs(-4),
       ['<C-d>'] = cmp.mapping.scroll_docs(4),

@@ -21,6 +21,7 @@ return {
       shell = vim.o.shell,
       auto_scroll = true, -- automatically scroll to the bottom on terminal output
       -- This field is only relevant if direction is set to 'float'
+      shade_terminals = false,
       float_opts = {
         -- The border key is *almost* the same as 'nvim_open_win'
         -- see :h nvim_open_win for details on borders however
