@@ -204,7 +204,7 @@ M.which_key_defaults = {
 			["<F2>"] = {
 				function()
 					local k = vim.api.nvim_replace_termcodes(":%s/<C-R><C-w>", true, false, true)
-					vim.api.nvim_feedkeys(k, "t", false)
+					vim.api.nvim_feedkeys(":%s/<cword>/", "t", false)
 				end,
 				icons.ui.FindAndReplace .. " Find and replace"
 			},
@@ -235,6 +235,9 @@ M.which_key_defaults = {
 			["<A-k>"] = { "<Esc>:m .-2<CR>==gi", icons.ui.MoveUp .. " Move line up" },
 			["<A-/>"] = { "<Esc>gccgi", icons.ui.Comment .. " Toggle comment", noremap = false },
 			["<F3>"] = { "<CMD>noh<CR>", "Turn off search highlights" },
+			["<A-,>"] = { "<C-D>", icons.ui.IndentDecrease .. " Decrease indentation" },
+			["<A-.>"] = { "<C-T>", icons.ui.IndentIncrease .. " Increase indentation" },
+
 			-- Delimiter formatting
 			-- ["<C-g>s"] = { "<Plug>(nvim-surround-insert)", "Surround" },
 			-- ["<C-g>S"] = { "<Plug>(nvim-surround-insert-line)", "Surround on new lines" },
@@ -313,13 +316,36 @@ M.other_defaults = {
 
 M.autocmd_keybinds = {
 	{
+		"FileType",
+		{
+			desc = "Make q close the window in certain UI buffers",
+			group = "q_is_close_keybinding",
+			pattern = {
+				"qf",
+				"help",
+				"man",
+				"floaterm",
+				"lspinfo",
+				"lsp-installer",
+				"null-ls-info",
+				"mason",
+				"Trouble",
+				"alpha",
+				-- "lazygit"
+			},
+			callback = function()
+				vim.keymap.set("n", "q", "<cmd>close<cr>", { desc = "Close window", buffer = true })
+			end,
+		},
+	},
+	{
 		-- escape from terminal mode in toggleterm
 		"TermOpen",
 		{
 			group = "escape_in_toggleterm",
 			pattern = "term://*toggleterm#*",
 			callback = function()
-				vim.keymap.set('t', "<Esc>", [[<C-\><C-n>]], {desc = "Normal mode", buffer=true})
+				vim.keymap.set('t', "<Esc>", [[<C-\><C-n>]], {desc = "Normal mode", buffer = true})
 			end,
 		}
 	},
@@ -349,10 +375,10 @@ M.autocmd_keybinds = {
 					bufmap('n', 'gs', vim.lsp.buf.signature_help, "Go to signature")
 				end
 				bufmap('n', 'gl',
-					function() 
+					function()
 						vim.diagnostic.open_float(nil, {
 							bufnr = args.buf
-						}) 
+						})
 					end
 				)
 				if client_capabilities.codeActionProvider then

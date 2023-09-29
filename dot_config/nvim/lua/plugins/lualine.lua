@@ -89,7 +89,6 @@ return {
 				},
 				lualine_x = {
 					-- "branch",
-					-- "diff",
 				}
 			},
 			inactive_winbar = {
@@ -111,8 +110,10 @@ return {
 					'mode',
 				},
 				lualine_b = {
-					'branch',
-					-- 'diff',
+					{
+						'branch', 
+						on_click = function() vim.cmd("LazyGit") end
+					},
 					{
 						'diagnostics',
 						sources = { 'nvim_lsp', 'nvim_diagnostic', 'nvim_workspace_diagnostic' },
@@ -127,7 +128,11 @@ return {
 					},
 				},
 				lualine_c = {
-					function() return icons.ui.FileTree .. " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~:.:gs%\\v(\\.?[^/]{0,2})[^/]*/%\\1/%") end,
+					{
+						-- cwd
+						function() return icons.ui.FileTree .. " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~:.:gs%\\v(\\.?[^/]{0,2})[^/]*/%\\1/%") end,
+						on_click = function() vim.cmd("Telescope file_browser") end
+					},
 					function() return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":t") end,
 				},
 				lualine_x = {

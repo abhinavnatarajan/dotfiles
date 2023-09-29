@@ -4,13 +4,14 @@ return {
   cmd = "Gitsigns",
   version = "*",
   config = function()
+    local icons = require("icons")
     require('gitsigns').setup {
       signs = {
-        add          = { text = '│' },
-        change       = { text = '│' },
-        delete       = { text = '_' },
-        topdelete    = { text = '‾' },
-        changedelete = { text = '~' },
+        add          = { text = icons.git.LineAdded },
+        change       = { text = icons.git.LineModified },
+        delete       = { text = icons.git.LineRemovedBelow },
+        topdelete    = { text = icons.git.LineRemovedAbove },
+        changedelete = { text = icons.git.LineModified },
         untracked    = { text = '┆' },
       },
       signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
@@ -29,7 +30,7 @@ return {
         ignore_whitespace = false,
       },
       current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
-      sign_priority = 6,
+      -- sign_priority = 6,
       update_debounce = 100,
       status_formatter = nil, -- Use default
       max_file_length = 40000, -- Disable if file is longer than this (in lines)
@@ -44,7 +45,9 @@ return {
       yadm = {
         enable = false
       },
+      diff_opts = {
+        algorithm = "patience",
+      }
     }
-    require("scrollbar.handlers.gitsigns").setup()
   end,
 }

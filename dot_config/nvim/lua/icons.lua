@@ -48,6 +48,8 @@ return {
 		LineAdded                 = "",
 		LineModified              = "",
 		LineRemoved               = "",
+		LineRemovedBelow          = "",
+		LineRemovedAbove          = "",
 		Octoface                  = "",
 		Repo                      = "",
 	},

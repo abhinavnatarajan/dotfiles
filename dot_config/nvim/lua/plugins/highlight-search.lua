@@ -15,6 +15,5 @@ return {
   -- end,
   config = function()
     -- require('hlslens').setup()
-    require("scrollbar.handlers.search").setup{}
   end
 }

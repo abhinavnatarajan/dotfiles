@@ -1,7 +1,7 @@
 local M = {}
 
 function M.load_defaults()
-	local defaults = {
+	local global_defaults = {
 		-- opt.titlestring = "%<%F%=%l/%L - nvim" -- what the title of the window will be set to
 		-- shadafile       = join_paths(get_cache_dir(), "lvim.shada"),
 		autochdir          = false, -- do not change cwd on file open
@@ -20,6 +20,7 @@ function M.load_defaults()
 		foldexpr           = "nvim_treesitter#foldexpr()", -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
 		foldmethod         = "expr", -- folding, set to "expr" for treesitter based folding
 		guifont            = "monospace:h17", -- the font used in graphical neovim applications
+		guioptions         = "mr", -- m for menubar, r for right scrollbar
 		hidden             = true, -- required to keep multiple buffers and open multiple buffers
 		hlsearch           = true, -- highlight all matches on previous search pattern
 		ignorecase         = true, -- ignore case in search patterns
@@ -50,7 +51,7 @@ function M.load_defaults()
 		showcmd            = false,
 		showmode           = true, -- INSERT/VISUAL etc
 		sidescrolloff      = 4, -- minimal number of screen lines to keep left and right of the cursor.
-		signcolumn         = "yes", -- always show the sign column, otherwise it would shift the text each time
+		signcolumn         = "yes:3", -- one for git, one for LSP, and one for breakpoints
 		smartcase          = true, -- smart case
 		splitbelow         = true, -- force all horizontal splits to go below current window
 		splitright         = true, -- force all vertical splits to go to the right of current window
@@ -68,9 +69,40 @@ function M.load_defaults()
 		wrap               = true, -- display lines as one long line
 		writebackup        = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 	}
-	for k, v in pairs(defaults) do
+	local local_defaults = {
+		{
+			-- escape from terminal mode in toggleterm
+			"TermOpen",
+			{
+				group = "no_signs_in_toggleterm",
+				pattern = "term://*toggleterm#*",
+				callback = function()
+					vim.opt_local.signcolumn = "no"
+				end,
+			}
+		},
+		{
+			-- enable wrapping on Telescope previewers
+			"User",
+			{
+				group = "wrap_telescope_previews",
+				pattern = "TelescopePreviewerLoaded",
+				callback = function()
+					vim.wo.wrap = true
+				end
+			},
+		},
+	}
+
+	-- set global defaults
+	for k, v in pairs(global_defaults) do
 		vim.opt[k] = v
 	end
+
+	-- set local defaults via autocommands
+	require("autocmds").define_autocmds(local_defaults)
+
+	-- set powershell options on windows
 	if vim.fn.has('win32') then
 		local powershell_opts = {
 			shell = vim.fn.executable "pwsh" == 1 and "pwsh" or "powershell",
@@ -84,6 +116,7 @@ function M.load_defaults()
 			vim.opt[k] = v
 		end
 	end
+
 	-- vim.opt.guioptions:append("b")
 	vim.opt.fillchars:append("eob: ")
 	vim.g.mapleader = " "

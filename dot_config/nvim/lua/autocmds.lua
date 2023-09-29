@@ -45,7 +45,7 @@ local defaults = {
 		"FileType",
 		{
 			desc = "Hide certain buffers from listing",
-			group = "buffer_mappings",
+			group = "set_nobuflisted_UI_buffers",
 			pattern = {
 				"qf",
 				"help",
@@ -57,10 +57,8 @@ local defaults = {
 				"mason",
 				"Trouble",
 				"alpha",
-				-- "lazygit"
 			},
 			callback = function()
-				vim.keymap.set("n", "q", "<cmd>close<cr>", { desc = "Close window", buffer = true })
 				vim.opt_local.buflisted = false
 				vim.opt_local.foldenable = false
 			end,
@@ -165,17 +163,6 @@ local defaults = {
 				end
 			end
 		}
-	},
-	{
-		-- enable wrapping on Telescope previewers
-		"User",
-		{
-			group = "wrap_telescope_previews",
-			pattern = "TelescopePreviewerLoaded",
-			callback = function()
-				vim.wo.wrap = true
-			end
-		},
 	},
 	{
 		"User",
