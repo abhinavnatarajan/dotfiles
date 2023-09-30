@@ -116,7 +116,7 @@ return {
 					},
 					{
 						'diagnostics',
-						sources = { 'nvim_lsp', 'nvim_diagnostic', 'nvim_workspace_diagnostic' },
+						sources = { 'nvim_workspace_diagnostic' },
 						symbols = {
 							error = icons.diagnostics.BoldError .. ' ',
 							warn = icons.diagnostics.BoldWarning .. ' ',
