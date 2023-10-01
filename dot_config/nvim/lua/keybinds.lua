@@ -1,6 +1,5 @@
 local M = {}
 
-local neoscroll = require("neoscroll")
 local DefaultOpts = require("utils").prototype {
 	buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
 	silent = true, -- use `silent` when creating keymaps
@@ -16,7 +15,7 @@ M.which_key_defaults = {
 			["<leader>"] = {
 				name = icons.ui.Files .. " File shortcuts",
 				[";"] = { "<CMD>Alpha<CR>", icons.ui.Dashboard .. " Dashboard" },
-				["n"] = { [[<CMD>lua require("telescope_custom_pickers").new_file()<CR>]], icons.ui.NewFile .. " New file" },
+				["n"] = { [[<CMD>lua require("utils.windows").edit_new_file_handler()<CR>]], icons.ui.NewFile .. " New file" },
 				["w"] = { [[<CMD>lua require("telescope_custom_pickers").check_save_as()<CR>]], icons.ui.Save .. " Save" },
 				["<A-w>"] = { [[<CMD>lua require("telescope_custom_pickers").save_as()<CR>]], icons.ui.SaveAs .. " Save as" },
 				["W"] = { "<CMD>wa!<CR>", icons.ui.SaveAll .. " Save all" },
@@ -113,6 +112,7 @@ M.which_key_defaults = {
 			["<A-L>"] = { "<CMD>BufferLineMoveNext<CR>", icons.ui.ChevronRightCircle .. " Move buffer right", mode = {"n", "i"} },
 			-- Window movement
 			["<C-w>"] = { icons.ui.Window .. " Manage windows" },
+			-- ["<C-w>S"] = { require("utils.windows").swap_window, icons.ui.Swap .. " Swap windows" },
 			["<C-h>"] = { "<CMD>wincmd h<CR>", icons.ui.ChevronLeftBoxOutline .. " Go to the left window", mode = {"n", "i"} },
 			["<C-j>"] = { "<CMD>wincmd j<CR>", icons.ui.ChevronDownBoxOutline .. " Go to the down window", mode = {"n", "i"} },
 			["<C-k>"] = { "<CMD>wincmd k<CR>", icons.ui.ChevronUpBoxOutline .. " Go to the up window", mode = {"n", "i"} },
@@ -122,28 +122,28 @@ M.which_key_defaults = {
 			["<A-C-l>"] = { "<CMD>tabnext<CR>", icons.ui.ArrowRight .. " Next tab", mode = {"n", "i"} },
 			-- Smooth scrolling
 			["<C-y>"] = {
-				function() neoscroll.scroll(-0.1, true, 100) end,
+				function() require("neoscroll").scroll(-0.1, true, 100) end,
 				icons.ui.ChevronUp .. " Scroll up 10% of window height",
 				mode = {"n", "i", "s"},
 			},
 			["<C-u>"] = {
 				function()
 					if not require("noice.lsp").scroll(-4) then
-						neoscroll.scroll(-vim.wo.scroll, true, 350)
+						require("neoscroll").scroll(-vim.wo.scroll, true, 350)
 					end
 				end,
 				icons.ui.ChevronDoubleUp .. " Scroll up",
 				mode = {"n", "i", "s"},
 			},
 			["<C-e>"] = {
-				function() neoscroll.scroll(0.1, true, 100) end,
+				function() require("neoscroll").scroll(0.1, true, 100) end,
 				icons.ui.ChevronDown .. " Scroll down 10% of window height",
 				mode = {"n", "i", "s"},
 			},
 			["<C-d>"] = {
 				function()
 					if not require("noice.lsp").scroll(4) then
-						neoscroll.scroll(vim.wo.scroll, true, 350)
+						require("neoscroll").scroll(vim.wo.scroll, true, 350)
 					end
 				end,
 				icons.ui.ChevronDoubleDown .. " Scroll down",
@@ -151,21 +151,21 @@ M.which_key_defaults = {
 			},
 			["<C-b>"] = {
 				function()
-					neoscroll.scroll(-vim.api.nvim_win_get_height(0), true, 550)
+					require("neoscroll").scroll(-vim.api.nvim_win_get_height(0), true, 550)
 				end,
 				icons.ui.ChevronTripleUp .. " Page up",
 				mode = {"n", "s"},
 			},
 			["<C-f>"] = {
 				function()
-					neoscroll.scroll(vim.api.nvim_win_get_height(0), true, 550)
+					require("neoscroll").scroll(vim.api.nvim_win_get_height(0), true, 550)
 				end,
 				icons.ui.ChevronTripleDown .. " Page down",
 				mode = {"n", "s"}, -- not "i" because <C-f> in insert mode is smart tab
 			},
-			["zz"] = { function() neoscroll.zz(200) end, "Centre cursor line in window" },
-			["zt"] = { function() neoscroll.zt(200) end, "Align cursor line with top of window" },
-			["zb"] = { function() neoscroll.zb(200) end, "Align cursor line with bottom of window" },
+			["zz"] = { function() require("neoscroll").zz(200) end, "Centre cursor line in window" },
+			["zt"] = { function() require("neoscroll").zt(200) end, "Align cursor line with top of window" },
+			["zb"] = { function() require("neoscroll").zb(200) end, "Align cursor line with bottom of window" },
 			-- Resize with arrows
 			["<C-Up>"] = { "<CMD>resize +2<CR>", icons.ui.ExpandVertical .. " Shrink window vertically" },
 			["<C-Down>"] = { "<CMD>resize -2<CR>", icons.ui.ExpandVertical .. " Expand window vertically" },
@@ -189,8 +189,8 @@ M.which_key_defaults = {
 			["[q"] = { "<CMD>cprev<CR>", icons.diagnostics.Previous .. " Previous error" },
 			-- ["<C-q>"] = { "<CMD>call QuickFixToggle()<CR>", "Toggle quickfix" },
 			-- Indentation and whitespace formatting
-			["<leader>="] = { require("utils").silent_auto_indent, icons.ui.Indent .. " Auto-indent file" },
-			["<leader>$"] = { require("utils").remove_trailing_whitespace, icons.ui.WhiteSpace .. " Remove trailing whitespace" },
+			["<leader>="] = { require("utils.editing").silent_auto_indent, icons.ui.Indent .. " Auto-indent file" },
+			["<leader>$"] = { require("utils.editing").remove_trailing_whitespace, icons.ui.WhiteSpace .. " Remove trailing whitespace" },
 			["ga"] = { "<Plug>(EasyAlign)", icons.ui.Align .. " Align lines" },
 			["gA"] = { "<Plug>(LiveEasyAlign)", icons.ui.Align .. "Align lines with preview" },
 			-- Delimiter formatting
@@ -278,23 +278,23 @@ M.which_key_defaults = {
 	},
 	{
 		-- Debugger
-		mappings = {
+		mapping = {
 			["<F5>"] = {
 				name = "Debug",
-				["t"] = { [[<CMD>lua require"dap".toggle_breakpoint()<CR>]], "Toggle Breakpoint" },
-				["b"] = { [[<CMD>lua require"dap".step_back()<CR>]], "Step Back" },
-				["c"] = { [[<CMD>lua require"dap".continue()<CR>]], "Continue" },
-				["C"] = { [[<CMD>lua require"dap".run_to_cursor()<CR>]], "Run To Cursor" },
-				["d"] = { [[<CMD>lua require"dap".disconnect()<CR>]], "Disconnect" },
-				["g"] = { [[<CMD>lua require"dap".session()<CR>]], "Get Session" },
-				["i"] = { [[<CMD>lua require"dap".step_into()<CR>]], "Step Into" },
-				["o"] = { [[<CMD>lua require"dap".step_over()<CR>]], "Step Over" },
-				["u"] = { [[<CMD>lua require"dap".step_out()<CR>]], "Step Out" },
-				["p"] = { [[<CMD>lua require"dap".pause()<CR>]], "Pause" },
-				["r"] = { [[<CMD>lua require"dap".repl.toggle()<CR>]], "Toggle Repl" },
-				["s"] = { [[<CMD>lua require"dap".continue()<CR>]], "Start" },
-				["q"] = { [[<CMD>lua require"dap".close()<CR>]], "Quit" },
-				["U"] = { [[<CMD>lua require"dapui".toggle({reset = true})<CR>]], "Toggle UI" },
+				["t"] = { require"dap".toggle_breakpoint, "Toggle Breakpoint" },
+				["b"] = { require"dap".step_back, "Step Back" },
+				["c"] = { require"dap".continue, "Continue" },
+				["C"] = { require"dap".run_to_cursor, "Run To Cursor" },
+				["d"] = { require"dap".disconnect, "Disconnect" },
+				["g"] = { require"dap".session, "Get Session" },
+				["i"] = { require"dap".step_into, "Step Into" },
+				["o"] = { require"dap".step_over, "Step Over" },
+				["u"] = { require"dap".step_out, "Step Out" },
+				["p"] = { require"dap".pause, "Pause" },
+				["r"] = { require"dap".repl.toggle, "Toggle Repl" },
+				["s"] = { require"dap".continue, "Start" },
+				["q"] = { require"dap".close, "Quit" },
+				["U"] = { function() require"dapui".toggle({reset = true}) end, "Toggle UI" },
 			}
 		}
 	},
@@ -326,7 +326,6 @@ M.autocmd_keybinds = {
 				"man",
 				"floaterm",
 				"lspinfo",
-				"lsp-installer",
 				"null-ls-info",
 				"mason",
 				"Trouble",
@@ -372,7 +371,14 @@ M.autocmd_keybinds = {
 					bufmap('n', 'gD', vim.lsp.buf.declaration, "Go to declaration")
 				end
 				if client_capabilities.signatureHelpProvider then
-					bufmap('n', 'gs', vim.lsp.buf.signature_help, "Go to signature")
+					bufmap('n', 'gs', vim.lsp.buf.signature_help, "Signature help")
+				end
+				if client_capabilities.referencesProvider then
+					bufmap('n', 'gr', vim.lsp.buf.references, "List references")
+				end
+				if client_capabilities.codeActionProvider then
+					bufmap('n', '<F4>', vim.lsp.buf.code_action, "Code actions")
+					bufmap('x', '<F4>', vim.lsp.buf.code_action, "Code actions")
 				end
 				bufmap('n', 'gl',
 					function()
@@ -381,10 +387,6 @@ M.autocmd_keybinds = {
 						})
 					end
 				)
-				if client_capabilities.codeActionProvider then
-					bufmap('n', '<F4>', vim.lsp.buf.code_action, "Code actions")
-					bufmap('x', '<F4>', vim.lsp.buf.code_action, "Code actions")
-				end
 				bufmap('n', '[d', vim.diagnostic.goto_prev, "Previous diagnostic")
 				bufmap('n', ']d', vim.diagnostic.goto_next, "Next diagnostic")
 			end

@@ -88,7 +88,7 @@ return {
 					},
 				},
 				lualine_x = {
-					-- "branch",
+					"overseer",
 				}
 			},
 			inactive_winbar = {
@@ -148,7 +148,7 @@ return {
 								return icons.ui.TabCharacter .. " " .. tostring(vim.bo.tabstop)
 							end
 						end,
-						on_click = require("utils").set_indent
+						on_click = require("utils.editing").set_indent
 					},
 				},
 				lualine_y = {

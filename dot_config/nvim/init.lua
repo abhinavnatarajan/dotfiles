@@ -28,6 +28,9 @@ require("autocomplete_tools").setup()
 -- Setup LSP servers and attach autocomplete capabilities
 require("lsp_tools").setup()
 
+-- Setup debug adapters
+require("dapconfig").setup()
+
 -- Keybindings
 require("keybinds").load_defaults()
 

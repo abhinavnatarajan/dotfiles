@@ -183,6 +183,7 @@ return {
 		SignOut                   = "",
 		SpaceCharacter            = "󱁐",
 		Stacks                    = "",
+		Swap                      = "",
 		Tab                       = "󰓩",
 		TabCharacter              = "󰌒",
 		Table                     = "",
@@ -217,6 +218,13 @@ return {
 		Question                  = "",
 		Trace                     = "✎",
 		Warning                   = "",
+	},
+	debug = {
+		Breakpoint                = "",
+		BreakpointCondition       = "",
+		LogPoint                  = "",
+		Stopped                   = "",
+		BreakpointRejected        = "",
 	},
 	misc = {
 		CircuitBoard              = "",

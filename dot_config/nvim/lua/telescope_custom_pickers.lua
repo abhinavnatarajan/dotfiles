@@ -112,11 +112,4 @@ M.smart_find_files = function(opts)
   end
 end
 
-M.new_file = function()
-  local window = require('winpick').select()
-  if window then
-    vim.api.nvim_set_current_win(window)
-    vim.cmd([[ene | startinsert]])
-  end
-end
 return M

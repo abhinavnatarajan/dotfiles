@@ -7,7 +7,7 @@ return {
   dependencies = {
     -- "tokyonight.nvim",
     "navarasu/onedark.nvim",
-		-- "sainnhe/sonokai",
+    -- "sainnhe/sonokai",
     "nvim-tree/nvim-web-devicons",
     "abhinavnatarajan/winpick.nvim",
   },
@@ -23,11 +23,9 @@ return {
         close_command = ':Bdelete %d',
         right_mouse_command = ':Bdelete %d',
         left_mouse_command = function(bufnr)
-          local window = require('winpick').select()
-          if window then
-            vim.api.nvim_set_current_win(window)
-            vim.api.nvim_win_set_buf(window, bufnr)
-          end
+          local window = require('utils.windows').get_window()
+          vim.api.nvim_set_current_win(window)
+          vim.api.nvim_win_set_buf(window, bufnr)
         end,
         show_buffer_icons = true,
         show_buffer_close_icons = true,
