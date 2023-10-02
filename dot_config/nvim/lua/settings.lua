@@ -1,6 +1,7 @@
 local M = {}
 
 function M.load_defaults()
+	local icons = require("icons")
 	local global_defaults = {
 		-- opt.titlestring = "%<%F%=%l/%L - nvim" -- what the title of the window will be set to
 		-- shadafile       = join_paths(get_cache_dir(), "lvim.shada"),
@@ -34,7 +35,7 @@ function M.load_defaults()
 		pumblend           = 8, -- translucent popup menu
 		pumheight          = 150, -- pop up menu height
 		ruler              = false,
-		scrolloff          = 2, -- minimal number of screen lines to keep above and below the cursor.
+		scrolloff          = 4, -- minimal number of screen lines to keep above and below the cursor.
 		sessionoptions     = {
 			"blank",
 			"buffers",
@@ -51,7 +52,7 @@ function M.load_defaults()
 		showcmd            = false,
 		showmode           = true, -- INSERT/VISUAL etc
 		sidescrolloff      = 4, -- minimal number of screen lines to keep left and right of the cursor.
-		signcolumn         = "yes:3", -- one for git, one for LSP, and one for breakpoints
+		-- signcolumn         = "yes:3", -- one for git, one for LSP, and one for breakpoints
 		smartcase          = true, -- smart case
 		splitbelow         = true, -- force all horizontal splits to go below current window
 		splitright         = true, -- force all vertical splits to go to the right of current window
@@ -99,6 +100,15 @@ function M.load_defaults()
 		vim.opt[k] = v
 	end
 
+	-- vim.opt.guioptions:append("b")
+	vim.opt.fillchars = vim.tbl_extend("force", vim.opt.fillchars:get(), {
+		foldopen = icons.ui.TriangleShortArrowDown,
+		foldclose = icons.ui.TriangleShortArrowRight,
+		foldsep = '┃',
+		eob = " "
+	})
+	vim.g.mapleader = " "
+
 	-- set local defaults via autocommands
 	require("autocmds").define_autocmds(local_defaults)
 
@@ -117,9 +127,6 @@ function M.load_defaults()
 		end
 	end
 
-	-- vim.opt.guioptions:append("b")
-	vim.opt.fillchars:append("eob: ")
-	vim.g.mapleader = " "
 end
 
 return M

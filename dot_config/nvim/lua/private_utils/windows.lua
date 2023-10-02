@@ -1,13 +1,15 @@
 local M = {}
 
 function M.filter(winid, bufid)
-	local exclude_buftypes = {
-		help = true,
-		terminal = true,
-		nofile = true,
-	}
-	return vim.api.nvim_buf_get_option(bufid, 'filetype') == "alpha" or not exclude_buftypes[vim.api.nvim_buf_get_option(bufid, 'buftype')]
+		return vim.api.nvim_buf_get_option(bufid, 'filetype') == "alpha" or not M.exclude_buftypes[vim.api.nvim_buf_get_option(bufid, 'buftype')]
 end
+
+M.exclude_buftypes = {
+	help = true,
+	terminal = true,
+	nofile = true,
+}
+
 
 function M.list_wins(silent)
 	silent = silent or true

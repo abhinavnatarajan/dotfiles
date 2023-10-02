@@ -33,7 +33,17 @@ return {
 
 			-- Custom Highlights --
 			colors = {}, -- Override default colors
-			highlights = {}, -- Override highlight groups
+			highlights = {
+				GitSignsAdd = {fg = '$green', fmt = "bold" },
+				-- GitSignsAddNr = {fg = '$green', fmt = "bold" },
+				-- GitSignsAddLn = {fg = '$green', fmt = "bold" },
+				GitSignsChange = {fg = '$blue', fmt = "bold" },
+				-- GitSignsChangeNr = {fg = '$blue', fmt = "bold" },
+				-- GitSignsChangeLn = {fg = '$blue', fmt = "bold" },
+				GitSignsDelete = {fg = '$red', fmt = "bold" },
+				-- GitSignsDeleteLn = {fg = '$red', fmt = "bold" },
+				-- GitSignsDeleteNr = {fg = '$red', fmt = "bold" },
+			}, -- Override highlight groups
 
 			-- Plugins Config --
 			diagnostics = {

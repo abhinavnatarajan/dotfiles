@@ -31,6 +31,7 @@ M.which_key_defaults = {
 					name = icons.ui.Gear.. " Settings",
 					["c"] = { "<CMD>Telescope colorscheme enable_preview=true<CR>", icons.ui.ColourScheme .. " Colorscheme" },
 					["f"] = { [[<CMD>lua require("telescope_custom_pickers").config()<CR>]], icons.ui.ConfigFolder .. " Browse config files" },
+					["i"] = { require("utils.editing").set_indent, icons.ui.Indent .. " Set indentation" },
 				},
 				["k"] = {
 					name = icons.ui.Project .. " Workspaces",
@@ -103,7 +104,7 @@ M.which_key_defaults = {
 	},
 
 	{
-		-- Window navigation and resizing
+		-- Navigation and resizing
 		mapping = {
 			-- Buffer movement
 			["<A-h>"] = { "<CMD>BufferLineCyclePrev<CR>", icons.ui.ChevronLeftCircleOutline .. " Previous buffer", mode = {"n", "i"} },
@@ -220,6 +221,12 @@ M.which_key_defaults = {
 			["#"] = { "Search backwards (whole word)" },
 			["g*"] = { "Search forwards" },
 			["g#"] = { "Search backwards" },
+			-- Hop motions
+			-- ['sw'] = { "<CMD>HopWord<CR>", "Hop to word", mode = {'n', 'v', 'o'} },
+			-- ['sp'] = { "<CMD>HopPattern<CR>", "Hop to pattern", mode = {'n', 'v'} },
+			-- ['sb'] = { "<CMD>HopChar2<CR>", "Hop to bigram", mode = {'n', 'v'} },
+			-- ['sl'] = { "<CMD>HopLine<CR>", "Hop to line", mode = {'n', 'v'} },
+			-- ['sn'] = { "<CMD>HopNode<CR>", "Hop to treesitter node", mode = {'n', 'v'} },
 			-- provided by vim-illuminate
 			-- already registered, just putting it here so I know it exists
 			["<A-n>"] = { icons.ui.Next .. " Move to next reference" },

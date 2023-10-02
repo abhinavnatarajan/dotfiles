@@ -8,6 +8,7 @@ return {
   event = 'User FileOpened',
   dependencies = { 'kevinhwang91/promise-async' },
   version = "*",
+  -- optional = true,
   config = function()
     local ufo = require('ufo')
     ufo.setup{
