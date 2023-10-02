@@ -29,6 +29,7 @@ function M.load_defaults()
 		keywordprg         = ":help",
 		laststatus         = 3,
 		linebreak          = true,
+		list               = true,
 		mouse              = "a", -- allow the mouse to be used in neovim
 		number             = true, -- set numbered lines
 		numberwidth        = 3, -- set number column width to 2 {default 4}
@@ -104,9 +105,18 @@ function M.load_defaults()
 	vim.opt.fillchars = vim.tbl_extend("force", vim.opt.fillchars:get(), {
 		foldopen = icons.ui.TriangleShortArrowDown,
 		foldclose = icons.ui.TriangleShortArrowRight,
-		foldsep = '┃',
+		foldsep = '┊',
 		eob = " "
 	})
+	vim.opt.listchars = vim.tbl_extend("force", vim.opt.listchars:get(), {
+		lead = icons.ui.DotSmall,
+		-- space = icons.ui.DotSmall,
+		multispace = icons.ui.DotSmall,
+		trail = '-',
+		eol = icons.ui.Eol,
+		-- tab = '--' .. icons.ui.TabCharacter
+	})
+
 	vim.g.mapleader = " "
 
 	-- set local defaults via autocommands

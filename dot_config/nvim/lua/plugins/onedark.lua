@@ -35,14 +35,11 @@ return {
 			colors = {}, -- Override default colors
 			highlights = {
 				GitSignsAdd = {fg = '$green', fmt = "bold" },
-				-- GitSignsAddNr = {fg = '$green', fmt = "bold" },
-				-- GitSignsAddLn = {fg = '$green', fmt = "bold" },
 				GitSignsChange = {fg = '$blue', fmt = "bold" },
-				-- GitSignsChangeNr = {fg = '$blue', fmt = "bold" },
-				-- GitSignsChangeLn = {fg = '$blue', fmt = "bold" },
 				GitSignsDelete = {fg = '$red', fmt = "bold" },
-				-- GitSignsDeleteLn = {fg = '$red', fmt = "bold" },
-				-- GitSignsDeleteNr = {fg = '$red', fmt = "bold" },
+				GitSignsCol = {fg = '$grey', fmt="bold", },
+				CursorLineSign = {fg = '$grey', fmt = "bold"},
+				IblScope = { fg = 'fg' }
 			}, -- Override highlight groups
 
 			-- Plugins Config --
