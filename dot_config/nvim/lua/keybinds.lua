@@ -204,17 +204,17 @@ M.which_key_defaults = {
 			-- Find and replace
 			["<F2>"] = {
 				function()
-					local k = vim.api.nvim_replace_termcodes(":%s/<C-R><C-w>", true, false, true)
-					vim.api.nvim_feedkeys(":%s/<cword>/", "t", false)
-				end,
-				icons.ui.FindAndReplace .. " Find and replace"
-			},
-			["<F50>"] = {
-				function()
 					local k = vim.api.nvim_replace_termcodes(":%s/\\<<C-R><C-w>\\>", true, false, true)
 					vim.api.nvim_feedkeys(k, "t", false)
 				end,
 				icons.ui.FindAndReplace .. " Find and replace (whole word)"
+			},
+			["<F50>"] = {
+				function()
+					local k = vim.api.nvim_replace_termcodes(":%s/<C-R><C-w>", true, false, true)
+					vim.api.nvim_feedkeys(k, "t", false)
+				end,
+				icons.ui.FindAndReplace .. " Find and replace"
 			},
 			["<F3>"] = { "<CMD>noh<CR>", icons.ui.Highlight .. " Clear search highlights" },
 			["*"] = { "Search forwards (whole word)" },
@@ -345,6 +345,34 @@ M.autocmd_keybinds = {
 		},
 	},
 	{
+		"FileType", 
+		{
+			desc = "Shortcut key to source lua files",
+			group = "source_lua_keybinding",
+			pattern = {
+				"lua",
+			},
+			callback = function()
+				local ok, wk = pcall(require, "which-key")
+				local desc = icons.ui.Reload .. " Source current file"
+				local cmd = "<CMD>source %<CR>"
+				local key = "<C-CR>"
+				if ok then
+					wk.register (
+						{
+							[key] = { cmd, desc }
+						}, 
+						{
+							mode = 'n', buffer = 0, noremap = true, silent = true 
+						}
+					)
+				else
+					vim.keymap.set("n", key, cmd, { desc = desc, buffer = true, noremap = true, silent = true })
+				end
+			end,
+		}
+	},
+	{
 		-- escape from terminal mode in toggleterm
 		"TermOpen",
 		{
@@ -379,6 +407,7 @@ M.autocmd_keybinds = {
 				end
 				if client_capabilities.signatureHelpProvider then
 					bufmap('n', 'gs', vim.lsp.buf.signature_help, "Signature help")
+					bufmap('i', '<C-s>', vim.lsp.buf.signature_help, "Signature help")
 				end
 				if client_capabilities.referencesProvider then
 					bufmap('n', 'gr', vim.lsp.buf.references, "List references")

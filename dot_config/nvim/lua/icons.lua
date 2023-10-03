@@ -177,6 +177,7 @@ return {
 		Plus                      = "",
 		Previous                  = "󰒮",
 		Project                   = "",
+		Reload                    = "󰑓",
 		ReturnCharacter           = "󰌑",
 		RoundDividerLeft          = "",
 		RoundDividerRight         = "",

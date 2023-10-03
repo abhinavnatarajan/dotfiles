@@ -10,6 +10,6 @@ return {
     auto_fold = true,
     use_diagnostic_signs = true,
   },
-  event = { "LspAttach" },
+  event = { "LspAttach", "QuickFixCmdPre" },
   cmd = { "TroubleToggle" },
 }

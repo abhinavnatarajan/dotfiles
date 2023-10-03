@@ -14,6 +14,6 @@ return {
     -- vim.keymap.set('n', '<Leader>l', '<Cmd>noh<CR>', kopts)
   -- end,
   config = function()
-    -- require('hlslens').setup()
+    require('hlslens').setup()
   end
 }

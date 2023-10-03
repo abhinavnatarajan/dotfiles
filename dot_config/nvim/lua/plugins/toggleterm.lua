@@ -9,10 +9,11 @@ return {
     "ToggleTermSendVisualLines",
     "ToggleTermSendVisualSelection",
     "ToggleTermSetName",
-   },
+  },
   keys = { [[<A-`>]] },
   config = function ()
-    require("toggleterm").setup {
+    local toggleterm = require("toggleterm")
+    toggleterm.setup {
       open_mapping = [[<A-`>]],
       insert_mappings = true, -- whether or not the open mapping applies in insert mode
       terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
@@ -22,6 +23,7 @@ return {
       auto_scroll = true, -- automatically scroll to the bottom on terminal output
       -- This field is only relevant if direction is set to 'float'
       shade_terminals = false,
+      direction = 'horizontal',
       float_opts = {
         -- The border key is *almost* the same as 'nvim_open_win'
         -- see :h nvim_open_win for details on borders however
@@ -35,11 +37,29 @@ return {
         -- zindex = <value>,
       },
       winbar = {
-        enabled = true,
+        enabled = false,
         name_formatter = function(term) --  term: Terminal
           return term.name
         end
       },
     }
+    vim.api.nvim_create_user_command("ToggleTermSendCurrentLine",
+      function(opts)
+        toggleterm.send_lines_to_terminal("single_line", false, opts.args)
+      end,
+      { nargs = "?", force = true }
+    )
+    vim.api.nvim_create_user_command("ToggleTermSendVisualSelection",
+      function(opts)
+        toggleterm.send_lines_to_terminal("visual_selection", false, opts.args)
+      end,
+      { range = true, nargs = "?", force = true }
+    )
+    vim.api.nvim_create_user_command("ToggleTermSendVisualLines",
+      function(opts)
+        toggleterm.send_lines_to_terminal("visual_lines", false, opts.args)
+      end,
+      { range = true, nargs = "?", force = true }
+    )
   end
 }

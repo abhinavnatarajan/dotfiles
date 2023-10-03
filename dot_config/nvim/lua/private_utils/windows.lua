@@ -32,7 +32,8 @@ end
 
 -- how to open a new file for editing
 function M.edit_new_file_handler()
-	vim.api.nvim_set_current_win(M.get_window())
+	local win = M.get_window()
+	vim.api.nvim_set_current_win(win)
 	vim.cmd("enew")
 end
 
