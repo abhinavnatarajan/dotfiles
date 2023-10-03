@@ -30,6 +30,24 @@ return {
         wrap_results = true,
         winblend = 5,
       },
+      pickers = {
+        help_tags = {
+          mappings = {
+            i = {
+              ["<CR>"] = "select_vertical"
+            },
+            n = {
+              ["<CR>"] = "select_vertical"
+            },
+          }
+        },
+        live_grep = {
+          prompt_title = "Search text",
+        },
+        oldfiles = {
+          prompt_title = "Recent files"
+        }
+      },
       extensions = {
         file_browser = {
           hijack_netrw = true,

@@ -56,7 +56,7 @@ M.save_as = function(opts)
         local current_picker = state.get_current_picker(prompt_bufnr)
         local finder = current_picker.finder
         if entry == nil then
-          vim.notify("No file selected! To save a new file use i_<M-c> or n_C.", "ERROR")
+          vim.notify("No file selected!", "ERROR")
         elseif type(entry) == "table" then
           local entry_path = entry.Path
           if entry_path:is_dir() then
@@ -88,21 +88,9 @@ M.check_save_as = function()
   end
 end
 
-M.oldfiles = function(opts)
-  return require("telescope.builtin").oldfiles(vim.tbl_extend("force", opts or {}, {prompt_title="Recent files"}))
-end
-
-M.live_grep = function(opts)
-  return require("telescope.builtin").live_grep(vim.tbl_extend("force", opts or {}, {prompt_title="Search text"}))
-end
-
 M.config = function(opts)
   return require("telescope").extensions.file_browser.file_browser(vim.tbl_extend("force", opts or {}, {path=(string.gsub(vim.env.MYVIMRC, "/init.lua$", "")), prompt_title="Browse config files"}))
 end
-
--- M.workspaces = function(opts)
---   return require('auto-session.session-lens').search_session(vim.tbl_extend("force", opts or {}, {previewer = false, prompt_title="Find workspace"}))
--- end
 
 M.smart_find_files = function(opts)
   local builtin = require("telescope.builtin")

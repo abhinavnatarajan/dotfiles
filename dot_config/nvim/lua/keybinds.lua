@@ -43,8 +43,8 @@ M.which_key_defaults = {
 					name = icons.ui.Files .. " Files",
 					["f"] = { [[<CMD>lua require("telescope_custom_pickers").smart_find_files()<CR>]], icons.ui.FindFile .. " Find files in cwd" },
 					["d"] = { "<CMD>Telescope file_browser<CR>", icons.ui.FolderOpen .. " Browse files" },
-					["g"] = { [[<CMD>lua require("telescope_custom_pickers").live_grep()<CR>]], icons.ui.FindText .. " Search text" },
-					["r"] = { [[<CMD>lua require("telescope_custom_pickers").oldfiles()<CR>]], icons.ui.History .. " Recent files" },
+					["g"] = { [[<CMD>Telescope live_grep<CR>]], icons.ui.FindText .. " Search text" },
+					["r"] = { [[<CMD>Telescope oldfiles<CR>]], icons.ui.History .. " Recent files" },
 					["t"] = { [[<CMD>Telescope filetypes<CR>]], icons.syntax.Text .. " Set filetype" },
 				},
 				["P"] = {
@@ -193,14 +193,14 @@ M.which_key_defaults = {
 			["<leader>="] = { require("utils.editing").silent_auto_indent, icons.ui.Indent .. " Auto-indent file" },
 			["<leader>$"] = { require("utils.editing").remove_trailing_whitespace, icons.ui.WhiteSpace .. " Remove trailing whitespace" },
 			["ga"] = { "<Plug>(EasyAlign)", icons.ui.Align .. " Align lines" },
-			["gA"] = { "<Plug>(LiveEasyAlign)", icons.ui.Align .. "Align lines with preview" },
+			["gA"] = { "<Plug>(LiveEasyAlign)", icons.ui.Align .. " Align lines with preview" },
 			-- Delimiter formatting
 			["ys"] = { "<Plug>(nvim-surround-normal)", icons.ui.DelimiterPair .. " Surround" },
-			["yss"] = { "<Plug>(nvim-surround-normal-cur)", icons.ui.DelimiterPair .. "Surround line" },
-			["yS"] = { "<Plug>(nvim-surround-normal-line)", icons.ui.DelimiterPair .. "Surround on new lines" },
-			["ySS"] = { "<Plug>(nvim-surround-normal-cur-line)", icons.ui.DelimiterPair .. "Surround line on new lines" },
-			["ds"] = { "<Plug>(nvim-surround-delete)", icons.ui.DelimiterPair .. "Delete delimiter" },
-			["cs"] = { "<Plug>(nvim-surround-change)", icons.ui.DelimiterPair .. "Change delimiter" },
+			["yss"] = { "<Plug>(nvim-surround-normal-cur)", icons.ui.DelimiterPair .. " Surround line" },
+			["yS"] = { "<Plug>(nvim-surround-normal-line)", icons.ui.DelimiterPair .. " Surround on new lines" },
+			["ySS"] = { "<Plug>(nvim-surround-normal-cur-line)", icons.ui.DelimiterPair .. " Surround line on new lines" },
+			["ds"] = { "<Plug>(nvim-surround-delete)", icons.ui.DelimiterPair .. " Delete delimiter" },
+			["cs"] = { "<Plug>(nvim-surround-change)", icons.ui.DelimiterPair .. " Change delimiter" },
 			-- Find and replace
 			["<F2>"] = {
 				function()
@@ -422,7 +422,7 @@ M.autocmd_keybinds = {
 							bufnr = args.buf
 						})
 					end
-				)
+				, "Hover diagnostic")
 				bufmap('n', '[d', vim.diagnostic.goto_prev, "Previous diagnostic")
 				bufmap('n', ']d', vim.diagnostic.goto_next, "Next diagnostic")
 			end

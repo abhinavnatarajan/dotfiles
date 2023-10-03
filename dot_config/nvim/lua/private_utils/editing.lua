@@ -1,12 +1,15 @@
 local M = {}
 
 function M.silent_auto_indent()
-	vim.api.nvim_feedkeys("mwggVG=`w", "t", true)
+	local winpos = vim.fn.winsaveview()
+	vim.cmd [[silent exe "normal gg=G"]]
+	vim.schedule(function() vim.fn.winrestview(winpos) end)
 end
 
 function M.remove_trailing_whitespace()
-	local k = vim.api.nvim_replace_termcodes([[mw:%s/\v\s+$//e<CR>`w]], true, false, true)
-	vim.api.nvim_feedkeys(k, "t", true)
+	local winpos = vim.fn.winsaveview()
+	vim.cmd [[ silent %s/\v\s+$//e ]]
+	vim.schedule(function() vim.fn.winrestview(winpos) end)
 end
 
 function M.set_indent()
