@@ -345,13 +345,11 @@ M.autocmd_keybinds = {
 		},
 	},
 	{
-		"FileType", 
+		"FileType",
 		{
 			desc = "Shortcut key to source lua files",
 			group = "source_lua_keybinding",
-			pattern = {
-				"lua",
-			},
+			pattern = "lua",
 			callback = function()
 				local ok, wk = pcall(require, "which-key")
 				local desc = icons.ui.Reload .. " Source current file"
@@ -361,13 +359,45 @@ M.autocmd_keybinds = {
 					wk.register (
 						{
 							[key] = { cmd, desc }
-						}, 
+						},
 						{
-							mode = 'n', buffer = 0, noremap = true, silent = true 
+							mode = {'n', 'i'}, buffer = 0, noremap = true, silent = true
 						}
 					)
 				else
-					vim.keymap.set("n", key, cmd, { desc = desc, buffer = true, noremap = true, silent = true })
+					vim.keymap.set({"n", "i"}, key, cmd, { desc = desc, buffer = true, noremap = true, silent = true })
+				end
+			end,
+		}
+	},
+	{
+		"LspAttach",
+		{
+			desc = "Shortcut key to change python virtual environment for LSP",
+			group = "venv_select",
+			callback = function(args)
+				if vim.lsp.get_client_by_id( args.data.client_id).name == "pyright" then
+					local have_devicons, devicons = pcall(require, "nvim-web-devicons")
+					local desc = ""
+					if have_devicons then
+						desc = devicons.get_icon_by_filetype("python") .. " "
+					end
+					desc = desc .. "Select python environment"
+					local ok, wk = pcall(require, "which-key")
+					local cmd = "<CMD>VenvSelect<CR>"
+					local key = "<leader>Lv"
+					if ok then
+						wk.register (
+							{
+								[key] = { cmd, desc }
+							},
+							{
+								mode = {'n', 'i'}, buffer = 0, noremap = true, silent = true
+							}
+						)
+					else
+						vim.keymap.set({"n", "i"}, key, cmd, { desc = desc, buffer = true, noremap = true, silent = true })
+					end
 				end
 			end,
 		}
@@ -422,7 +452,7 @@ M.autocmd_keybinds = {
 							bufnr = args.buf
 						})
 					end
-				, "Hover diagnostic")
+					, "Hover diagnostic")
 				bufmap('n', '[d', vim.diagnostic.goto_prev, "Previous diagnostic")
 				bufmap('n', ']d', vim.diagnostic.goto_next, "Next diagnostic")
 			end

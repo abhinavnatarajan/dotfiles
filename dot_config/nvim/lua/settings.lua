@@ -65,7 +65,7 @@ function M.load_defaults()
 		timeout            = true,
 		timeoutlen         = 500, -- time to wait for a mapped sequence to complete (in milliseconds)
 		title              = true, -- set the title of window to the value of the titlestring
-		undodir            = vim.fn.stdpath("state") .. "nvim/undo//", -- set an undo directory
+		undodir            = vim.fn.stdpath("state") .. "/undo//", -- set an undo directory
 		undofile           = true, -- enable persistent undo
 		updatetime         = 100, -- faster completion
 		whichwrap          = '<>[]lh',
@@ -119,6 +119,8 @@ function M.load_defaults()
 		-- tab = '--' .. icons.ui.TabCharacter
 	})
 
+	
+	vim.g.python3_host_prog  = '~/.local/share/pynvim_venv/bin/python3'
 	vim.g.mapleader = " "
 
 	-- set local defaults via autocommands
