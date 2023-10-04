@@ -351,22 +351,17 @@ M.autocmd_keybinds = {
 			group = "source_lua_keybinding",
 			pattern = "lua",
 			callback = function()
-				local ok, wk = pcall(require, "which-key")
-				local desc = icons.ui.Reload .. " Source current file"
-				local cmd = "<CMD>source %<CR>"
-				local key = "<C-CR>"
-				if ok then
-					wk.register (
-						{
-							[key] = { cmd, desc }
-						},
-						{
-							mode = {'n', 'i'}, buffer = 0, noremap = true, silent = true
-						}
-					)
-				else
-					vim.keymap.set({"n", "i"}, key, cmd, { desc = desc, buffer = true, noremap = true, silent = true })
-				end
+				local wk = require("which-key")
+				wk.register ({
+					["<C-CR>"] = {
+						"<CMD>source %<CR>",
+						icons.ui.Reload .. " Source current file",
+						mode = {'n', 'i'},
+						buffer = 0,
+						noremap = true,
+						silent = true
+					}
+				})
 			end,
 		}
 	},
@@ -377,29 +372,25 @@ M.autocmd_keybinds = {
 			group = "venv_select",
 			callback = function(args)
 				if vim.lsp.get_client_by_id( args.data.client_id).name == "pyright" then
-					local have_devicons, devicons = pcall(require, "nvim-web-devicons")
-					local desc = ""
-					if have_devicons then
-						desc = devicons.get_icon_by_filetype("python") .. " "
-					end
-					desc = desc .. "Select python environment"
-					local ok, wk = pcall(require, "which-key")
-					local cmd = "<CMD>VenvSelect<CR>"
-					local key = "<leader>Lv"
-					if ok then
-						wk.register (
-							{
-								[key] = { cmd, desc }
-							},
-							{
-								mode = {'n', 'i'}, buffer = 0, noremap = true, silent = true
+					require "nvim-web-devicons"
+					local wk = require("which-key")
+					wk.register (
+						{
+							["<leader>Lv"] = {
+								name = require "nvim-web-devicons".get_icon_by_filetype("python") ..  " Manage python virtual envs",
+								["f"] = { "<CMD>VenvSelect<CR>", icons.ui.Search .. " Find" },
+								["i"] = { "<CMD>VenvSelectCurrent<CR>", icons.ui.ChevronRightBoxOutline .. " Current info" },
+								["r"] = { "<CMD>VenvSelectCached<CR>", icons.ui.History .. " Apply last" },
 							}
-						)
-					else
-						vim.keymap.set({"n", "i"}, key, cmd, { desc = desc, buffer = true, noremap = true, silent = true })
-					end
+						},
+						{
+							buffer = 0,
+							noremap = true,
+							silent = true
+						}
+					)
 				end
-			end,
+			end
 		}
 	},
 	{
