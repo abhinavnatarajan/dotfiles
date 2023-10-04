@@ -8,7 +8,7 @@ return {
 	opts = {
 		search_workspace = true,
 		search_venv_managers = true,
-		-- name = {"venv", ".venv"},
+		name = {"venv", ".venv"},
 		notify_user_on_activate = true,
 		poetry_path = "~/.cache/pypoetry/virtualenvs/",
 		pyenv_path = "~/.pyenv/versions/",

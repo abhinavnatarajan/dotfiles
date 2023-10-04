@@ -110,6 +110,7 @@ return {
 		Comment                   = "",
 		ConfigFolder              = "󱂀",
 		Configure                 = "" ,
+		Cursor                    = "󰗧",
 		Dashboard                 = "",
 		DebugConsole              = "",
 		DelimiterPair             = "",

@@ -181,6 +181,7 @@ M.which_key_defaults = {
 	{
 		-- Normal mode editing shortcuts
 		mapping = {
+			["<A-a>"] = { "ggVG", icons.ui.Cursor .. " Select all" },
 			-- Move current line / block with Alt-j/k a la vscode.
 			["<A-k>"] = { "<CMD>move .-2<CR>==", icons.ui.MoveUp .. " Move line up" },
 			["<A-j>"] = { "<CMD>move .+1<CR>==", icons.ui.MoveDown .. " Move line down" },
@@ -238,6 +239,7 @@ M.which_key_defaults = {
 		-- insert mode editing shorcuts
 		mode = "i",
 		mapping = {
+			["<A-a>"] = { "<ESC>ggVG", icons.ui.Cursor .. " Select all" },
 			["<A-j>"] = { "<Esc>:m .+1<CR>==gi", icons.ui.MoveDown .. " Move line down" },
 			["<A-k>"] = { "<Esc>:m .-2<CR>==gi", icons.ui.MoveUp .. " Move line up" },
 			["<A-/>"] = { "<Esc>gccgi", icons.ui.Comment .. " Toggle comment", noremap = false },
@@ -258,8 +260,8 @@ M.which_key_defaults = {
 			["<A-j>"] = { ":m '>+1<CR>gv-gv", icons.ui.MoveDown .. " Move selection down" },
 			["<A-/>"] = { "<Plug>(comment_toggle_linewise_visual)gv", icons.ui.Comment .. " Toggle comment" },
 			-- Delimiter formatting
-			["<A-s>"] = { "<Plug>(nvim-surround-visual)", icons.ui.DelimiterPair .. "Surround" },
-			["<A-S>"] = { "<Plug>(nvim-surround-visual-line)", icons.ui.DelimiterPair .. "Surround on new lines" },
+			["<A-s>"] = { "<Plug>(nvim-surround-visual)", icons.ui.DelimiterPair .. " Surround" },
+			["<A-S>"] = { "<Plug>(nvim-surround-visual-line)", icons.ui.DelimiterPair .. " Surround on new lines" },
 			-- Indentation and whitespace formatting
 			["<"] = { "<gv", icons.ui.IndentDecrease .. " Decrease indent" },
 			[">"] = { ">gv", icons.ui.IndentIncrease .. " Increase indent" },
@@ -274,6 +276,7 @@ M.which_key_defaults = {
 			},
 			["<A-CR>"] = { [[:ToggleTermSendVisualSelection<CR>gv]], icons.ui.Terminal .. " Run selection in terminal"},
 			["<C-CR>"] = { [[:ToggleTermSendVisualLines<CR>gv]], icons.ui.Terminal .. " Run selected lines in terminal" },
+			["<A-i>"] = { "Symbol under cursor" } -- provided by vim-illuminate
 		}
 	},
 	{
