@@ -61,5 +61,4 @@ function M.new_window()
 	return vim.api.nvim_get_current_win()
 end
 
-
 return M

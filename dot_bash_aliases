@@ -1,0 +1,1 @@
+# alias nvim="ABHINAV_NVIM_PPID=$PPID nvim --listen /tmp/nvim-server-${PPID}.pipe"

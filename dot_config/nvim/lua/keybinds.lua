@@ -36,6 +36,7 @@ M.which_key_defaults = {
 				["k"] = {
 					name = icons.ui.Project .. " Workspaces",
 					["f"] = { [[<CMD>SessionManager load_session<CR>]], icons.ui.FindFolder .. " Load workspace" },
+					["r"] = { [[<CMD>SessionManager load_last_session<CR>]], icons.ui.History .. " Load last session" },
 					["d"] = { [[<CMD>SessionManager delete_session<CR>]], icons.ui.Trash .. " Delete workspace"},
 					["w"] = { "<CMD>SessionManager save_current_session<CR>", icons.ui.Save .. " Save current workspace" },
 				},

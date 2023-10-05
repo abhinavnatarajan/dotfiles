@@ -94,6 +94,9 @@ function M.setup()
         workspace = {
           checkThirdParty = false,
         },
+        completion = {
+          callSnippet = "Replace"
+        }
       }
     },
   }
