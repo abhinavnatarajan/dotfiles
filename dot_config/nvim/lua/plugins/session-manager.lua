@@ -1,8 +1,7 @@
 return {
   "Shatur/neovim-session-manager",
-  "nvim-lua/plenary.nvim",
+  dependencies = {"nvim-lua/plenary.nvim"},
   -- lazy = true,
-  event = "VimEnter",
   -- version = "v2.*",
   config = function()
     -- local close_nvim_tree = function()

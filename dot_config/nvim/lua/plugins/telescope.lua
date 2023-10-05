@@ -15,7 +15,6 @@ return {
       lazy = true,
     },
     "tsakirist/telescope-lazy.nvim",
-    -- "rmagatti/auto-session",
   },
   lazy = true,
   cmd = 'Telescope',

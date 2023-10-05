@@ -2,7 +2,7 @@ return {
   'kevinhwang91/nvim-hlslens', --improved search
   name = 'hlslens',
   version = "*",
-  -- event = 'User FileOpened',
+  event = 'User FileOpened',
   -- init = function()
     -- local kopts = {noremap = true, silent = true}
     -- vim.keymap.set('n', 'n', [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], kopts)

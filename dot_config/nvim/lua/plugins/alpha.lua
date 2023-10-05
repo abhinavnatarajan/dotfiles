@@ -26,6 +26,6 @@ return {
     }
     alpha.setup(dashboard.config)
   end,
-  event= 'VeryLazy',
+  -- event= 'VimEnter',
   -- cmd = "Alpha"
 }

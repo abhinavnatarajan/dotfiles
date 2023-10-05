@@ -6,7 +6,7 @@ return {
 		-- "sainnhe/sonokai",
 		-- "folke/tokyonight.nvim",
 	},
-	event = "VimEnter",
+	event = "User FileOpened",
 	config = function()
 		local icons = require("icons")
 		-- custom toggleterm statusline
