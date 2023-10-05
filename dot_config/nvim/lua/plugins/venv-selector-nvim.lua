@@ -6,7 +6,9 @@ return {
 		-- "mfussenegger/nvim-dap-python"
 	},
 	opts = {
-		auto_refresh = false,
+		auto_refresh = true,
+		search = false, -- whether to search parent directories
+		parents = 2,
 		search_workspace = true,
 		search_venv_managers = true,
 		name = {"venv", ".venv"},
