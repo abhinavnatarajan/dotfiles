@@ -13,7 +13,7 @@ M.which_key_defaults = {
 		-- File shortcuts
 		mapping = {
 			["<leader>"] = {
-				name = icons.ui.Files .. " File shortcuts",
+				name = icons.ui.Files .. " Leader shortcuts",
 				[";"] = { "<CMD>Alpha<CR>", icons.ui.Dashboard .. " Dashboard" },
 				["n"] = { [[<CMD>lua require("utils.windows").edit_new_file_handler()<CR>]], icons.ui.NewFile .. " New file" },
 				["w"] = { [[<CMD>lua require("telescope_custom_pickers").check_save_as()<CR>]], icons.ui.Save .. " Save" },
@@ -110,7 +110,8 @@ M.which_key_defaults = {
 					name = icons.ui.Terminal .. " Terminals",
 					["f"] = {"<CMD>TermSelect<CR>", icons.ui.Select .. " Select terminal"},
 					["r"] = {"<CMD>ToggleTermSetName<CR>", icons.syntax.String .. " Rename terminal"}
-				}
+				},
+				["u"] = { "<CMD>Telescope undo<CR>", icons.ui.Undo .. " Undo history" }
 			},
 			["\\"] = { [[<CMD>lua require('notify').dismiss({pending = true, silent=true})<CR>]], "Dismiss notifications"},
 		}

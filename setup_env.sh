@@ -7,22 +7,29 @@ sudo apt-get install nnn
 mkdir ../Downloads && cd $_
 curl -LSO https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
 bash Mambaforge-Linux-x76_64.sh -b
-conda init
+# conda init
 source ~/.bashrc
 conda config --set auto_activate_base false
-
-# Pyenv for python version management
-curl https://pyenv.run | bash
-# Poetry for environment management
-curl -sSL https://install.python-poetry.org | python3 -
-
-# Install C++ tools
-sudo apt-get install automake libtool build-essential gdb cmake
 
 # Install rust and cargo
 # https://rust-lang.github.io/rustup/installation/other.html
 curl https://sh.rustup.rs -sSf | sh -s -- -y
 source ~/.profile
+
+# Pyenv for python version management
+curl https://pyenv.run | bash
+env PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' PYTHON_CFLAGS='-march=native -mtune=native' pyenv install 3.12.0
+pyenv global 3.12.0
+# pipx for global packages
+pip3 install --user pipx
+pipx install jupytext
+# Hatch for Pure Python project management
+pipx install hatch
+# Maturin for PyO3 (Python + Rust) projects
+pipx install maturin
+
+# Install C++ tools
+sudo apt-get install automake libtool build-essential gdb cmake
 
 # Install julia via the juliaup package manager
 cargo install juliaup
@@ -63,9 +70,9 @@ tar xf lazygit.tar.gz lazygit
 sudo install lazygit /usr/local/bin/
 
 # Setup python environment for neovim
-python -m venv ~/.local/share/pynvim_venv --upgrade-deps
+python3 -m venv ~/.local/share/pynvim_venv --upgrade-deps
 source ~/.local/share/pynvim_venv/bin/activate
-pip install pynvim
+pip3 install pynvim
 deactivate
 
 # Install Tex Live

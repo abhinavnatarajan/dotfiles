@@ -15,6 +15,7 @@ return {
       lazy = true,
     },
     "tsakirist/telescope-lazy.nvim",
+    "debugloop/telescope-undo.nvim",
   },
   lazy = true,
   cmd = 'Telescope',
@@ -59,6 +60,8 @@ return {
           git_status = true,
           prompt_path = true
         },
+        undo = {
+        },
         fzf = {
           case_mode = "ignore_case",
         },
@@ -74,6 +77,7 @@ return {
     telescope.load_extension("file_browser")
     telescope.load_extension("fzf")
     telescope.load_extension("lazy")
+    telescope.load_extension("undo")
     if package.loaded["noice"] then
       telescope.load_extension("noice")
     end

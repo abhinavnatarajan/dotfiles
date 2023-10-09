@@ -212,6 +212,7 @@ return {
 		Watches                   = "󰂥",
 		WhiteSpace                = "",
 		Window                    = "",
+		Undo                      = "",
 	},
 	diagnostics = {
 		BoldError                 = "",
