@@ -119,7 +119,6 @@ function M.load_defaults()
 		-- tab = '--' .. icons.ui.TabCharacter
 	})
 
-	
 	vim.g.python3_host_prog  = '~/.local/share/pynvim_venv/bin/python3'
 	vim.g.mapleader = " "
 

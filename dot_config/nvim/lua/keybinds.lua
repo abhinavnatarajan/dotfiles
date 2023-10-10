@@ -59,7 +59,7 @@ M.which_key_defaults = {
 					["f"] = { [[<CMD> lua require("telescope_custom_pickers").buffers()<CR>]], icons.ui.FindFile .. " Find buffer" },
 					["p"] = { "<CMD>BufferLineTogglePin<CR>", icons.ui.Pin .. " Pin buffer" },
 				},
-				["g"] = { 
+				["g"] = {
 					name = "Git",
 					["g"] = { "<CMD>LazyGit<CR>", icons.git.Branch .. " Open lazygit console" },
 					["s"] = { function() require("gitsigns").stage_hunk() end, "Stage hunk" },
@@ -256,7 +256,7 @@ M.which_key_defaults = {
 			["<A-a>"] = { "<ESC>ggVG", icons.ui.Cursor .. " Select all" },
 			["<A-j>"] = { "<Esc>:m .+1<CR>==gi", icons.ui.MoveDown .. " Move line down" },
 			["<A-k>"] = { "<Esc>:m .-2<CR>==gi", icons.ui.MoveUp .. " Move line up" },
-			["<A-/>"] = { "<Esc>gccgi", icons.ui.Comment .. " Toggle comment", noremap = false },
+			["<A-/>"] = { require("utils.editing").comment_in_insert_mode, icons.ui.Comment .. " Toggle comment", noremap = false },
 			["<F3>"] = { "<CMD>noh<CR>", "Turn off search highlights" },
 			["<A-,>"] = { "<C-D>", icons.ui.IndentDecrease .. " Decrease indentation" },
 			["<A-.>"] = { "<C-T>", icons.ui.IndentIncrease .. " Increase indentation" },

@@ -47,6 +47,7 @@ return {
 			},
 			diff_opts = {
 				algorithm = "patience",
+				internal = false
 			}
 		}
 	end,

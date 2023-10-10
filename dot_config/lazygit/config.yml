@@ -51,7 +51,7 @@ gui:
   showCommandLog: true
   nerdFontsVersion: "3" # nerd fonts version to use ("2" or "3"); empty means don't show nerd font icons
   commandLogSize: 8
-  splitDiff: 'auto' # one of 'auto' | 'always'
+  splitDiff: 'always' # one of 'auto' | 'always'
   skipRewordInEditorWarning: false # for skipping the confirmation before launching the reword editor
   border: 'rounded' # one of 'single' | 'double' | 'rounded' | 'hidden'
   animateExplosion: true # shows an explosion animation when nuking the working tree
@@ -59,14 +59,14 @@ gui:
 git:
   paging:
     colorArg: always
-    pager: delta --dark --paging=never
+    useConfig: true
   commit:
     signOff: false
   merging:
     # only applicable to unix users
     manualCommit: false
     # extra args passed to `git merge`, e.g. --no-ff
-    args: ''
+    # args: ''
   log:
     # one of date-order, author-date-order, topo-order or default.
     # topo-order makes it easier to read the git log graph, but commits may not
