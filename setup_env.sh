@@ -3,6 +3,17 @@
 # Install nnn file explorer
 sudo apt-get install nnn
 
+# Fuzzy finder
+# https://github.com/junegunn/fzf
+sudo apt-get install fzf
+# Install rip-grep for searching text inside files
+# https://github.com/BurntSushi/ripgrep
+sudo apt-get install ripgrep
+# fd-find for faster file searching
+# https://github.com/sharkdp/fd
+sudo apt-get install fd-find
+ln -s $(which fdfind) ~/.local/bin/fd
+
 # Install C++ tools
 sudo apt-get install automake libtool build-essential gdb cmake
 # Install rust and cargo
@@ -43,12 +54,7 @@ conda config --set auto_activate_base false
 # Git-delta
 cargo install git-delta
 # Neovim telescope dependencies
-# Install rip-grep for file searching
-# https://github.com/BurntSushi/ripgrep
-sudo apt-get install ripgrep
-# fd-find for faster file searching
-# https://github.com/sharkdp/fd
-sudo apt-get install fd-find
+
 # Install neovim
 # https://github.com/neovim/neovim/wiki/Installing-Neovim
 curl -LSO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage

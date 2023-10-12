@@ -15,6 +15,9 @@ return {
   config = function()
     local configs = require('nvim-treesitter.configs')
     configs.setup {
+      auto_install = true,
+      ignore_install = {},
+      sync_install = false,
       highlight = {
         enable = true,
       },
@@ -30,9 +33,6 @@ return {
           node_decremental = "<S-TAB>",
         },
       },
-      auto_install = true,
-      ignore_install = {},
-      sync_install = false,
       textobjects = {
         -- requires nvim-treesitter-textobjects to be loaded after treesitter
         select = {
