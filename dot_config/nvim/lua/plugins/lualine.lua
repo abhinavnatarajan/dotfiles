@@ -148,7 +148,7 @@ return {
 								return icons.ui.TabCharacter .. " " .. tostring(vim.bo.tabstop)
 							end
 						end,
-						on_click = require("utils.editing").set_indent
+						on_click = require("utils.editing").choose_buffer_indent
 					},
 				},
 				lualine_y = {
