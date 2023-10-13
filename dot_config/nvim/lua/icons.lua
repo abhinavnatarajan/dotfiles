@@ -45,6 +45,7 @@ return {
 		FileUnmerged              = "",
 		FileUnstaged              = "",
 		FileUntracked             = "U",
+		Git                       = "",
 		LineAdded                 = "",
 		LineModified              = "",
 		LineRemoved               = "",
@@ -233,6 +234,7 @@ return {
 	debug = {
 		Breakpoint                = "",
 		BreakpointCondition       = "",
+		Debug                     = "",
 		LogPoint                  = "",
 		Stopped                   = "",
 		BreakpointRejected        = "",

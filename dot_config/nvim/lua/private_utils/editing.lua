@@ -39,7 +39,7 @@ function M.comment_in_insert_mode()
 	end
 end
 
-function M.set_indent()
+function M.choose_buffer_indent()
 	vim.ui.select(
 		{"Spaces", "Tabs"},
 		{prompt = "Choose indent method"},
@@ -57,6 +57,33 @@ function M.set_indent()
 							vim.bo.expandtab = false
 							vim.bo.tabstop = indent_w
 							vim.bo.shiftwidth = indent_w
+						end
+						M.silent_auto_indent()
+					end
+				)
+			end
+		end
+	)
+end
+
+function M.choose_global_indent()
+	vim.ui.select(
+		{"Spaces", "Tabs"},
+		{prompt = "Choose indent method"},
+		function(indent_method)
+			if indent_method then
+				vim.ui.input(
+					{prompt = "Set auto-indent width:"},
+					function(input)
+						local indent_w = tonumber(input)
+						if indent_method == "Spaces" then
+							vim.go.expandtab = true
+							vim.go.tabstop = indent_w
+							vim.go.shiftwidth = 0
+						elseif indent_method == "Tabs" then
+							vim.go.expandtab = false
+							vim.go.tabstop = indent_w
+							vim.go.shiftwidth = indent_w
 						end
 						M.silent_auto_indent()
 					end

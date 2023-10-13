@@ -31,7 +31,7 @@ M.which_key_defaults = {
 					name = icons.ui.Gear.. " Settings",
 					["c"] = { "<CMD>Telescope colorscheme enable_preview=true<CR>", icons.ui.ColourScheme .. " Colorscheme" },
 					["f"] = { [[<CMD>lua require("telescope_custom_pickers").config()<CR>]], icons.ui.ConfigFolder .. " Browse config files" },
-					["i"] = { require("utils.editing").set_indent, icons.ui.Indent .. " Set indentation" },
+					["i"] = { require("utils.editing").choose_global_indent, icons.ui.Indent .. " Set indentation" },
 				},
 				["k"] = {
 					name = icons.ui.Project .. " Workspaces",
@@ -47,6 +47,7 @@ M.which_key_defaults = {
 					["g"] = { [[<CMD>Telescope live_grep<CR>]], icons.ui.FindText .. " Search text" },
 					["r"] = { [[<CMD>Telescope oldfiles<CR>]], icons.ui.History .. " Recent files" },
 					["t"] = { [[<CMD>Telescope filetypes<CR>]], icons.syntax.Text .. " Set filetype" },
+					["i"] = { require("utils.editing").choose_buffer_indent, icons.ui.Indent .. " Set indentation" },
 				},
 				["P"] = {
 					name = icons.ui.ToolBox .. " Plugins",
@@ -60,7 +61,7 @@ M.which_key_defaults = {
 					["p"] = { "<CMD>BufferLineTogglePin<CR>", icons.ui.Pin .. " Pin buffer" },
 				},
 				["g"] = {
-					name = "Git",
+					name = icons.git.Git .. " Git",
 					["g"] = { "<CMD>LazyGit<CR>", icons.git.Branch .. " Open lazygit console" },
 					["s"] = { function() require("gitsigns").stage_hunk() end, "Stage hunk" },
 					["r"] = { function() require("gitsigns").reset_hunk() end, "Reset hunk" },
@@ -232,10 +233,12 @@ M.which_key_defaults = {
 				icons.ui.FindAndReplace .. " Find and replace"
 			},
 			["<F3>"] = { "<CMD>noh<CR>", icons.ui.Highlight .. " Clear search highlights" },
-			["*"] = { "Search forwards (whole word)" },
-			["#"] = { "Search backwards (whole word)" },
-			["g*"] = { "Search forwards" },
-			["g#"] = { "Search backwards" },
+			["*"] = { [[*<Cmd>lua require('hlslens').start()<CR>]], "Search forwards (whole word)" },
+			["#"] = { [[#<Cmd>lua require('hlslens').start()<CR>]], "Search backwards (whole word)" },
+			["g*"] = { [[g*<Cmd>lua require('hlslens').start()<CR>]], "Search forwards" },
+			["g#"] = { [[g#<Cmd>lua require('hlslens').start()<CR>]], "Search backwards" },
+			["n"] = { [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], "Next search result" },
+			["N"] = { [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]], "Previous search result" },
 			-- Hop motions
 			-- ['sw'] = { "<CMD>HopWord<CR>", "Hop to word", mode = {'n', 'v', 'o'} },
 			-- ['sp'] = { "<CMD>HopPattern<CR>", "Hop to pattern", mode = {'n', 'v'} },
@@ -304,7 +307,7 @@ M.which_key_defaults = {
 		-- Debugger
 		mapping = {
 			["<F5>"] = {
-				name = "Debug",
+				name = icons.debug.Debug .. " Debug",
 				["t"] = { require"dap".toggle_breakpoint, "Toggle Breakpoint" },
 				["b"] = { require"dap".step_back, "Step Back" },
 				["c"] = { require"dap".continue, "Continue" },

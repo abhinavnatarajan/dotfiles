@@ -1,7 +1,9 @@
 local buffers_picker = require("telescope.builtin").buffers
-local state = require("telescope.actions.state")
+local action_state = require("telescope.actions.state")
+local state = require("telescope.state")
 local actions = require("telescope.actions")
 local bufdelete = require("bufdelete").bufdelete
+local Path = require "plenary.path"
 
 local M = {}
 
@@ -9,7 +11,7 @@ M.buffers = function()
   buffers_picker {
     attach_mappings = function(_, map)
       local buffer_delete = function(prompt_bufnr)
-        local current_picker = state.get_current_picker(prompt_bufnr)
+        local current_picker = action_state.get_current_picker(prompt_bufnr)
         current_picker:delete_selection(
           function(selection) bufdelete(selection.bufnr, true) end
         )
@@ -45,6 +47,31 @@ end
 --   }
 -- end
 
+-- return Path file on success, otherwise nil
+local create = function(file, finder)
+  if not file then
+    return
+  end
+  local os_sep = Path.path.sep
+  if
+    file == ""
+    or (finder.files and file == finder.path .. os_sep)
+    or (not finder.files and file == finder.cwd .. os_sep)
+  then
+    if not finder.quiet then
+      vim.notify("Please enter a valid file or folder name!", vim.log.levels.WARN)
+    end
+    return
+  end
+  file = Path:new(file)
+  if not file:is_dir() then
+    file:touch { parents = true }
+  else
+    Path:new(file.filename:sub(1, -2)):mkdir { parents = true }
+  end
+  return file
+end
+
 M.save_as = function(opts)
   local fb_picker = require("telescope").extensions.file_browser
   local fb_utils = require("telescope._extensions.file_browser.utils")
@@ -52,12 +79,22 @@ M.save_as = function(opts)
     prompt_title = "Save as",
     attach_mappings = function()
       local saveas = function(prompt_bufnr)
-        local entry = state.get_selected_entry()
-        local current_picker = state.get_current_picker(prompt_bufnr)
+        local entry = action_state.get_selected_entry()
+        local current_picker = action_state.get_current_picker(prompt_bufnr)
         local finder = current_picker.finder
         if entry == nil then
-          vim.notify("No file selected!", "ERROR")
-        elseif type(entry) == "table" then
+          -- vim.notify("No file selected!", "ERROR")
+          local os_sep = Path.path.sep
+          local input = (finder.files and finder.path or finder.cwd) .. os_sep .. current_picker:_get_prompt()
+          local file = create(input, finder)
+          if file then
+            -- pretend new file path is entry
+            local path = file:absolute()
+            state.set_global_key("selected_entry", { path, value = path, path = path, Path = file })
+            entry = action_state.get_selected_entry()
+          end
+        end
+        if type(entry) == "table" then
           local entry_path = entry.Path
           if entry_path:is_dir() then
             finder.path = entry_path:absolute()
@@ -81,7 +118,7 @@ M.save_as = function(opts)
 end
 
 M.check_save_as = function()
-  if vim.bo.filetype == "" and vim.api.nvim_buf_get_name(0) == "" then
+  if vim.api.nvim_buf_get_name(0) == "" then
     require("telescope_custom_pickers").save_as{close_current=true}
   else
     vim.cmd [[w!]]

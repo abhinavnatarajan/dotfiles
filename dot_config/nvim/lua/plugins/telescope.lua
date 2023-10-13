@@ -29,6 +29,7 @@ return {
         },
         wrap_results = true,
         winblend = 5,
+        get_selection_window = require("utils.windows").get_window
       },
       pickers = {
         help_tags = {
