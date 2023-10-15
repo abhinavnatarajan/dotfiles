@@ -116,7 +116,7 @@ function M.load_defaults()
 		multispace = icons.ui.DotSmall,
 		trail = '-',
 		eol = icons.ui.Eol,
-		-- tab = '--' .. icons.ui.TabCharacter
+		tab = '>' .. icons.ui.DotSmall
 	})
 
 	vim.g.python3_host_prog  = '~/.local/share/pynvim_venv/bin/python3'

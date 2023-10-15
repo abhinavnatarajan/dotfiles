@@ -39,7 +39,7 @@ return {
 				GitSignsDelete = {fg = '$red', fmt = "bold" },
 				GitSignsCol = {fg = '$grey', fmt="bold", },
 				CursorLineSign = {fg = '$grey', fmt = "bold"},
-				IblScope = { fg = 'fg' }
+				-- IblScope = { fg = 'fg' }
 			}, -- Override highlight groups
 
 			-- Plugins Config --

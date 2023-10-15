@@ -34,9 +34,16 @@ function M.comment_in_insert_mode()
 		local leftkey = vim.api.nvim_replace_termcodes("<Left>", true, false, true)
 		vim.api.nvim_feedkeys(string.rep(leftkey, offset), "nt", false)
 	else
-		local rightkey = vim.api.nvim_replace_termcodes("<Right>", true, false, true)
+		local rightkey = vim.api.nvim_replace_termcodes("<Riget>", true, false, true)
 		vim.api.nvim_feedkeys(string.rep(rightkey, offset), "nt", false)
 	end
+end
+
+function M.retab_leading_spaces()
+	local winview = vim.fn.winsaveview()
+	local ts = vim.bo.tabstop
+	vim.cmd ([[ %s@\v^( {]] .. ts .. [[})+@\=repeat("\t", len(submatch(0))/]] .. ts .. [[)@]])
+	vim.schedule(function() vim.fn.winrestview(winview) end)
 end
 
 function M.choose_buffer_indent()
@@ -48,17 +55,18 @@ function M.choose_buffer_indent()
 				vim.ui.input(
 					{prompt = "Set auto-indent width:"},
 					function(input)
-						local indent_w = tonumber(input)
-						if indent_method == "Spaces" then
-							vim.bo.expandtab = true
-							vim.bo.tabstop = indent_w
-							vim.bo.shiftwidth = 0
-						elseif indent_method == "Tabs" then
-							vim.bo.expandtab = false
-							vim.bo.tabstop = indent_w
-							vim.bo.shiftwidth = indent_w
+						if input then
+							local indent_w = tonumber(input)
+							if indent_method == "Spaces" then
+								vim.bo.expandtab = true
+								vim.bo.tabstop = indent_w
+								vim.bo.shiftwidth = 0
+							elseif indent_method == "Tabs" then
+								vim.bo.expandtab = false
+								vim.bo.tabstop = indent_w
+								vim.bo.shiftwidth = indent_w
+							end
 						end
-						M.silent_auto_indent()
 					end
 				)
 			end
@@ -75,17 +83,18 @@ function M.choose_global_indent()
 				vim.ui.input(
 					{prompt = "Set auto-indent width:"},
 					function(input)
-						local indent_w = tonumber(input)
-						if indent_method == "Spaces" then
-							vim.go.expandtab = true
-							vim.go.tabstop = indent_w
-							vim.go.shiftwidth = 0
-						elseif indent_method == "Tabs" then
-							vim.go.expandtab = false
-							vim.go.tabstop = indent_w
-							vim.go.shiftwidth = indent_w
+						if input then
+							local indent_w = tonumber(input)
+							if indent_method == "Spaces" then
+								vim.go.expandtab = true
+								vim.go.tabstop = indent_w
+								vim.go.shiftwidth = 0
+							elseif indent_method == "Tabs" then
+								vim.go.expandtab = false
+								vim.go.tabstop = indent_w
+								vim.go.shiftwidth = indent_w
+							end
 						end
-						M.silent_auto_indent()
 					end
 				)
 			end

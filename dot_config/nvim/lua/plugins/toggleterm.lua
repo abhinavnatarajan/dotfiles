@@ -14,6 +14,7 @@ return {
   config = function ()
     local toggleterm = require("toggleterm")
     toggleterm.setup {
+      size = 70,
       open_mapping = [[<A-`>]],
       insert_mappings = true, -- whether or not the open mapping applies in insert mode
       terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
@@ -23,7 +24,7 @@ return {
       auto_scroll = true, -- automatically scroll to the bottom on terminal output
       -- This field is only relevant if direction is set to 'float'
       shade_terminals = false,
-      direction = 'horizontal',
+      direction = 'vertical',
       float_opts = {
         -- The border key is *almost* the same as 'nvim_open_win'
         -- see :h nvim_open_win for details on borders however
