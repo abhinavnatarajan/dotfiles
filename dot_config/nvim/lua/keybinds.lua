@@ -450,6 +450,7 @@ M.autocmd_keybinds = {
 					bufmap('n', 'gs', vim.lsp.buf.signature_help, "Signature help")
 					bufmap('i', '<C-s>', vim.lsp.buf.signature_help, "Signature help")
 				end
+				bufmap('n', 'gK', vim.lsp.buf.hover, "Hover symbol")
 				if client_capabilities.referencesProvider then
 					bufmap('n', 'gr', vim.lsp.buf.references, "List references")
 				end

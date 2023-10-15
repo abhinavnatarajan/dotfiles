@@ -9,8 +9,8 @@ return {
       dependencies = { 'nvim-lua/plenary.nvim' },
       lazy = true,
     },
-    { 
-      'nvim-telescope/telescope-fzf-native.nvim', 
+    {
+      'nvim-telescope/telescope-fzf-native.nvim',
       build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
       lazy = true,
     },
@@ -59,7 +59,6 @@ return {
             folder_browser = true,
           },
           collapse_dirs = false,
-          use_fd = true,
           git_status = true,
           prompt_path = true
         },
