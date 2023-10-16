@@ -172,31 +172,6 @@ local defaults = {
 			callback = function() vim.notify("Saved session for workspace\n" .. vim.fn.getcwd()) end
 		},
 	},
-	{
-		"QuickFixCmdPost",
-		{
-			group = "trouble_handles_quickfix",
-			desc = "Replace default quickfix window with trouble",
-			callback = function()
-				local ok, trouble = pcall(require, "trouble")
-				if ok then
-					-- Check whether we deal with a quickfix or location list buffer, close the window and open the
-					-- corresponding Trouble window instead.
-					if vim.fn.getloclist(0, { filewinid = 1 }).filewinid ~= 0 then
-						vim.schedule(function()
-							vim.cmd.lclose()
-							trouble.open("loclist")
-						end)
-					else
-						vim.schedule(function()
-							vim.cmd.cclose()
-							trouble.open("quickfix")
-						end)
-					end
-				end
-			end
-		}
-	}
 }
 --- Load the default set of autogroups and autocommands.
 function M.load_defaults()
