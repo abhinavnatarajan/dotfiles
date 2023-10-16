@@ -84,7 +84,6 @@ M.which_key_defaults = {
 				["L"] = {
 					name = icons.ui.Lightbulb .. " LSP",
 					["m"] = { "<CMD>Mason<CR>", icons.ui.Configure .. " Manage installed LSP servers" },
-					["i"] = { "<CMD>LspInfo<CR>", icons.diagnostics.Information .. " LSP info" },
 				},
 				["t"] = {
 					name = icons.ui.Tab .. " Tabs",
@@ -437,6 +436,10 @@ M.autocmd_keybinds = {
 				-- if client_capabilities.hoverProvider then
 				--   bufmap('n', 'K', vim.lsp.buf.hover, "Hover symbol info")
 				-- end
+				bufmap('n', '<leader>Li', "<CMD>LspInfo<CR>", icons.diagnostics.Information .. " LSP clients info" )
+				bufmap('n', '<leader>Lr', "<CMD>LspRestart<CR>", icons.ui.Reload .. " Restart all clients (all buffers)")
+				bufmap('n', '<leader>Lx', "<CMD>LspStop<CR>", icons.ui.BoldClose .. " Kill all clients (buffer)")
+				bufmap('n', '<leader>Ls', "<CMD>LspStart<CR>", icons.ui.Play .. " Start all clients (buffer)")
 				if client_capabilities.renameProvider then
 					bufmap('n', '<F51>', vim.lsp.buf.rename, icons.syntax.Object .. " Rename symbol")
 				end

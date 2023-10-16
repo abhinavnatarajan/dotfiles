@@ -175,6 +175,7 @@ return {
 		Path                      = "🖫",
 		Pencil                    = "󰏫",
 		Pin                       = "",
+		Play                      = "",
 		Plugin                    = "",
 		Plus                      = "",
 		Previous                  = "󰒮",
