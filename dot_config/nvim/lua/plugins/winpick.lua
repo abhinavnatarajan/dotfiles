@@ -1,6 +1,6 @@
 return {
 	"abhinavnatarajan/winpick.nvim",
-	event = "VeryLazy",
+	lazy = true,
 	config = function()
 		require("winpick").setup {
 			border = "rounded",

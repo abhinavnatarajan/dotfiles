@@ -61,10 +61,12 @@ function M.choose_buffer_indent()
 								vim.bo.expandtab = true
 								vim.bo.tabstop = indent_w
 								vim.bo.shiftwidth = 0
+								vim.cmd[[ retab! ]]
 							elseif indent_method == "Tabs" then
 								vim.bo.expandtab = false
 								vim.bo.tabstop = indent_w
 								vim.bo.shiftwidth = indent_w
+								M.retab_leading_spaces()
 							end
 						end
 					end

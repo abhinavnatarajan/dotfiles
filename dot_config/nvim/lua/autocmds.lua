@@ -138,7 +138,6 @@ local defaults = {
 				-- see nvim_create_autocmd()
 
 				-- check if this is the last buffer
-				local buflist = vim.api.nvim_list_bufs()
 				local numbufs = #vim.tbl_filter(
 					function(b)
 						if 1 ~= vim.fn.buflisted(b) then

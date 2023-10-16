@@ -133,7 +133,7 @@ return {
 						function() return icons.ui.FileTree .. " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~:.:gs%\\v(\\.?[^/]{0,2})[^/]*/%\\1/%") end,
 						on_click = function() vim.cmd("Telescope file_browser") end
 					},
-					function() return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":t") end,
+					function() return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":~:.:gs%\\v(\\.?[^/]{0,2})[^/]*/%\\1/%") end, -- filename
 				},
 				lualine_x = {
 					{

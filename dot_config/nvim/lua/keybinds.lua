@@ -397,9 +397,9 @@ M.autocmd_keybinds = {
 						{
 							["<leader>Lv"] = {
 								name = require "nvim-web-devicons".get_icon_by_filetype("python") ..  " Manage python virtual envs",
-								["f"] = { "<CMD>VenvSelect<CR>", icons.ui.Search .. " Find" },
-								["i"] = { "<CMD>VenvSelectCurrent<CR>", icons.ui.ChevronRightBoxOutline .. " Current info" },
-								["r"] = { "<CMD>VenvSelectCached<CR>", icons.ui.History .. " Apply last" },
+								["f"] = { "<CMD>VenvSelect<CR>", icons.ui.Search .. " Find environment" },
+								["i"] = { "<CMD>VenvSelectCurrent<CR>", icons.ui.ChevronRightBoxOutline .. " Current environment info" },
+								["r"] = { "<CMD>VenvSelectCached<CR>", icons.ui.History .. " Initialise last used environment" },
 							}
 						},
 						{
@@ -433,13 +433,10 @@ M.autocmd_keybinds = {
 				local bufmap = function(mode, lhs, rhs, desc) vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", opts, {desc = desc})) end
 				local client_capabilities = vim.lsp.get_client_by_id(args.data.client_id).server_capabilities
 
-				-- if client_capabilities.hoverProvider then
-				--   bufmap('n', 'K', vim.lsp.buf.hover, "Hover symbol info")
-				-- end
 				bufmap('n', '<leader>Li', "<CMD>LspInfo<CR>", icons.diagnostics.Information .. " LSP clients info" )
-				bufmap('n', '<leader>Lr', "<CMD>LspRestart<CR>", icons.ui.Reload .. " Restart all clients (all buffers)")
-				bufmap('n', '<leader>Lx', "<CMD>LspStop<CR>", icons.ui.BoldClose .. " Kill all clients (buffer)")
-				bufmap('n', '<leader>Ls', "<CMD>LspStart<CR>", icons.ui.Play .. " Start all clients (buffer)")
+				bufmap('n', '<leader>Lr', "<CMD>LspRestart<CR>", icons.ui.Reload .. " Restart clients attached to this buffer")
+				bufmap('n', '<leader>Lx', "<CMD>LspStop<CR>", icons.ui.BoldClose .. " Kill clients attached to this buffer")
+				bufmap('n', '<leader>Ls', "<CMD>LspStart<CR>", icons.ui.Play .. " Start clients for this buffer")
 				if client_capabilities.renameProvider then
 					bufmap('n', '<F51>', vim.lsp.buf.rename, icons.syntax.Object .. " Rename symbol")
 				end
@@ -453,7 +450,8 @@ M.autocmd_keybinds = {
 					bufmap('n', 'gs', vim.lsp.buf.signature_help, "Signature help")
 					bufmap('i', '<C-s>', vim.lsp.buf.signature_help, "Signature help")
 				end
-				bufmap('n', 'gK', vim.lsp.buf.hover, "Hover symbol")
+				bufmap('n', 'gk', vim.lsp.buf.hover, "Hover symbol")
+				bufmap('i', '<C-h>', vim.lsp.buf.hover, "Hover symbol")
 				if client_capabilities.referencesProvider then
 					bufmap('n', 'gr', vim.lsp.buf.references, "List references")
 				end
