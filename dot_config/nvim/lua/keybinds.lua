@@ -42,7 +42,7 @@ M.which_key_defaults = {
 				},
 				["f"] = {
 					name = icons.ui.Files .. " Files",
-					["f"] = { [[<CMD>lua require("telescope_custom_pickers").smart_find_files()<CR>]], icons.ui.FindFile .. " Find files in cwd" },
+					["f"] = { [[<CMD>lua require("telescope.builtin").find_files()<CR>]], icons.ui.FindFile .. " Find files in cwd" },
 					["d"] = { "<CMD>Telescope file_browser<CR>", icons.ui.FolderOpen .. " Browse files" },
 					["g"] = { [[<CMD>Telescope live_grep<CR>]], icons.ui.FindText .. " Search text" },
 					["r"] = { [[<CMD>Telescope oldfiles<CR>]], icons.ui.History .. " Recent files" },
