@@ -42,6 +42,12 @@ return {
             },
           }
         },
+        find_files = {
+          no_ignore = true,
+        },
+        git_files = {
+          no_ignore = true,
+        },
         live_grep = {
           prompt_title = "Search text",
         },
