@@ -9,6 +9,7 @@ end
 function M.remove_trailing_whitespace()
 	local winpos = vim.fn.winsaveview()
 	vim.cmd [[ silent %s/\v\s+$//e ]]
+	vim.cmd [[ noh ]]
 	vim.schedule(function() vim.fn.winrestview(winpos) end)
 end
 
@@ -34,7 +35,7 @@ function M.comment_in_insert_mode()
 		local leftkey = vim.api.nvim_replace_termcodes("<Left>", true, false, true)
 		vim.api.nvim_feedkeys(string.rep(leftkey, offset), "nt", false)
 	else
-		local rightkey = vim.api.nvim_replace_termcodes("<Riget>", true, false, true)
+		local rightkey = vim.api.nvim_replace_termcodes("<Right>", true, false, true)
 		vim.api.nvim_feedkeys(string.rep(rightkey, offset), "nt", false)
 	end
 end

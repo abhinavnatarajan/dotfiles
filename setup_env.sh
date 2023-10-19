@@ -3,16 +3,16 @@
 # Install nnn file explorer
 sudo apt-get install nnn
 
+# fd-find for faster file searching
+# https://github.com/sharkdp/fd
+sudo apt-get install fd-find
+ln -s $(which fdfind) ~/.local/bin/fd
 # Fuzzy finder
 # https://github.com/junegunn/fzf
 sudo apt-get install fzf
 # Install rip-grep for searching text inside files
 # https://github.com/BurntSushi/ripgrep
 sudo apt-get install ripgrep
-# fd-find for faster file searching
-# https://github.com/sharkdp/fd
-sudo apt-get install fd-find
-ln -s $(which fdfind) ~/.local/bin/fd
 
 # Install C++ tools
 sudo apt-get install automake libtool build-essential gdb cmake
