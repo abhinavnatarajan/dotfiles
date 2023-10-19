@@ -270,7 +270,7 @@ M.which_key_defaults = {
 	},
 	{
 		-- visual block mode editing shortcuts
-		mode = "x",
+		mode = { "x", "v" },
 		mapping = {
 			["<A-k>"] = { ":m '<-2<CR>gv-gv", icons.ui.MoveUp .. " Move selection up" },
 			["<A-j>"] = { ":m '>+1<CR>gv-gv", icons.ui.MoveDown .. " Move selection down" },
@@ -337,7 +337,7 @@ M.which_key_defaults = {
 }
 
 M.other_defaults = {
-	-- { mode = "i", lhs = "<Tab>", rhs = "<C-F>", opts = { noremap = true } },
+	{{'v', 'x' }, 'p', '"_dhp', opts={noremap = true, silent = true}} -- paste without yanking
 }
 
 M.autocmd_keybinds = {
@@ -479,7 +479,7 @@ function M.load_defaults()
 		wk.register(v.mapping, v.opts or DefaultOpts{mode = v.mode or "n" })
 	end
 	for _, mapping in pairs(M.other_defaults) do
-		vim.keymap.set(mapping.mode, mapping.lhs, mapping.rhs, mapping.opts)
+		vim.keymap.set(unpack(mapping))
 	end
 	require("autocmds").define_autocmds(M.autocmd_keybinds)
 end

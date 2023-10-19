@@ -32,6 +32,7 @@ function M.load_defaults()
 		laststatus         = 3,
 		linebreak          = true,
 		list               = true,
+		matchpairs         = { "{:}", "(:)", "[:]" },
 		mouse              = "a", -- allow the mouse to be used in neovim
 		number             = true, -- set numbered lines
 		numberwidth        = 3, -- set number column width to 2 {default 4}
