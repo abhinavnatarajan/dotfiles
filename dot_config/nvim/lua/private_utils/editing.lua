@@ -8,8 +8,7 @@ end
 
 function M.remove_trailing_whitespace()
 	local winpos = vim.fn.winsaveview()
-	vim.cmd [[ silent %s/\v\s+$//e ]]
-	vim.cmd [[ noh ]]
+	vim.cmd [[ silent %s/\v\s+$//e | noh ]]
 	vim.schedule(function() vim.fn.winrestview(winpos) end)
 end
 
@@ -43,7 +42,7 @@ end
 function M.retab_leading_spaces()
 	local winview = vim.fn.winsaveview()
 	local ts = vim.bo.tabstop
-	vim.cmd ([[ %s@\v^( {]] .. ts .. [[})+@\=repeat("\t", len(submatch(0))/]] .. ts .. [[)@]])
+	vim.cmd ([[ %s@\v^( {]] .. ts .. [[})+@\=repeat("\t", len(submatch(0))/]] .. ts .. [[)@ | noh ]])
 	vim.schedule(function() vim.fn.winrestview(winview) end)
 end
 
