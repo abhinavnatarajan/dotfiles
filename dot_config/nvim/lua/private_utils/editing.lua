@@ -6,6 +6,30 @@ function M.silent_auto_indent()
 	vim.schedule(function() vim.fn.winrestview(winpos) end)
 end
 
+function M.lsp_format()
+	vim.lsp.buf.format{
+		formatting_options = {
+			tabSize = vim.bo.expandtab and vim.bo.shiftwidth or vim.bo.tabstop,
+			insertSpaces = vim.bo.expandtab,
+			trimTrailingWhitespace = false,
+			insertFinalNewline = false,
+			trimFinalNewlines = false
+		},
+		timeout_ms = 1500,
+		async = false,
+	}
+end
+
+function M.get_lsp_formatting_options()
+	return vim.lsp.util.make_formatting_params {
+		tabSize = 4,
+		insertSpaces = vim.bo.expandtab,
+		trimTrailingWhitespace = false,
+		insertFinalNewline = false,
+		trimFinalNewlines = false
+	}
+end
+
 function M.remove_trailing_whitespace()
 	local winpos = vim.fn.winsaveview()
 	vim.cmd [[ silent %s/\v\s+$//e | noh ]]
@@ -39,10 +63,9 @@ function M.comment_in_insert_mode()
 	end
 end
 
-function M.retab_leading_spaces()
+function M.retab_leading_spaces(old_tabstop)
 	local winview = vim.fn.winsaveview()
-	local ts = vim.bo.tabstop
-	vim.cmd ([[ %s@\v^( {]] .. ts .. [[})+@\=repeat("\t", len(submatch(0))/]] .. ts .. [[)@ | noh ]])
+	vim.cmd ([[ silent %s@\v^(\s{]] .. old_tabstop .. [[})+@\=repeat("\t", len(submatch(0))/]] .. old_tabstop .. [[)@ | noh ]])
 	vim.schedule(function() vim.fn.winrestview(winview) end)
 end
 
@@ -63,10 +86,11 @@ function M.choose_buffer_indent()
 								vim.bo.shiftwidth = 0
 								vim.cmd[[ retab! ]]
 							elseif indent_method == "Tabs" then
+								local old_tabstop = vim.bo.tabstop
 								vim.bo.expandtab = false
 								vim.bo.tabstop = indent_w
 								vim.bo.shiftwidth = indent_w
-								M.retab_leading_spaces()
+								M.retab_leading_spaces(old_tabstop)
 							end
 						end
 					end

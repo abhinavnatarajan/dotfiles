@@ -437,6 +437,12 @@ M.autocmd_keybinds = {
 				bufmap('n', '<leader>Lr', "<CMD>LspRestart<CR>", icons.ui.Reload .. " Restart clients attached to this buffer")
 				bufmap('n', '<leader>Lx', "<CMD>LspStop<CR>", icons.ui.BoldClose .. " Kill clients attached to this buffer")
 				bufmap('n', '<leader>Ls', "<CMD>LspStart<CR>", icons.ui.Play .. " Start clients for this buffer")
+				if client_capabilities.documentFormattingProvider then
+					bufmap('n', '<leader>+', function() require("utils.editing").lsp_format() end, icons.ui.Indent .. " Auto-format file")
+				end
+				if client_capabilities.documentRangeFormattingProvider then
+					bufmap('x', '+', function() require("utils.editing").lsp_format() end, icons.ui.Indent .. " Auto-format file")
+				end
 				if client_capabilities.renameProvider then
 					bufmap('n', '<F51>', vim.lsp.buf.rename, icons.syntax.Object .. " Rename symbol")
 				end
@@ -450,8 +456,10 @@ M.autocmd_keybinds = {
 					bufmap('n', 'gs', vim.lsp.buf.signature_help, "Signature help")
 					bufmap('i', '<C-s>', vim.lsp.buf.signature_help, "Signature help")
 				end
-				bufmap('n', 'gk', vim.lsp.buf.hover, "Hover symbol")
-				bufmap('i', '<C-h>', vim.lsp.buf.hover, "Hover symbol")
+				if client_capabilities.hoverProvider then
+					bufmap('n', 'gk', vim.lsp.buf.hover, "Hover symbol")
+					bufmap('i', '<C-h>', vim.lsp.buf.hover, "Hover symbol")
+				end
 				if client_capabilities.referencesProvider then
 					bufmap('n', 'gr', vim.lsp.buf.references, "List references")
 				end

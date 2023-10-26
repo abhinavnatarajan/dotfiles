@@ -9,8 +9,8 @@ function M.load_defaults()
 		backup             = false, -- creates a backup file
 		breakat            = " ^!@*-+;,/?",
 		breakindent        = true,
-		cindent            = true, -- smart indenting for new lines
-		cinkeys            = "0{,0},0),0],:,0#,!^F,o,O,e",
+		cindent            = false, -- smart indenting for new lines
+		-- cinkeys            = "0{,0},0),0],:,0#,!^F,o,O,e",
 		clipboard          = "unnamedplus", -- allows neovim to access the system clipboard
 		cmdheight          = 1, -- more space in the neovim command line for displaying messages
 		completeopt        = { "menu", "menuone", "noselect", "longest", },
@@ -26,7 +26,8 @@ function M.load_defaults()
 		hidden             = true, -- required to keep multiple buffers and open multiple buffers
 		hlsearch           = true, -- highlight all matches on previous search pattern
 		ignorecase         = true, -- ignore case in search patterns
-		indentkeys         = "0{,0},0),0],:,0#,!^F,o,O,e",
+		-- indentexpr         = "nvim_treesitter#indent()",
+		-- indentkeys         = "0{,0},0),0],:,0#,!^F,o,O,e",
 		jumpoptions        = {"stack", "view"},
 		keywordprg         = ":vert help",
 		laststatus         = 3,

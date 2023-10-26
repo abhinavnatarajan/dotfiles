@@ -6,7 +6,7 @@ sudo apt-get install nnn
 # fd-find for faster file searching
 # https://github.com/sharkdp/fd
 sudo apt-get install fd-find
-ln -s $(which fdfind) ~/.local/bin/fd
+ln -s $(which fdfind) $HOME/.local/bin/fd
 # Fuzzy finder
 # https://github.com/junegunn/fzf
 sudo apt-get install fzf
@@ -19,16 +19,16 @@ sudo apt-get install automake libtool build-essential gdb cmake
 # Install rust and cargo
 # https://rust-lang.github.io/rustup/installation/other.html
 curl https://sh.rustup.rs -sSf | sh -s -- -y
-source ~/.bashrc
+source $HOME/.bashrc
 # Pyenv for python version management
+sudo apt update;
+sudo apt install zlib1g zlib1g-dev libssl-dev libbz2-dev libsqlite3-dev libreadline-dev curl libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 curl https://pyenv.run | bash
-env PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' PYTHON_CFLAGS='-march=native -mtune=native' pyenv install 3.12.0
-pyenv global 3.12.0
+env PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' PYTHON_CFLAGS='-march=native -mtune=native' pyenv install 3.11.0
+pyenv global 3.11.0
 # pipx for global packages
 pip3 install --user pipx
-pipx install jupyterlab
-pipx install jupytext
-pipx install nbdime
+pipx install jupyterlab jupytext nbdime
 nbdime config-git --enable --global
 # Install lazygit
 # https://github.com/jesseduffield/lazygit#installation
@@ -45,15 +45,14 @@ cargo install juliaup
 juliaup self update
 juliaup add release
 # Mambaforge
-mkdir ../Downloads && cd $_
+mkdir $HOME/Downloads && cd $_
 curl -LSO https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
 bash Mambaforge-Linux-x76_64.sh -b
 # conda init
-source ~/.bashrc
+source $HOME/.bashrc
 conda config --set auto_activate_base false
 # Git-delta
 cargo install git-delta
-# Neovim telescope dependencies
 
 # Install neovim
 # https://github.com/neovim/neovim/wiki/Installing-Neovim
@@ -61,15 +60,15 @@ curl -LSO https://github.com/neovim/neovim/releases/latest/download/nvim.appimag
 chmod u+x nvim.appimage
 ./nvim.appimage --appimage-extract
 ./squashfs-root/AppRun --version
-sudo mv squashfs-root /
-sudo ln -s /squashfs-root/AppRun /.local/bin/nvim
+sudo mv squashfs-root $HOME/squashfs-root
+sudo ln -s $HOME/squashfs-root/AppRun /.local/bin/nvim
 # Install nodejs and npm
 # https://github.com/nvm-sh/nvm#installing-and-updating
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 # Install node
 nvm install node
 # Setup python environment for neovim
-python3 -m venv ~/.local/share/pynvim_venv --upgrade-deps
+python3 -m venv $HOME/.local/share/pynvim_venv --upgrade-deps
 source ~/.local/share/pynvim_venv/bin/activate
 pip3 install pynvim
 deactivate
