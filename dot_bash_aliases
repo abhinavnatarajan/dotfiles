@@ -18,5 +18,9 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-
-alias nvid='neovide --wsl --multigrid'
+ 
+if [[ $(grep microsoft /proc/version ) ]]; then
+    alias nvid='neovide.exe --wsl --multigrid'
+else
+    alias nvid='neovide --multigrid'
+fi
