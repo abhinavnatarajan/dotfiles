@@ -8,7 +8,7 @@ return {
     -- your configuration comes here
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
-    win_config = "rounded",
+    win_config = { border = "rounded", focusable = true },
     auto_fold = true,
     use_diagnostic_signs = true,
   },

@@ -124,6 +124,15 @@ function M.load_defaults()
 	vim.g.python3_host_prog  = '~/.local/share/pynvim_venv/bin/python3'
 	vim.g.mapleader = " "
 
+	-- if using neovide GUI
+	if vim.g.neovide then
+		-- vim.g.neovide_scale_factor = 0.78
+		vim.o.guifont = 'FiraCode Nerd Font:h11'
+		vim.g.neovide_remember_window_size = true
+		vim.g.neovide_cursor_animation_length = 0.02
+		vim.g.neovide_cursor_trail_size = 0.5
+	end
+
 	-- set local defaults via autocommands
 	require("autocmds").define_autocmds(local_defaults)
 

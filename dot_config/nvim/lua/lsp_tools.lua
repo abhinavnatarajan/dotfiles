@@ -104,7 +104,15 @@ function M.setup()
   lspconfig.jsonls.setup{}
   lspconfig.yamlls.setup{}
   lspconfig.bashls.setup{}
-  lspconfig.julials.setup{}
+  lspconfig.julials.setup{
+    -- following code snippet is from https://github.com/fredrikekre/.dotfiles/blob/master/.julia/environments/nvim-lspconfig/Makefile
+    on_new_config = function(new_config, _)
+    local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
+    if require("lspconfig").util.path.is_file(julia) then
+      new_config.cmd[1] = julia
+    end
+  end,
+  }
   lspconfig.marksman.setup{}
   lspconfig.html.setup{}
   lspconfig.clangd.setup{}

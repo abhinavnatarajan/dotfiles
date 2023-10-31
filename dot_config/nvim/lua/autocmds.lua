@@ -87,10 +87,6 @@ local defaults = {
 				vim.api.nvim_set_hl(0, "CmpItemKindTabnine", { fg = "#CA42F0" })
 				vim.api.nvim_set_hl(0, "CmpItemKindCrate", { fg = "#F64D00" })
 				vim.api.nvim_set_hl(0, "CmpItemKindEmoji", { fg = "#FDE030" })
-				vim.api.nvim_set_hl(0, "SLCopilot", { fg = "#6CC644", bg = statusline_hl.background })
-				vim.api.nvim_set_hl(0, "SLGitIcon", { fg = "#E8AB53", bg = cursorline_hl.background })
-				vim.api.nvim_set_hl(0, "SLBranchName", { fg = normal_hl.foreground, bg = cursorline_hl.background })
-				vim.api.nvim_set_hl(0, "SLSeparator", { fg = cursorline_hl.background, bg = statusline_hl.background })
 			end,
 		},
 	},
@@ -179,7 +175,6 @@ end
 
 --- Create autocommand groups based on the passed definitions
 --- Also creates the augroup automatically if it doesn't exist
----@param definitions table contains a tuple of event, opts, see `:h nvim_create_autocmd`
 function M.define_autocmds(definitions)
 	for _, entry in ipairs(definitions) do
 		local event = entry[1]
@@ -196,7 +191,6 @@ end
 
 --- Clean autocommand in a group if it exists
 --- This is safer than trying to delete the augroup itself
----@param name string the augroup name
 function M.clear_augroup(name)
 	-- defer the function in case the autocommand is still in-use
 	vim.schedule(function()

@@ -11,10 +11,11 @@ return {
 		parents = 2,
 		search_workspace = true,
 		search_venv_managers = true,
-		name = {"venv", ".venv"},
+		name = {"venv", ".venv", ".hatch"},
 		notify_user_on_activate = true,
 		poetry_path = "~/.cache/pypoetry/virtualenvs/",
 		pyenv_path = "~/.pyenv/versions/",
+		hatch_path = "~/.local/share/hatch/env/virtual/",
 		anaconda_base_path = "~/mambaforge",
 		anaconda_envs_path = "~/mambaforge/envs/"
   },

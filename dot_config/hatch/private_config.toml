@@ -9,7 +9,6 @@ data = "/home/abhinav/.local/share/hatch"
 cache = "/home/abhinav/.cache/hatch"
 
 [dirs.env]
-virtual = ".hatch"
 
 [projects]
 
