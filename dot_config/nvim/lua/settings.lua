@@ -122,6 +122,7 @@ function M.load_defaults()
 	})
 
 	vim.g.python3_host_prog  = '~/.local/share/pynvim_venv/bin/python3'
+	vim.g.loaded_perl_provider = 0
 	vim.g.mapleader = " "
 
 	-- if using neovide GUI
