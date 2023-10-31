@@ -6,15 +6,15 @@ return {
 	config = function()
 		require('ibl').setup {
 			indent = {
-				char = { '╏', '┇', '┋', '┃' },
-				tab_char = { '╏', '┇', '┋', '┃' },
+				char = { '╎', '┆', '┊', '│' },
+				tab_char = { '╎', '┆', '┊', '│' },
 			},
 			whitespace = {
 				highlight = 'Whitespace',
 			},
 			scope = {
 				enabled = true,
-				char = '┃',
+				char = '│',
 				show_start = true,
 				show_end = false,
 				exclude = {
