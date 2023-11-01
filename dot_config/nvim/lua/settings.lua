@@ -26,7 +26,6 @@ function M.load_defaults()
 		hidden             = true, -- required to keep multiple buffers and open multiple buffers
 		hlsearch           = true, -- highlight all matches on previous search pattern
 		ignorecase         = true, -- ignore case in search patterns
-		-- indentexpr         = "nvim_treesitter#indent()",
 		-- indentkeys         = "0{,0},0),0],:,0#,!^F,o,O,e",
 		jumpoptions        = {"stack", "view"},
 		keywordprg         = ":vert help",
@@ -128,10 +127,14 @@ function M.load_defaults()
 	-- if using neovide GUI
 	if vim.g.neovide then
 		-- vim.g.neovide_scale_factor = 0.78
-		vim.o.guifont = 'FiraCode Nerd Font Retina:h11'
+		vim.o.guifont = 'JetBrainsMono Nerd Font:h11'
 		vim.g.neovide_remember_window_size = true
 		vim.g.neovide_cursor_animation_length = 0.02
 		vim.g.neovide_cursor_trail_size = 0.5
+		vim.opt.winblend = 25
+		vim.opt.pumblend = 25
+		vim.g.neovide_floating_blur_amount_x = 5.0
+		vim.g.neovide_floating_blur_amount_y = 5.0
 	end
 
 	-- set local defaults via autocommands

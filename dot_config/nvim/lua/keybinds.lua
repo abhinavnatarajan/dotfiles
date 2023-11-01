@@ -91,8 +91,8 @@ M.which_key_defaults = {
 					["o"] = { "<CMD>tabonly<CR>", "Close all other tabs" },
 					["n"] = { "<CMD>tab split<CR>", icons.ui.OpenInNew .. " New file in new tab" },
 					["c"] = { "<CMD>tab close<CR>", "Close current tab" },
-					["h"] = { "<CMD>silent! tabmove -1<CR>", icons.ui.BoldArrowLeft .. " Move tab to the left" },
-					["l"] = { "<CMD>silent! tabmove +1<CR>", icons.ui.BoldArrowRight .. " Move tab to the right" },
+					["H"] = { "<CMD>silent! tabmove -1<CR>", icons.ui.BoldArrowLeft .. " Move tab to the left" },
+					["L"] = { "<CMD>silent! tabmove +1<CR>", icons.ui.BoldArrowRight .. " Move tab to the right" },
 					["f"] = { "<CMD>tabs<CR>", icons.ui.FindTab .. " Find tabs" },
 					["j"] = {
 						function()
@@ -132,9 +132,6 @@ M.which_key_defaults = {
 			["<C-j>"] = { "<CMD>wincmd j<CR>", icons.ui.ChevronDownBoxOutline .. " Go to the down window", mode = {"n", "i"} },
 			["<C-k>"] = { "<CMD>wincmd k<CR>", icons.ui.ChevronUpBoxOutline .. " Go to the up window", mode = {"n", "i"} },
 			["<C-l>"] = { "<CMD>wincmd l<CR>", icons.ui.ChevronRightBoxOutline .. " Go to the right window", mode = {"n", "i"} },
-			-- Tab movement
-			["<A-C-h>"] = { "<CMD>tabprevious<CR>", icons.ui.ArrowLeft .. " Previous tab", mode = {"n", "i"} },
-			["<A-C-l>"] = { "<CMD>tabnext<CR>", icons.ui.ArrowRight .. " Next tab", mode = {"n", "i"} },
 			-- Smooth scrolling
 			["<C-y>"] = {
 				function() require("neoscroll").scroll(-0.1, true, 100) end,
