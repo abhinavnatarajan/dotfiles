@@ -28,7 +28,7 @@ return {
           mirror =  false,
         },
         wrap_results = true,
-        winblend = 5,
+        winblend = (vim.g.neovide and 25) or 5,
         get_selection_window = require("utils.windows").get_window
       },
       pickers = {

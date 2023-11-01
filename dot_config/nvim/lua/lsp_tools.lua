@@ -82,6 +82,8 @@ function M.setup()
       "html",
       "clangd",
       "cmake",
+			"debugpy",
+			"taplo",
       "cssls",
     }
   }
@@ -119,12 +121,6 @@ function M.setup()
   lspconfig.cmake.setup{}
   lspconfig.cssls.setup{}
   lspconfig.rust_analyzer.setup{}
-
-  -- Formatters
-  -- lspconfig.autoflake.setup{}
-  -- lspconfig.autopep8.setup{}
-  -- lspconfig["clang-format"].setup{}
 end
-
 
 return M

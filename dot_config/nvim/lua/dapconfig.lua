@@ -15,6 +15,7 @@ function M.setup()
 	end
 	require("dap")
 	require("dap.ext.vscode").json_decode = require("overseer.json").decode
+  require('dap-python').setup('~/.local/share/nvim/mason/packages/debugpy/venv/bin/python')
 	require("dapui").setup{
 
 	}

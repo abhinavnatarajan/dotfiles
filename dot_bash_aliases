@@ -20,7 +20,7 @@ alias la='ls -A'
 alias l='ls -CF'
  
 if [[ $(grep microsoft /proc/version ) ]]; then
-    alias nvd='neovide.exe --wsl --multigrid & disown'
+    alias nvd='neovide.exe --wsl --multigrid --neovim-bin $HOME/.local/bin/nvim & disown'
 else
-    alias nvd='neovide --multigrid & disown'
+    alias nvd='neovide --multigrid $HOME/.local/bin/nvim & disown'
 fi

@@ -131,10 +131,11 @@ function M.load_defaults()
 		vim.g.neovide_remember_window_size = true
 		vim.g.neovide_cursor_animation_length = 0.02
 		vim.g.neovide_cursor_trail_size = 0.5
-		vim.opt.winblend = 25
-		vim.opt.pumblend = 25
+		vim.o.winblend = 25
+		vim.g.pumblend = 25
 		vim.g.neovide_floating_blur_amount_x = 5.0
 		vim.g.neovide_floating_blur_amount_y = 5.0
+		vim.keymap.set({'n', 'i', 'v', 'x', 't'}, '<F11>', function() vim.g.neovide_fullscreen = not vim.g.neovide_fullscreen end, {noremap = true})
 	end
 
 	-- set local defaults via autocommands
