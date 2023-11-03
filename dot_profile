@@ -21,6 +21,10 @@ fi
 export VISUAL=nvim
 export EDITOR=nvim
 
+# add go to PATH
+PATH="$HOME/.go/bin:$PATH"
+
+# add cargo to PATH
 . "$HOME/.cargo/env"
 
 # Add pyenv to path
@@ -32,7 +36,7 @@ eval "$(pyenv init -)"
 eval "$(register-python-argcomplete pipx)"
 
 # vcpkg
-export VCPKG_INSTALLATION_ROOT="$HOME/vcpkg"
+export VCPKG_INSTALLATION_ROOT="$HOME/.vcpkg"
 
 # node version manager
 export NVM_DIR="$HOME/.nvm"

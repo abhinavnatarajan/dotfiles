@@ -114,7 +114,7 @@ M.which_key_defaults = {
 				["u"] = { "<CMD>Telescope undo<CR>", icons.ui.Undo .. " Undo history" }
 			},
 			["\\"] = { [[<CMD>lua require('notify').dismiss({pending = true, silent=true})<CR>]], "Dismiss notifications"},
-			["gx"] = { [[<CMD> exe '!open ' . shellescape(expand('<cfile>'), 1)<CR>}
+			["gx"] = { [[<CMD> exe '!open ' . shellescape(expand('<cfile>'), 1)<CR>]] },
 		}
 	},
 
@@ -262,8 +262,8 @@ M.which_key_defaults = {
 			["<A-.>"] = { "<C-T>", icons.ui.IndentIncrease .. " Increase indentation" },
 
 			-- Delimiter formatting
-			-- ["<C-g>s"] = { "<Plug>(nvim-surround-insert)", "Surround" },
-			-- ["<C-g>S"] = { "<Plug>(nvim-surround-insert-line)", "Surround on new lines" },
+			["<A-s>"] = { "<Plug>(nvim-surround-insert)", "Surround" },
+			["<A-S>"] = { "<Plug>(nvim-surround-insert-line)", "Surround on new lines" },
 		},
 	},
 	{

@@ -82,7 +82,6 @@ function M.setup()
       "html",
       "clangd",
       "cmake",
-			"debugpy",
 			"taplo",
       "cssls",
     }
