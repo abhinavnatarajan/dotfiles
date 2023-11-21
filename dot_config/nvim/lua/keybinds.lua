@@ -334,8 +334,17 @@ M.which_key_defaults = {
 	},
 }
 
+-- Don't yank when replacing text
 M.other_defaults = {
-	{{'v', 'x' }, 'p', '"_dhp', opts={noremap = true, silent = true}} -- paste without yanking
+	{{'v', 'x' }, 'p',
+		function()
+			if vim.fn.mode() == 'v' then
+				vim.api.nvim_feedkeys([["_dhp]], "n", true)
+			elseif vim.fn.mode() == 'V' then
+				vim.api.nvim_feedkeys([["_dP]], "n", true)
+			end
+		end,
+		opts={noremap = true, silent = true}} -- paste without yanking
 }
 
 M.autocmd_keybinds = {
@@ -360,27 +369,6 @@ M.autocmd_keybinds = {
 				vim.keymap.set("n", "q", "<cmd>close<cr>", { desc = "Close window", buffer = true })
 			end,
 		},
-	},
-	{
-		"FileType",
-		{
-			desc = "Shortcut key to source lua files",
-			group = "source_lua_keybinding",
-			pattern = "lua",
-			callback = function()
-				local wk = require("which-key")
-				wk.register ({
-					["<C-CR>"] = {
-						"<CMD>source %<CR>",
-						icons.ui.Reload .. " Source current file",
-						mode = {'n', 'i'},
-						buffer = 0,
-						noremap = true,
-						silent = true
-					}
-				})
-			end,
-		}
 	},
 	{
 		"LspAttach",

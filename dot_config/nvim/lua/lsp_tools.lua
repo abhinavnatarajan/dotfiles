@@ -24,7 +24,12 @@ function M.setup()
       prefix = ' ',
       scope = 'line',
       focusable = false,
-      close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+      close_events = {
+        "BufLeave",
+        "CursorMoved",
+        "InsertEnter",
+        "FocusLost",
+      },
       border = 'rounded',
     },
   })
@@ -43,14 +48,14 @@ function M.setup()
       ["textDocument/signatureHelp"] = vim.lsp.with(
         vim.lsp.handlers.signature_help,
         {
-          focusable = false,
+          focusable = true,
           border = "rounded",
         }
       ),
       ["textDocument/hover"] = vim.lsp.with(
         vim.lsp.handlers.hover,
         {
-          focusable = false,
+          focusable = true,
           border = "rounded",
         }
       )

@@ -2,7 +2,7 @@ local M = {}
 
 function M.silent_auto_indent()
 	local winpos = vim.fn.winsaveview()
-	vim.cmd [[silent exe "normal gg=G"]]
+	vim.cmd [[silent exe "lockmarks normal gg=G"]]
 	vim.schedule(function() vim.fn.winrestview(winpos) end)
 end
 
@@ -32,7 +32,7 @@ end
 
 function M.remove_trailing_whitespace()
 	local winpos = vim.fn.winsaveview()
-	vim.cmd [[ silent %s/\v\s+$//e | noh ]]
+	vim.cmd [[ keepjumps silent %s/\v\s+$//e | noh ]]
 	vim.schedule(function() vim.fn.winrestview(winpos) end)
 end
 
