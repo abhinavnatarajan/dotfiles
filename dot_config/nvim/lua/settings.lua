@@ -34,7 +34,7 @@ function M.load_defaults()
 		list               = true,
 		matchpairs         = { "{:}", "(:)", "[:]" },
 		mouse              = "a", -- allow the mouse to be used in neovim
-		number             = true, -- set numbered lines
+		relativenumber     = true, -- set numbered lines
 		numberwidth        = 3, -- set number column width to 2 {default 4}
 		pumblend           = 8, -- translucent popup menu
 		pumheight          = 150, -- pop up menu height
