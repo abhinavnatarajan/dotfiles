@@ -302,12 +302,12 @@ M.which_key_defaults = {
 	},
 	{
 		-- leap motions
-		mode = {'n', 'x', 'o'},
+		mode = { 'n', 'x', 'o' },
 		mapping = {
-			['<A-f>'] = {'<Plug>(leap-forward-to)', "Leap forward to"},
-			['<A-S-f>'] = {'<Plug>(leap-backward-to)', "Leap backward to"},
-			['<A-t>'] = {'<Plug>(leap-forward-till)', "Leap forward till"},
-			['<A-S-t>'] = {'<Plug>(leap-backward-till)', "Leap backward till"},
+			['<A-f>'] = { '<Plug>(leap-forward-to)', icons.ui.BoldArrowRight .. " Leap forward to" },
+			['<A-S-f>'] = { '<Plug>(leap-backward-to)', icons.ui.BoldArrowLeft .. " Leap backward to" },
+			['<A-t>'] = { '<Plug>(leap-forward-till)', icons.ui.BoldArrowRight .. " Leap forward till" },
+			['<A-S-t>'] = { '<Plug>(leap-backward-till)', icons.ui.BoldArrowLeft .. " Leap backward till" },
 		},
 	},
 
