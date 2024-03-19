@@ -49,6 +49,3 @@ if [ -n "$BASH_VERSION" ]; then
 	. "$HOME/.bashrc"
     fi
 fi
-
-# Created by `pipx` on 2023-10-09 12:27:38
-export PATH="$PATH:/home/abhinav/.local/bin"

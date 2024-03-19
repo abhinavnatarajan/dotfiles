@@ -66,6 +66,7 @@
   "venv-selector.nvim": { "branch": "main", "commit": "2ad34f36d498ff5193ea10f79c87688bd5284172" },
   "vim-easy-align": { "branch": "master", "commit": "0db4ea6132110631ec678a99a82aa49a0686ae65" },
   "vim-illuminate": { "branch": "master", "commit": "305bf07b919ac526deb5193280379e2f8b599926" },
+  "vimtex": { "branch": "master", "commit": "577f7c59a4c0047ef354eb2f6fef39cbdc9a4556" },
   "which-key.nvim": { "branch": "main", "commit": "ce741eb559c924d72e3a67d2189ad3771a231414" },
   "winpick.nvim": { "branch": "trunk", "commit": "51da3eea466c699c9d7245ca908c69dc02498686" }
 }
