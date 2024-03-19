@@ -3,7 +3,6 @@ return {
   event = "User FileOpened",
   config = function()
     local leap = require("leap")
-    leap.add_default_mappings()
     leap.opts.highlight_unlabeled_phase_one_targets = false
     -- leap.opts.safe_labels = {}
     local c = require("onedark.colors")

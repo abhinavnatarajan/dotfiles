@@ -137,7 +137,7 @@ M.which_key_defaults = {
 			["<C-y>"] = {
 				function() require("neoscroll").scroll(-0.1, true, 100) end,
 				icons.ui.ChevronUp .. " Scroll up 10% of window height",
-				mode = {"n", "i", "s"},
+				mode = {"n", "i", "x", "o"},
 			},
 			["<C-u>"] = {
 				function()
@@ -146,12 +146,12 @@ M.which_key_defaults = {
 					end
 				end,
 				icons.ui.ChevronDoubleUp .. " Scroll up",
-				mode = {"n", "i", "s"},
+				mode = {"n", "i", "x", "o"},
 			},
 			["<C-e>"] = {
 				function() require("neoscroll").scroll(0.1, true, 100) end,
 				icons.ui.ChevronDown .. " Scroll down 10% of window height",
-				mode = {"n", "i", "s"},
+				mode = {"n", "i", "x", "o"},
 			},
 			["<C-d>"] = {
 				function()
@@ -160,21 +160,21 @@ M.which_key_defaults = {
 					end
 				end,
 				icons.ui.ChevronDoubleDown .. " Scroll down",
-				mode = {"n", "i", "s"},
+				mode = {"n", "i", "x", "o"},
 			},
-			["<C-b>"] = {
+			["<PageUp>"] = {
 				function()
 					require("neoscroll").scroll(-vim.api.nvim_win_get_height(0), true, 550)
 				end,
 				icons.ui.ChevronTripleUp .. " Page up",
-				mode = {"n", "s"},
+				mode = {"n", "i", "x", "o"},
 			},
-			["<C-f>"] = {
+			["<PageDown>"] = {
 				function()
 					require("neoscroll").scroll(vim.api.nvim_win_get_height(0), true, 550)
 				end,
 				icons.ui.ChevronTripleDown .. " Page down",
-				mode = {"n", "s"}, -- not "i" because <C-f> in insert mode is smart tab
+				mode = {"n", "i", "x", "o"},
 			},
 			["zz"] = { function() require("neoscroll").zz(200) end, "Centre cursor line in window" },
 			["zt"] = { function() require("neoscroll").zt(200) end, "Align cursor line with top of window" },
@@ -268,7 +268,7 @@ M.which_key_defaults = {
 	},
 	{
 		-- visual block mode editing shortcuts
-		mode = { "x", "v" },
+		mode = { "x" },
 		mapping = {
 			["<A-k>"] = { ":m '<-2<CR>gv-gv", icons.ui.MoveUp .. " Move selection up" },
 			["<A-j>"] = { ":m '>+1<CR>gv-gv", icons.ui.MoveDown .. " Move selection down" },
@@ -300,6 +300,17 @@ M.which_key_defaults = {
 			["<A-i>"] = { "Symbol under cursor" } -- provided by vim-illuminate
 		},
 	},
+	{
+		-- leap motions
+		mode = {'n', 'x', 'o'},
+		mapping = {
+			['<A-f>'] = {'<Plug>(leap-forward-to)', "Leap forward to"},
+			['<A-S-f>'] = {'<Plug>(leap-backward-to)', "Leap backward to"},
+			['<A-t>'] = {'<Plug>(leap-forward-till)', "Leap forward till"},
+			['<A-S-t>'] = {'<Plug>(leap-backward-till)', "Leap backward till"},
+		},
+	},
+
 	{
 		-- Debugger
 		mapping = {

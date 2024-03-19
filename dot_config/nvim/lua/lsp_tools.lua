@@ -88,6 +88,7 @@ function M.setup()
       "clangd",
       "cmake",
       "taplo",
+      "texlab",
       "cssls",
     }
   }

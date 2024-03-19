@@ -20,9 +20,11 @@ return {
       sync_install = false,
       highlight = {
         enable = true,
+        disable = "latex",
       },
       indent = {
-        enable = true
+        enable = true,
+        disable = "latex",
       },
       incremental_selection = {
         enable = true,
