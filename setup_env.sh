@@ -82,13 +82,15 @@ cargo install git-delta
 
 # Install neovim
 # https://github.com/neovim/neovim/wiki/Installing-Neovim
+NEOVIM_DEST_FOLDER="${APPFOLDER}/neovim"
 cd $DOWNLOADS
-curl -LSO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
 chmod u+x nvim.appimage
 ./nvim.appimage --appimage-extract
+mkdir -p $NEOVIM_DEST_FOLDER
 # ./squashfs-root/AppRun --version
-mv squashfs-root $LOCALAPPS/neovim
-ln -sf $LOCALAPPS/neovim/AppRun $LOCALBIN/nvim
+mv squashfs-root/* $NEOVIM_DEST_FOLDER
+ln -sf $NEOVIM_DEST_FOLDER/AppRun $LOCALBIN/nvim
 
 # Setup python environment for neovim
 python3 -m venv $HOME/.local/share/venvs/pynvim --upgrade-deps
@@ -102,6 +104,9 @@ cd $DOWNLOADS
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 # Install node
 nvm install node
+
+# Install Tex Live
+sudo apt-get install texlive-full
 
 # Install pandoc
 cd $DOWNLOADS
@@ -118,10 +123,20 @@ cd $DOWNLOADS
 QUARTO_VERSION=$(latest_github_release_version quarto-dev/quarto-cli)
 QUARTO_FILE="quarto-${QUARTO_VERSION}-linux-amd64.tar.gz"
 QUARTO_DEST_FOLDER=$APPFOLDER/quarto
-mkdir $QUARTO_DEST_FOLDER
+mkdir -p $QUARTO_DEST_FOLDER
 curl -LO "https://github.com/quarto-dev/quarto-cli/releases/latest/download/${QUARTO_FILE}"
 tar -xzf ${QUARTO_FILE} --strip-components=1 -C $QUARTO_DEST_FOLDER 
 ln -sf $QUARTO_DEST_FOLDER/bin/quarto $LOCALBIN/quarto
 
-# Install Tex Live
-sudo apt-get install texlive-full
+# Install sioyek
+cd $DOWNLOADS
+SIOYEK_FILE="sioyek-release-linux-portable.zip"
+SIOYEK_APPIMAGE="Sioyek-x86_64.AppImage"
+SIOYEK_DEST_FOLDER=$APPFOLDER/sioyek
+mkdir -p $SIOYEK_DEST_FOLDER
+curl -LO "https://github.com/ahrm/sioyek/releases/latest/download/${SIOYEK_FILE}"
+unzip $SIOYEK_FILE
+chmod u+x $SIOYEK_APPIMAGE
+./${SIOYEK_APPIMAGE} --appimage-extract
+mv squashfs-root/* $SIOYEK_DEST_FOLDER
+ln -sf $SIOYEK_DEST_FOLDER/AppRun $LOCALBIN/sioyek
