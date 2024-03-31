@@ -49,3 +49,10 @@ if [ -n "$BASH_VERSION" ]; then
 	. "$HOME/.bashrc"
     fi
 fi
+
+# if running in WSL2 we will display info to the host IP
+if [ -n "$WSLENV" ]; then
+    export DISPLAY=$(ip route | grep default | awk '{print $3; exit;}'):0.0
+    export GDK_SCALE=2
+    export QT_SCALE_FACTOR=2
+fi

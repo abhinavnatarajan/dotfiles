@@ -60,10 +60,20 @@ function M.setup()
       end, {'i'}),
       ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 
+      -- Snippet expansion
+      ['<C-A-Space>'] = cmp.mapping(function(fallback)
+        if luasnip.expandable(1) then
+          luasnip.expand_or_jump(1)
+        else
+          fallback()
+        end
+      end, {'i', 's'}),
       -- If the completion menu is visible, move to the next item.
       ['<Tab>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item(select_opts)
+        elseif luasnip.jumpable(1) then
+          luasnip.jump(1)
         else
           fallback()
         end
@@ -72,21 +82,7 @@ function M.setup()
       ['<S-Tab>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_prev_item(select_opts)
-        else
-          fallback()
-        end
-      end, {'i', 's'}),
-      -- Jump to the next placeholder in the snippet
-      ['<C-f>'] = cmp.mapping(function(fallback)
-        if luasnip.jumpable(1) then
-          luasnip.jump(1)
-        else
-          fallback()
-        end
-      end, {'i', 's'}),
-      -- Jump to the previous placeholder in the snippet
-      ['<C-b>'] = cmp.mapping(function(fallback)
-        if luasnip.jumpable(-1) then
+        elseif luasnip.jumpable(-1) then
           luasnip.jump(-1)
         else
           fallback()

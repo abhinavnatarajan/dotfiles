@@ -124,4 +124,4 @@ tar -xzf ${QUARTO_FILE} --strip-components=1 -C $QUARTO_DEST_FOLDER
 ln -sf $QUARTO_DEST_FOLDER/bin/quarto $LOCALBIN/quarto
 
 # Install Tex Live
-sudo apt-get install texlive
+sudo apt-get install texlive-full

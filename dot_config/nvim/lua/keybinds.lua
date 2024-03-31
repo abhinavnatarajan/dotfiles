@@ -26,7 +26,7 @@ M.which_key_defaults = {
 				["%"] = { "<CMD>cd %:p:h<CR>", icons.ui.FolderActive .. " Set working directory from active buffer" },
 				["-"] = { "<CMD>cd ..<CR>", icons.ui.FolderUp .. " Go up one directory" },
 				["h"] = { "<CMD>Telescope help_tags<CR>", icons.ui.FindFile .. " Search in help topics" },
-				["\\"] = { "<CMD>Noice telescope<CR>", icons.ui.Notification .. " Notification history" },
+				["<Space>"] = { "<CMD>Noice telescope<CR>", icons.ui.Notification .. " Notification history" },
 				["s"] = {
 					name = icons.ui.Gear.. " Settings",
 					["c"] = { "<CMD>Telescope colorscheme enable_preview=true<CR>", icons.ui.ColourScheme .. " Colorscheme" },
@@ -113,7 +113,7 @@ M.which_key_defaults = {
 				},
 				["u"] = { "<CMD>Telescope undo<CR>", icons.ui.Undo .. " Undo history" }
 			},
-			["\\"] = { [[<CMD>lua require('notify').dismiss({pending = true, silent=true})<CR>]], "Dismiss notifications"},
+			["<F15>"] = { [[<CMD>lua require('notify').dismiss({pending = true, silent=true})<CR>]], "Dismiss notifications"},
 			["gx"] = { [[:exe 'silent !open ' . shellescape(expand('<cfile>', 1))<CR>]], icons.ui.Window .. " Open in external program" },
 		}
 	},
@@ -217,17 +217,17 @@ M.which_key_defaults = {
 			-- Find and replace
 			["<F2>"] = {
 				function()
-					local k = vim.api.nvim_replace_termcodes(":%s/\\<<C-R><C-w>\\>", true, false, true)
-					vim.api.nvim_feedkeys(k, "t", false)
-				end,
-				icons.ui.FindAndReplace .. " Find and replace (whole word)"
-			},
-			["<F50>"] = {
-				function()
 					local k = vim.api.nvim_replace_termcodes(":%s/<C-R><C-w>", true, false, true)
 					vim.api.nvim_feedkeys(k, "t", false)
 				end,
 				icons.ui.FindAndReplace .. " Find and replace"
+			},
+			["<F14>"] = {
+				function()
+					local k = vim.api.nvim_replace_termcodes(":%s/\\<<C-R><C-w>\\>", true, false, true)
+					vim.api.nvim_feedkeys(k, "t", false)
+				end,
+				icons.ui.FindAndReplace .. " Find and replace (whole word)"
 			},
 			["<F3>"] = { "<CMD>noh<CR>", icons.ui.Highlight .. " Clear search highlights" },
 			["*"] = { [[*<Cmd>lua require('hlslens').start()<CR>]], "Search forwards (whole word)" },
@@ -258,6 +258,7 @@ M.which_key_defaults = {
 			["<A-k>"] = { "<Esc>:m .-2<CR>==gi", icons.ui.MoveUp .. " Move line up" },
 			["<A-/>"] = { require("utils.editing").comment_in_insert_mode, icons.ui.Comment .. " Toggle comment", noremap = false },
 			["<F3>"] = { "<CMD>noh<CR>", "Turn off search highlights" },
+			["<F15>"] = { [[<CMD>lua require('notify').dismiss({pending = true, silent=true})<CR>]], "Dismiss notifications" },
 			["<A-,>"] = { "<C-D>", icons.ui.IndentDecrease .. " Decrease indentation" },
 			["<A-.>"] = { "<C-T>", icons.ui.IndentIncrease .. " Increase indentation" },
 
@@ -441,7 +442,7 @@ M.autocmd_keybinds = {
 					bufmap('x', '+', function() require("utils.editing").lsp_format() end, icons.ui.Indent .. " Auto-format file")
 				end
 				if client_capabilities.renameProvider then
-					bufmap('n', '<F51>', vim.lsp.buf.rename, icons.syntax.Object .. " Rename symbol")
+					bufmap('n', '<F50>', vim.lsp.buf.rename, icons.syntax.Object .. " Rename symbol")
 				end
 				if client_capabilities.definitionProvider then
 					bufmap('n', 'gd', vim.lsp.buf.definition, "Go to definition")

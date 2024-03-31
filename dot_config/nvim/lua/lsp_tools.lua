@@ -126,6 +126,7 @@ function M.setup()
   lspconfig.cmake.setup{}
   lspconfig.cssls.setup{}
   lspconfig.rust_analyzer.setup{}
+  lspconfig.texlab.setup{}
 end
 
 return M

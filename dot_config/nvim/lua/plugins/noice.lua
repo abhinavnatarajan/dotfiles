@@ -15,6 +15,14 @@ return {
   },
   config = function()
     require('noice').setup({
+      views = {
+        cmdline_popup = {
+          position = {
+            row = "10%",
+            col = "50%",
+          },
+        }
+      },
       cmdline = {
         enabled = true, -- enables the Noice cmdline UI
         view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
@@ -30,7 +38,7 @@ return {
           search_up = { kind = "search", pattern = "^%?", icon = " ", lang = "regex" },
           filter = { pattern = "^:%s*!", icon = "$", lang = "bash" },
           lua = { pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua" },
-          help = { pattern = "^:%s*he?l?p?%s+", icon = "" },
+          help = { pattern = "^:%s*he?l?p?%s+", icon = "" },
           input = {}, -- Used by input()
           -- lua = false, -- to disable a format, set to `false`
         },
@@ -192,7 +200,6 @@ return {
         lsp_doc_border = false, -- add a border to hover docs and signature help
       },
       throttle = 1000 / 30, -- how frequently does Noice need to check for ui updates? This has no effect when in blocking mode.
-      views = {}, ---@see section on views
       routes = {}, --- @see section on routes
       status = {}, --- @see section on statusline components
       format = {}, --- @see section on formatting
