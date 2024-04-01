@@ -1,5 +1,5 @@
 local M = {}
-
+local icons = require("icons")
 function M.silent_auto_indent()
 	local winpos = vim.fn.winsaveview()
 	vim.cmd [[silent exe "lockmarks normal gg=G"]]
@@ -124,6 +124,25 @@ function M.choose_global_indent()
 					end
 				)
 			end
+		end
+	)
+end
+
+function M.choose_file_newline()
+	local options = {
+		[icons.ui.Unix .. ' unix'] = "unix",
+		[icons.ui.Windows .. ' windows'] = "dos",
+		[icons.ui.MacOS .. ' macOS'] = "mac",
+	}
+	local display_options = {}
+	for k, _ in pairs(options) do
+		table.insert(display_options, k)
+	end
+	vim.ui.select(
+		display_options,
+		{ prompt = "Choose newline format" },
+		function(opt)
+			if opt then vim.bo.fileformat = options[opt] end
 		end
 	)
 end

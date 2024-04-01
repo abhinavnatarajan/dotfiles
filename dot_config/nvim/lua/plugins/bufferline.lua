@@ -35,7 +35,7 @@ return {
           style = 'icon',
           icon = '▎',
         },
-        separator_style = "slope",
+        separator_style = "slant",
         show_tab_indicators = true,
         move_wraps_at_ends = false, -- moving buffers wraps around at ends
         enforce_regular_tabs = false, -- enforce all visual tabs have same size
@@ -48,7 +48,6 @@ return {
             separator = true
           }
         },
-        -- separator_style = 'slant',
         always_show_bufferline = true,
         sort_by = 'insert_at_end'
       }

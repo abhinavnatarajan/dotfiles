@@ -153,7 +153,17 @@ return {
 				},
 				lualine_y = {
 					'encoding',
-					'fileformat',
+					{
+						function()
+							local symbols = {
+								unix = '', -- e712
+								dos = '',  -- e70f
+								mac = '',  -- e711
+							}
+							return symbols[vim.bo.fileformat]
+						end,
+						on_click = require("utils.editing").choose_file_newline
+					},
 					{
 						'filetype',
 						on_click = function() vim.cmd("Telescope filetypes") end

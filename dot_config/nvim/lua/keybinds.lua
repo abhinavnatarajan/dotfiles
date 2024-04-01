@@ -15,7 +15,6 @@ M.which_key_defaults = {
 			["<leader>"] = {
 				name = icons.ui.Files .. " Leader shortcuts",
 				[";"] = { "<CMD>Alpha<CR>", icons.ui.Dashboard .. " Dashboard" },
-				["n"] = { [[<CMD>lua require("utils.windows").edit_new_file_handler()<CR>]], icons.ui.NewFile .. " New file" },
 				["w"] = { [[<CMD>lua require("telescope_custom_pickers").check_save_as()<CR>]], icons.ui.Save .. " Save" },
 				["<A-w>"] = { [[<CMD>lua require("telescope_custom_pickers").save_as()<CR>]], icons.ui.SaveAs .. " Save as" },
 				["W"] = { "<CMD>wa!<CR>", icons.ui.SaveAll .. " Save all" },
@@ -26,7 +25,7 @@ M.which_key_defaults = {
 				["%"] = { "<CMD>cd %:p:h<CR>", icons.ui.FolderActive .. " Set working directory from active buffer" },
 				["-"] = { "<CMD>cd ..<CR>", icons.ui.FolderUp .. " Go up one directory" },
 				["h"] = { "<CMD>Telescope help_tags<CR>", icons.ui.FindFile .. " Search in help topics" },
-				["<Space>"] = { "<CMD>Noice telescope<CR>", icons.ui.Notification .. " Notification history" },
+				["!"] = { "<CMD>Noice telescope<CR>", icons.ui.Notification .. " Notification history" },
 				["s"] = {
 					name = icons.ui.Gear.. " Settings",
 					["c"] = { "<CMD>Telescope colorscheme enable_preview=true<CR>", icons.ui.ColourScheme .. " Colorscheme" },
@@ -48,6 +47,8 @@ M.which_key_defaults = {
 					["r"] = { [[<CMD>Telescope oldfiles<CR>]], icons.ui.History .. " Recent files" },
 					["t"] = { [[<CMD>Telescope filetypes<CR>]], icons.syntax.Text .. " Set filetype" },
 					["i"] = { require("utils.editing").choose_buffer_indent, icons.ui.Indent .. " Set indentation" },
+					["n"] = { [[<CMD>lua require("utils.windows").edit_new_file_handler()<CR>]], icons.ui.NewFile .. " New file" },
+					["m"] = { require("utils.editing").choose_file_newline, icons.ui.ReturnCharacter .. " Set newline format" }
 				},
 				["P"] = {
 					name = icons.ui.ToolBox .. " Plugins",
