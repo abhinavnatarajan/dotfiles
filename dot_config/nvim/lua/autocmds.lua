@@ -57,6 +57,7 @@ local defaults = {
 				"mason",
 				"Trouble",
 				"alpha",
+				"NvimTree"
 			},
 			callback = function()
 				vim.opt_local.buflisted = false

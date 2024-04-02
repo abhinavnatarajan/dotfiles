@@ -105,9 +105,13 @@ M.save_as = function(opts)
             )
           else
             actions.close(prompt_bufnr)
-            vim.cmd("silent saveas! " .. entry_path:absolute())
+            opts = opts or {}
             local close_current = opts.close_current or false
-            if close_current then bufdelete(vim.fn.bufnr('#'), true) end
+            if close_current then
+              vim.cmd("w! " .. entry_path:absolute())
+            else
+              vim.cmd("saveas! " .. entry_path:absolute())
+            end
           end
         end
       end
@@ -119,7 +123,9 @@ end
 
 M.check_save_as = function()
   if vim.api.nvim_buf_get_name(0) == "" then
-    require("telescope_custom_pickers").save_as{close_current=true}
+    require("telescope_custom_pickers").save_as{
+      close_current=true,
+    }
   else
     vim.cmd [[silent w!]]
   end
