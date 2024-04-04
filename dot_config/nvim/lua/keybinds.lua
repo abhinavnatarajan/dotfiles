@@ -1,7 +1,7 @@
 local M = {}
 
 local DefaultOpts = require("utils").prototype {
-	buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
+	buffer = nil,  -- Global mappings. Specify a buffer number for buffer local mappings
 	silent = true, -- use `silent` when creating keymaps
 	noremap = true, -- use `noremap` when creating keymaps
 	nowait = true, -- use `nowait` when creating keymaps
@@ -26,22 +26,24 @@ M.which_key_defaults = {
 				["-"] = { "<CMD>cd ..<CR>", icons.ui.FolderUp .. " Go up one directory" },
 				["h"] = { "<CMD>Telescope help_tags<CR>", icons.ui.FindFile .. " Search in help topics" },
 				["!"] = { "<CMD>Noice telescope<CR>", icons.ui.Notification .. " Notification history" },
+				["C"] = { "q:i", icons.ui.Terminal .. " Command history" },
+				["T"] = { "<CMD>Telescope<CR>", icons.ui.Telescope .. " Telescope" },
 				["s"] = {
-					name = icons.ui.Gear.. " Settings",
+					name  = icons.ui.Gear .. " Settings",
 					["c"] = { "<CMD>Telescope colorscheme enable_preview=true<CR>", icons.ui.ColourScheme .. " Colorscheme" },
 					["f"] = { [[<CMD>lua require("telescope_custom_pickers").config()<CR>]], icons.ui.ConfigFolder .. " Browse config files" },
 					["i"] = { require("utils.editing").choose_global_indent, icons.ui.Indent .. " Set indentation" },
 				},
 				["k"] = {
-					name = icons.ui.Project .. " Workspaces",
+					name  = icons.ui.Project .. " Workspaces",
 					["f"] = { [[<CMD>SessionManager load_session<CR>]], icons.ui.FindFolder .. " Load workspace" },
 					["r"] = { [[<CMD>SessionManager load_last_session<CR>]], icons.ui.History .. " Load last session" },
-					["d"] = { [[<CMD>SessionManager delete_session<CR>]], icons.ui.Trash .. " Delete workspace"},
+					["d"] = { [[<CMD>SessionManager delete_session<CR>]], icons.ui.Trash .. " Delete workspace" },
 					["w"] = { "<CMD>SessionManager save_current_session<CR>", icons.ui.Save .. " Save current workspace" },
 				},
 				["f"] = {
+					name  = icons.ui.Files .. " Files",
 					["w"] = { [[<CMD>lua require("telescope_custom_pickers").save_as()<CR>]], icons.ui.SaveAs .. " Save as" },
-					name = icons.ui.Files .. " Files",
 					["f"] = { [[<CMD>lua require("telescope.builtin").find_files()<CR>]], icons.ui.FindFile .. " Find files in cwd" },
 					["d"] = { "<CMD>Telescope file_browser<CR>", icons.ui.FolderOpen .. " Browse files" },
 					["g"] = { [[<CMD>Telescope live_grep<CR>]], icons.ui.FindText .. " Search text" },
@@ -57,13 +59,13 @@ M.which_key_defaults = {
 					["f"] = { "<CMD>Telescope lazy<CR>", icons.ui.FolderOpen .. " Explore plugin files" },
 				},
 				["b"] = {
-					name = icons.ui.Files .. " Buffers",
+					name  = icons.ui.Files .. " Buffers",
 					["j"] = { "<CMD>BufferLinePick<CR>", icons.ui.GotoFile .. " Jump to buffer" },
 					["f"] = { [[<CMD> lua require("telescope_custom_pickers").buffers()<CR>]], icons.ui.FindFile .. " Find buffer" },
 					["p"] = { "<CMD>BufferLineTogglePin<CR>", icons.ui.Pin .. " Pin buffer" },
 				},
 				["g"] = {
-					name = icons.git.Git .. " Git",
+					name  = icons.git.Git .. " Git",
 					["g"] = { "<CMD>LazyGit<CR>", icons.git.Branch .. " Open lazygit console" },
 					["s"] = { function() require("gitsigns").stage_hunk() end, "Stage hunk" },
 					["r"] = { function() require("gitsigns").reset_hunk() end, "Reset hunk" },
@@ -71,12 +73,12 @@ M.which_key_defaults = {
 					["p"] = { function() require("gitsigns").preview_hunk() end, "Preview hunk" },
 					["S"] = { function() require("gitsigns").stage_buffer() end, "Stage buffer" },
 					["R"] = { function() require("gitsigns").reset_buffer() end, "Reset buffer" },
-					["d"] = { function() require("gitsigns").diffthis(nil,{ split = "rightbelow" }) end, "Diff this" },
+					["d"] = { function() require("gitsigns").diffthis(nil, { split = "rightbelow" }) end, "Diff this" },
 					["D"] = { function() require("gitsigns").diffthis("~") end, "Diff this" },
 					["t"] = { function() require("gitsigns").toggle_deleted() end, "Toggle deleted" },
 				},
 				["x"] = {
-					name = icons.ui.DebugConsole .. " Diagnostics",
+					name  = icons.ui.DebugConsole .. " Diagnostics",
 					["x"] = { "<CMD>TroubleToggle<CR>", icons.ui.DebugConsole .. " Toggle diagnostics" },
 					["w"] = { "<CMD>TroubleToggle workspace_diagnostics<CR>", icons.ui.Project .. " Workspace diagnostics" },
 					["d"] = { "<CMD>TroubleToggle document_diagnostics<CR>", icons.ui.CodeFile .. " Document diagnostics" },
@@ -84,11 +86,11 @@ M.which_key_defaults = {
 					["l"] = { "<CMD>TroubleToggle loclist<CR>", icons.ui.Location .. " Location list" },
 				},
 				["L"] = {
-					name = icons.ui.Lightbulb .. " LSP",
+					name  = icons.ui.Lightbulb .. " LSP",
 					["m"] = { "<CMD>Mason<CR>", icons.ui.Configure .. " Manage installed LSP servers" },
 				},
 				["t"] = {
-					name = icons.ui.Tab .. " Tabs",
+					name  = icons.ui.Tab .. " Tabs",
 					["e"] = { "<CMD>tab split<CR>", icons.ui.Edit .. " Edit in new tab" },
 					["o"] = { "<CMD>tabonly<CR>", "Close all other tabs" },
 					["n"] = { "<CMD>tab split<CR>", icons.ui.OpenInNew .. " New file in new tab" },
@@ -99,7 +101,7 @@ M.which_key_defaults = {
 					["j"] = {
 						function()
 							vim.ui.input(
-								{prompt = "Go to tab:" },
+								{ prompt = "Go to tab:" },
 								function(input)
 									vim.cmd("silent! tabnext" .. input)
 								end
@@ -109,14 +111,14 @@ M.which_key_defaults = {
 					}
 				},
 				["`"] = {
-					name = icons.ui.Terminal .. " Terminals",
-					["f"] = {"<CMD>TermSelect<CR>", icons.ui.Select .. " Select terminal"},
-					["r"] = {"<CMD>ToggleTermSetName<CR>", icons.syntax.String .. " Rename terminal"}
+					name  = icons.ui.Terminal .. " Terminals",
+					["f"] = { "<CMD>TermSelect<CR>", icons.ui.Select .. " Select terminal" },
+					["r"] = { "<CMD>ToggleTermSetName<CR>", icons.syntax.String .. " Rename terminal" }
 				},
 				["u"] = { "<CMD>Telescope undo<CR>", icons.ui.Undo .. " Undo history" }
 			},
-			["<F15>"] = { [[<CMD>lua require('notify').dismiss({pending = true, silent=true})<CR>]], "Dismiss notifications"},
-			["gx"] = { [[:exe 'silent !open ' . shellescape(expand('<cfile>', 1))<CR>]], icons.ui.Window .. " Open in external program" },
+			["<F15>"]    = { [[<CMD>lua require('notify').dismiss({pending = true, silent=true})<CR>]], "Dismiss notifications" },
+			["gx"]       = { [[:exe 'silent !open ' . shellescape(expand('<cfile>', 1))<CR>]], icons.ui.Window .. " Open in external program" },
 		}
 	},
 
@@ -124,22 +126,22 @@ M.which_key_defaults = {
 		-- Navigation and resizing
 		mapping = {
 			-- Buffer movement
-			["<A-h>"] = { "<CMD>BufferLineCyclePrev<CR>", icons.ui.ChevronLeftCircleOutline .. " Previous buffer", mode = {"n", "i"} },
-			["<A-l>"] = { "<CMD>BufferLineCycleNext<CR>", icons.ui.ChevronRightCircleOutline .. " Next buffer", mode = {"n", "i"} },
-			["<A-H>"] = { "<CMD>BufferLineMovePrev<CR>", icons.ui.ChevronLeftCircle .. " Move buffer left", mode = {"n", "i"} },
-			["<A-L>"] = { "<CMD>BufferLineMoveNext<CR>", icons.ui.ChevronRightCircle .. " Move buffer right", mode = {"n", "i"} },
+			["<A-h>"] = { "<CMD>BufferLineCyclePrev<CR>", icons.ui.ChevronLeftCircleOutline .. " Previous buffer", mode = { "n", "i" } },
+			["<A-l>"] = { "<CMD>BufferLineCycleNext<CR>", icons.ui.ChevronRightCircleOutline .. " Next buffer", mode = { "n", "i" } },
+			["<A-H>"] = { "<CMD>BufferLineMovePrev<CR>", icons.ui.ChevronLeftCircle .. " Move buffer left", mode = { "n", "i" } },
+			["<A-L>"] = { "<CMD>BufferLineMoveNext<CR>", icons.ui.ChevronRightCircle .. " Move buffer right", mode = { "n", "i" } },
 			-- Window movement
 			["<C-w>"] = { icons.ui.Window .. " Manage windows" },
 			-- ["<C-w>S"] = { require("utils.windows").swap_window, icons.ui.Swap .. " Swap windows" },
-			["<C-h>"] = { "<CMD>wincmd h<CR>", icons.ui.ChevronLeftBoxOutline .. " Go to the left window", mode = {"n", "i"} },
-			["<C-j>"] = { "<CMD>wincmd j<CR>", icons.ui.ChevronDownBoxOutline .. " Go to the down window", mode = {"n", "i"} },
-			["<C-k>"] = { "<CMD>wincmd k<CR>", icons.ui.ChevronUpBoxOutline .. " Go to the up window", mode = {"n", "i"} },
-			["<C-l>"] = { "<CMD>wincmd l<CR>", icons.ui.ChevronRightBoxOutline .. " Go to the right window", mode = {"n", "i"} },
+			["<C-h>"] = { "<CMD>wincmd h<CR>", icons.ui.ChevronLeftBoxOutline .. " Go to the left window", mode = { "n", "i" } },
+			["<C-j>"] = { "<CMD>wincmd j<CR>", icons.ui.ChevronDownBoxOutline .. " Go to the down window", mode = { "n", "i" } },
+			["<C-k>"] = { "<CMD>wincmd k<CR>", icons.ui.ChevronUpBoxOutline .. " Go to the up window", mode = { "n", "i" } },
+			["<C-l>"] = { "<CMD>wincmd l<CR>", icons.ui.ChevronRightBoxOutline .. " Go to the right window", mode = { "n", "i" } },
 			-- Smooth scrolling
 			["<C-y>"] = {
 				function() require("neoscroll").scroll(-0.1, true, 100) end,
 				icons.ui.ChevronUp .. " Scroll up 10% of window height",
-				mode = {"n", "i", "x", "o"},
+				mode = { "n", "i", "x", "o" },
 			},
 			["<C-u>"] = {
 				function()
@@ -148,12 +150,12 @@ M.which_key_defaults = {
 					end
 				end,
 				icons.ui.ChevronDoubleUp .. " Scroll up",
-				mode = {"n", "i", "x", "o"},
+				mode = { "n", "i", "x", "o" },
 			},
 			["<C-e>"] = {
 				function() require("neoscroll").scroll(0.1, true, 100) end,
 				icons.ui.ChevronDown .. " Scroll down 10% of window height",
-				mode = {"n", "i", "x", "o"},
+				mode = { "n", "i", "x", "o" },
 			},
 			["<C-d>"] = {
 				function()
@@ -162,21 +164,21 @@ M.which_key_defaults = {
 					end
 				end,
 				icons.ui.ChevronDoubleDown .. " Scroll down",
-				mode = {"n", "i", "x", "o"},
+				mode = { "n", "i", "x", "o" },
 			},
 			["<PageUp>"] = {
 				function()
 					require("neoscroll").scroll(-vim.api.nvim_win_get_height(0), true, 550)
 				end,
 				icons.ui.ChevronTripleUp .. " Page up",
-				mode = {"n", "i", "x", "o"},
+				mode = { "n", "i", "x", "o" },
 			},
 			["<PageDown>"] = {
 				function()
 					require("neoscroll").scroll(vim.api.nvim_win_get_height(0), true, 550)
 				end,
 				icons.ui.ChevronTripleDown .. " Page down",
-				mode = {"n", "i", "x", "o"},
+				mode = { "n", "i", "x", "o" },
 			},
 			["zz"] = { function() require("neoscroll").zz(200) end, "Centre cursor line in window" },
 			["zt"] = { function() require("neoscroll").zt(200) end, "Align cursor line with top of window" },
@@ -188,7 +190,7 @@ M.which_key_defaults = {
 			["<C-Right>"] = { "<CMD>vertical resize +2<CR>", icons.ui.ExpandHorizontal .. " Expand window horizontally" },
 			-- Terminal keys
 			["<A-`>"] = { icons.ui.Terminal .. " Toggle terminal" },
-			["<C-CR>"] = { [[<CMD>ToggleTermSendCurrentLine<CR>]], icons.ui.Terminal .." Run line in terminal" },
+			["<C-CR>"] = { [[<CMD>ToggleTermSendCurrentLine<CR>]], icons.ui.Terminal .. " Run line in terminal" },
 		}
 	},
 
@@ -291,7 +293,7 @@ M.which_key_defaults = {
 				end,
 				"Find and replace highlighted"
 			},
-			["<A-CR>"] = { [[:ToggleTermSendVisualSelection<CR>gv]], icons.ui.Terminal .. " Run selection in terminal"},
+			["<A-CR>"] = { [[:ToggleTermSendVisualSelection<CR>gv]], icons.ui.Terminal .. " Run selection in terminal" },
 			["<C-CR>"] = { [[:ToggleTermSendVisualLines<CR>gv]], icons.ui.Terminal .. " Run selected lines in terminal" },
 			["<A-i>"] = { "Symbol under cursor" } -- provided by vim-illuminate
 		}
@@ -319,26 +321,26 @@ M.which_key_defaults = {
 		mapping = {
 			["<F5>"] = {
 				name = icons.debug.Debug .. " Debug",
-				["t"] = { require"dap".toggle_breakpoint, "Toggle Breakpoint" },
-				["b"] = { require"dap".step_back, "Step Back" },
-				["c"] = { require"dap".continue, "Continue" },
-				["C"] = { require"dap".run_to_cursor, "Run To Cursor" },
-				["d"] = { require"dap".disconnect, "Disconnect" },
-				["g"] = { require"dap".session, "Get Session" },
-				["i"] = { require"dap".step_into, "Step Into" },
-				["o"] = { require"dap".step_over, "Step Over" },
-				["u"] = { require"dap".step_out, "Step Out" },
-				["p"] = { require"dap".pause, "Pause" },
-				["r"] = { require"dap".repl.toggle, "Toggle Repl" },
-				["s"] = { require"dap".continue, "Start" },
-				["q"] = { require"dap".close, "Quit" },
-				["U"] = { function() require"dapui".toggle({reset = true}) end, "Toggle UI" },
+				["t"] = { require "dap".toggle_breakpoint, "Toggle Breakpoint" },
+				["b"] = { require "dap".step_back, "Step Back" },
+				["c"] = { require "dap".continue, "Continue" },
+				["C"] = { require "dap".run_to_cursor, "Run To Cursor" },
+				["d"] = { require "dap".disconnect, "Disconnect" },
+				["g"] = { require "dap".session, "Get Session" },
+				["i"] = { require "dap".step_into, "Step Into" },
+				["o"] = { require "dap".step_over, "Step Over" },
+				["u"] = { require "dap".step_out, "Step Out" },
+				["p"] = { require "dap".pause, "Pause" },
+				["r"] = { require "dap".repl.toggle, "Toggle Repl" },
+				["s"] = { require "dap".continue, "Start" },
+				["q"] = { require "dap".close, "Quit" },
+				["U"] = { function() require "dapui".toggle({ reset = true }) end, "Toggle UI" },
 			}
 		}
 	},
 	{
 		-- Terminal mode mappings
-		opts = DefaultOpts {mode = "t"},
+		opts = DefaultOpts { mode = "t" },
 		mapping = {
 			["<C-k>"] = { [[<CMD>wincmd k<CR>]], icons.ui.ChevronUpBoxOutline .. " Go to the up window" },
 			["<C-j>"] = { [[<CMD>wincmd j<CR>]], icons.ui.ChevronDownBoxOutline .. " Go to the down window" },
@@ -350,7 +352,9 @@ M.which_key_defaults = {
 
 -- Don't yank when replacing text
 M.other_defaults = {
-	{{'v', 'x' }, 'p',
+	{
+		{ 'v', 'x' },
+		'p',
 		function()
 			if vim.fn.mode() == 'v' then
 				vim.api.nvim_feedkeys([["_dhp]], "n", true)
@@ -358,7 +362,8 @@ M.other_defaults = {
 				vim.api.nvim_feedkeys([["_dP]], "n", true)
 			end
 		end,
-		opts={noremap = true, silent = true}} -- paste without yanking
+		opts = { noremap = true, silent = true }
+	}                                     -- paste without yanking
 }
 
 M.autocmd_keybinds = {
@@ -390,13 +395,13 @@ M.autocmd_keybinds = {
 			desc = "Shortcut key to change python virtual environment for LSP",
 			group = "venv_select",
 			callback = function(args)
-				if vim.lsp.get_client_by_id( args.data.client_id).name == "pyright" then
+				if vim.lsp.get_client_by_id(args.data.client_id).name == "pyright" then
 					require "nvim-web-devicons"
 					local wk = require("which-key")
-					wk.register (
+					wk.register(
 						{
 							["<leader>Lv"] = {
-								name = require "nvim-web-devicons".get_icon_by_filetype("python") ..  " Manage python virtual envs",
+								name = require "nvim-web-devicons".get_icon_by_filetype("python") .. " Manage python virtual envs",
 								["f"] = { "<CMD>VenvSelect<CR>", icons.ui.Search .. " Find environment" },
 								["i"] = { "<CMD>VenvSelectCurrent<CR>", icons.ui.ChevronRightBoxOutline .. " Current environment info" },
 								["r"] = { "<CMD>VenvSelectCached<CR>", icons.ui.History .. " Initialise last used environment" },
@@ -419,7 +424,7 @@ M.autocmd_keybinds = {
 			group = "escape_in_toggleterm",
 			pattern = "term://*toggleterm#*",
 			callback = function()
-				vim.keymap.set('t', "<Esc>", [[<C-\><C-n>]], {desc = "Normal mode", buffer = true})
+				vim.keymap.set('t', "<Esc>", [[<C-\><C-n>]], { desc = "Normal mode", buffer = true })
 			end,
 		}
 	},
@@ -429,16 +434,18 @@ M.autocmd_keybinds = {
 		{
 			group = "lsp_keybindings",
 			callback = function(args)
-				local opts = {buffer = args.buf}
-				local bufmap = function(mode, lhs, rhs, desc) vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", opts, {desc = desc})) end
+				local opts = { buffer = args.buf }
+				local bufmap = function(mode, lhs, rhs, desc) vim.keymap.set(mode, lhs, rhs,
+						vim.tbl_extend("force", opts, { desc = desc })) end
 				local client_capabilities = vim.lsp.get_client_by_id(args.data.client_id).server_capabilities
 
-				bufmap('n', '<leader>Li', "<CMD>LspInfo<CR>", icons.diagnostics.Information .. " LSP clients info" )
+				bufmap('n', '<leader>Li', "<CMD>LspInfo<CR>", icons.diagnostics.Information .. " LSP clients info")
 				bufmap('n', '<leader>Lr', "<CMD>LspRestart<CR>", icons.ui.Reload .. " Restart clients attached to this buffer")
 				bufmap('n', '<leader>Lx', "<CMD>LspStop<CR>", icons.ui.BoldClose .. " Kill clients attached to this buffer")
 				bufmap('n', '<leader>Ls', "<CMD>LspStart<CR>", icons.ui.Play .. " Start clients for this buffer")
 				if client_capabilities.documentFormattingProvider then
-					bufmap('n', '<leader>+', function() require("utils.editing").lsp_format() end, icons.ui.Indent .. " Auto-format file")
+					bufmap('n', '<leader>+', function() require("utils.editing").lsp_format() end,
+						icons.ui.Indent .. " Auto-format file")
 				end
 				if client_capabilities.documentRangeFormattingProvider then
 					bufmap('x', '+', function() require("utils.editing").lsp_format() end, icons.ui.Indent .. " Auto-format file")
@@ -483,8 +490,8 @@ M.autocmd_keybinds = {
 
 function M.load_defaults()
 	local wk = require("which-key")
-	for _,v in ipairs(M.which_key_defaults) do
-		wk.register(v.mapping, v.opts or DefaultOpts{mode = v.mode or "n" })
+	for _, v in ipairs(M.which_key_defaults) do
+		wk.register(v.mapping, v.opts or DefaultOpts { mode = v.mode or "n" })
 	end
 	for _, mapping in pairs(M.other_defaults) do
 		vim.keymap.set(unpack(mapping))

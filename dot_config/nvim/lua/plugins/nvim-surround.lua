@@ -6,23 +6,15 @@ return {
     require('nvim-surround').setup({
       -- Configuration here, or leave empty to use defaults
       keymaps = {
-        normal = false,
-        normal_line = false,
-        normal_cur = false,
+        normal          = false,
+        normal_line     = false,
+        normal_cur      = false,
         normal_cur_line = false,
-        insert = false,
-        insert_line = false,
-        visual = false,
-        visual_line = false,
+        insert          = false,
+        insert_line     = false,
+        visual          = false,
+        visual_line     = false,
       },
-      surrounds = {
-        ["e"] = {
-          add = function()
-            local env = require("nvim-surround.config").get_input "Environment: "
-            return { { "\\begin{" .. env .. "}" }, { "\\end{" .. env .. "}" } }
-          end,
-        },
-      }
     })
   end
 }
