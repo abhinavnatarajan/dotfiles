@@ -17,7 +17,6 @@ M.which_key_defaults = {
 				[";"] = { "<CMD>Alpha<CR>", icons.ui.Dashboard .. " Dashboard" },
 				["a"] = { require("utils.windows").toggle_aerial, icons.ui.FileTree .. " Outline (aerial)" },
 				["w"] = { [[<CMD>lua require("telescope_custom_pickers").check_save_as()<CR>]], icons.ui.Save .. " Save" },
-				["<A-w>"] = { [[<CMD>lua require("telescope_custom_pickers").save_as()<CR>]], icons.ui.SaveAs .. " Save as" },
 				["W"] = { "<CMD>wa!<CR>", icons.ui.SaveAll .. " Save all" },
 				["c"] = { "<CMD>confirm Bdelete<CR>", icons.ui.BoldClose .. " Close buffer" },
 				["e"] = { require("utils.windows").toggle_nvimtree, icons.ui.FileTree .. " Explorer" },
@@ -41,6 +40,7 @@ M.which_key_defaults = {
 					["w"] = { "<CMD>SessionManager save_current_session<CR>", icons.ui.Save .. " Save current workspace" },
 				},
 				["f"] = {
+					["w"] = { [[<CMD>lua require("telescope_custom_pickers").save_as()<CR>]], icons.ui.SaveAs .. " Save as" },
 					name = icons.ui.Files .. " Files",
 					["f"] = { [[<CMD>lua require("telescope.builtin").find_files()<CR>]], icons.ui.FindFile .. " Find files in cwd" },
 					["d"] = { "<CMD>Telescope file_browser<CR>", icons.ui.FolderOpen .. " Browse files" },

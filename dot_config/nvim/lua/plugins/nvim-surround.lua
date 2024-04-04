@@ -1,6 +1,6 @@
 return {
   'kylechui/nvim-surround', --delimiter manipulation
-  version = '*', -- Use for stability; omit to use `main` branch for the latest features
+  version = '*',            -- Use for stability; omit to use `main` branch for the latest features
   event = 'User FileOpened',
   config = function()
     require('nvim-surround').setup({
@@ -15,6 +15,14 @@ return {
         visual = false,
         visual_line = false,
       },
+      surrounds = {
+        ["e"] = {
+          add = function()
+            local env = require("nvim-surround.config").get_input "Environment: "
+            return { { "\\begin{" .. env .. "}" }, { "\\end{" .. env .. "}" } }
+          end,
+        },
+      }
     })
   end
 }

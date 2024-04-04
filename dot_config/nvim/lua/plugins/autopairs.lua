@@ -15,6 +15,7 @@ return {
       Rule("", "\\", {"tex", "latex"})
         :use_key("\\")
         :with_pair(cond.none())
+        :with_del(cond.none())
         :with_move(function(opts)
           local check_chars = opts.line:sub(opts.col, opts.col+1)
           return check_chars == "\\}" or check_chars == "\\]"

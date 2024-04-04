@@ -20,3 +20,4 @@
 	prompt = false
 [credential]
 	credentialStore = gpg
+	helper = store
