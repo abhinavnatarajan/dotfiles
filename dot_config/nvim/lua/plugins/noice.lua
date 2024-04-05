@@ -76,7 +76,7 @@ return {
               { event = "notify" },
               { error = true },
               { warning = true },
-              { event = "msg_show", kind = { "" } },
+              { event = "msg_show", kind = { "", "echo", "echomsg" } },
               { event = "lsp", kind = "message" },
             },
           },

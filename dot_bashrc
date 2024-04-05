@@ -144,11 +144,11 @@ export CONDA_AUTO_ACTIVATE_BASE=false
 
 # >>> nnn config >>>
 # Start nnn in the current directory
-nnn_cd() 
+nnn_cd()
 {
     if ! [ -z "$NNN_PIPE" ]; then
         printf "%s\0" "0c${PWD}" > "${NNN_PIPE}" !&
-    fi  
+    fi
 }
 
 trap nnn_cd EXIT

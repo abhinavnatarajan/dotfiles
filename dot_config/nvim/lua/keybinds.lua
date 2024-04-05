@@ -146,7 +146,7 @@ M.which_key_defaults = {
 			["<C-u>"] = {
 				function()
 					if not require("noice.lsp").scroll(-4) then
-						require("neoscroll").scroll(-vim.wo.scroll, true, 350)
+						require("neoscroll").scroll(-vim.wo.scroll, true, 100)
 					end
 				end,
 				icons.ui.ChevronDoubleUp .. " Scroll up",
@@ -160,7 +160,7 @@ M.which_key_defaults = {
 			["<C-d>"] = {
 				function()
 					if not require("noice.lsp").scroll(4) then
-						require("neoscroll").scroll(vim.wo.scroll, true, 350)
+						require("neoscroll").scroll(vim.wo.scroll, true, 100)
 					end
 				end,
 				icons.ui.ChevronDoubleDown .. " Scroll down",
@@ -168,14 +168,14 @@ M.which_key_defaults = {
 			},
 			["<PageUp>"] = {
 				function()
-					require("neoscroll").scroll(-vim.api.nvim_win_get_height(0), true, 550)
+					require("neoscroll").scroll(-vim.api.nvim_win_get_height(0), true, 100)
 				end,
 				icons.ui.ChevronTripleUp .. " Page up",
 				mode = { "n", "i", "x", "o" },
 			},
 			["<PageDown>"] = {
 				function()
-					require("neoscroll").scroll(vim.api.nvim_win_get_height(0), true, 550)
+					require("neoscroll").scroll(vim.api.nvim_win_get_height(0), true, 100)
 				end,
 				icons.ui.ChevronTripleDown .. " Page down",
 				mode = { "n", "i", "x", "o" },

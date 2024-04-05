@@ -21,7 +21,7 @@ return {
 						function()
 							local ttt = require("toggleterm.terminal")
 							return ttt.get(ttt.get_focused_id(), false).display_name or
-								string.gsub(ttt.get(ttt.get_focused_id(), false).name, ";#toggleterm#[0-9]+", "")
+									string.gsub(ttt.get(ttt.get_focused_id(), false).name, ";#toggleterm#[0-9]+", "")
 						end,
 						on_click = function()
 							local ttt = require("toggleterm.terminal")
@@ -45,7 +45,7 @@ return {
 			return table.concat(words, ' ')
 		end
 		local trouble = {
-			filetypes = {"Trouble"},
+			filetypes = { "Trouble" },
 			sections = {
 				lualine_a = {
 					{
@@ -68,11 +68,11 @@ return {
 			},
 			options = {
 				disabled_filetypes = {
-					winbar = {"NvimTree", "alpha",},
-					statusline = {"alpha"},
+					winbar = { "NvimTree", "alpha", },
+					statusline = { "alpha" },
 				},
-				component_separators = { left = icons.ui.RoundDividerRight, right = icons.ui.RoundDividerLeft},
-				section_separators = { left = icons.ui.BoldRoundDividerRight, right = icons.ui.BoldRoundDividerLeft},
+				component_separators = { left = icons.ui.RoundDividerRight, right = icons.ui.RoundDividerLeft },
+				section_separators = { left = icons.ui.BoldRoundDividerRight, right = icons.ui.BoldRoundDividerLeft },
 			},
 			winbar = {
 				lualine_c = {
@@ -111,7 +111,7 @@ return {
 				},
 				lualine_b = {
 					{
-						'branch', 
+						'branch',
 						on_click = function() vim.cmd("LazyGit") end
 					},
 					{
@@ -124,13 +124,14 @@ return {
 							hint = icons.diagnostics.BoldHint .. ' ',
 						},
 						always_visible = true,
-						on_click = function() vim.cmd[[ TroubleToggle ]] end,
+						on_click = function() vim.cmd [[ TroubleToggle ]] end,
 					},
 				},
 				lualine_c = {
 					{
 						-- cwd
-						function() return icons.ui.FileTree .. " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~:.:gs%\\v(\\.?[^/]{0,2})[^/]*/%\\1/%") end,
+						function() return icons.ui.FileTree ..
+							" " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~:.:gs%\\v(\\.?[^/]{0,2})[^/]*/%\\1/%") end,
 						on_click = function() vim.cmd("Telescope file_browser") end
 					},
 					function() return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":~:.:gs%\\v(\\.?[^/]{0,2})[^/]*/%\\1/%") end, -- filename
@@ -157,8 +158,8 @@ return {
 						function()
 							local symbols = {
 								unix = '', -- e712
-								dos = '',  -- e70f
-								mac = '',  -- e711
+								dos = '', -- e70f
+								mac = '', -- e711
 							}
 							return symbols[vim.bo.fileformat]
 						end,
@@ -170,7 +171,18 @@ return {
 					},
 				},
 				lualine_z = {
-					{ "location"},
+					{
+						function()
+							local wordcount = vim.fn.wordcount()
+							if vim.fn.mode() == "v" or vim.fn.mode() == "V" or vim.fn.mode() == "" then
+								return wordcount.visual_chars .. "C" .. wordcount.visual_words .. "W"
+							else
+								return wordcount.words .. "W"
+							end
+						end,
+						filetypes = { 'tex', 'markdown', 'text', 'rtf', }
+					},
+					{ "location" },
 				}
 			},
 		}
