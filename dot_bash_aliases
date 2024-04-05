@@ -19,9 +19,9 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
  
-if [[ $(grep microsoft /proc/version ) ]]; then
-    alias nvd='neovide.exe --wsl --neovim-bin $HOME/.local/bin/nvim & disown'
-    alias open='wslview'
-else
-    alias nvd='neovide $HOME/.local/bin/nvim & disown'
-fi
+# Neovide
+alias nvd='neovide $HOME/.local/bin/nvim & disown'
+# if [[ $(grep microsoft /proc/version ) ]]; then
+#     alias nvd='neovide.exe --wsl --neovim-bin $HOME/.local/bin/nvim & disown'
+#     alias open='wslview'
+# fi

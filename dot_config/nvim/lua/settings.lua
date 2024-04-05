@@ -21,7 +21,7 @@ function M.load_defaults()
 		foldenable         = false,
 		foldexpr           = "nvim_treesitter#foldexpr()", -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
 		foldmethod         = "expr", -- folding, set to "expr" for treesitter based folding
-		guifont            = {"FiraCode Nerd Font", ":h11"}, -- the font used in graphical neovim applications
+		guifont            = {"JetBrainsMono Nerd Font", ":h11"}, -- the font used in graphical neovim applications
 		-- guioptions         = "mr", -- m for menubar, r for right scrollbar
 		hidden             = true, -- required to keep multiple buffers and open multiple buffers
 		hlsearch           = true, -- highlight all matches on previous search pattern
@@ -127,7 +127,6 @@ function M.load_defaults()
 	-- if using neovide GUI
 	if vim.g.neovide then
 		-- vim.g.neovide_scale_factor = 0.78
-		vim.o.guifont = 'JetBrainsMono Nerd Font:h11'
 		vim.g.neovide_remember_window_size = true
 		vim.g.neovide_cursor_animation_length = 0.02
 		vim.g.neovide_cursor_trail_size = 0.5
