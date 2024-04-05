@@ -92,6 +92,16 @@ mkdir -p $NEOVIM_DEST_FOLDER
 mv squashfs-root/* $NEOVIM_DEST_FOLDER
 ln -sf $NEOVIM_DEST_FOLDER/AppRun $LOCALBIN/nvim
 
+# Install neovide
+NEOVIDE_DEST_FOLDER="$APPFOLDER/neovide"
+cd $DOWNLOADS
+curl -LO https://github.com/neovide/neovide/releases/latest/download/neovide.AppImage
+chmod u+x neovide.AppImage
+./neovide.AppImage --appimage-extract
+mkdir -p $NEOVIDE_DEST_FOLDER
+mv squashfs-root/* $NEOVIDE_DEST_FOLDER
+ln -sf $NEOVIDE_DEST_FOLDER/AppRun $LOCALBIN/neovide
+
 # Setup python environment for neovim
 python3 -m venv $HOME/.local/share/venvs/pynvim --upgrade-deps
 source ~/.local/share/venvs/pynvim/bin/activate
