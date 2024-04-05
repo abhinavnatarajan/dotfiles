@@ -34,8 +34,8 @@ source $HOME/.bashrc
 sudo apt update;
 sudo apt install zlib1g zlib1g-dev libssl-dev libbz2-dev libsqlite3-dev libreadline-dev curl libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 curl https://pyenv.run | bash
-env PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' PYTHON_CFLAGS='-march=native -mtune=native' pyenv install 3.11.0
-pyenv global 3.11.0
+env PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' PYTHON_CFLAGS='-march=native -mtune=native' pyenv install 3.11.6
+pyenv global 3.11.6
 # pipx for global packages
 pip3 install --user pipx
 pipx install jupyterlab jupytext nbdime pydeps
@@ -93,20 +93,10 @@ mv squashfs-root/* $NEOVIM_DEST_FOLDER
 ln -sf $NEOVIM_DEST_FOLDER/AppRun $LOCALBIN/nvim
 
 # Setup python environment for neovim
-python3 -m venv $HOME/.local/share/venvs/pynvim --upgrade-deps
-source ~/.local/share/venvs/pynvim/bin/activate
-pip3 install pynvim
-deactivate
-
-# Install neovide
-NEOVIDE_DEST_FOLDER="$APPFOLDER/neovide"
-cd $DOWNLOADS
-curl -LO https://github.com/neovide/neovide/releases/latest/download/neovide.AppImage
-chmod u+x neovide.AppImage
-./neovide.AppImage --appimage-extract
-mkdir -p $NEOVIDE_DEST_FOLDER
-mv squashfs-root/* $NEOVIDE_DEST_FOLDER
-ln -sf $NEOVIDE_DEST_FOLDER/AppRun $LOCALBIN/neovide
+pyenv virtualenv 3.11.6 pynvim
+pyenv activate pynvim
+pip install pynvim
+pyenv deactivate
 
 # Install JetBrains Font
 cd $DOWNLOADS

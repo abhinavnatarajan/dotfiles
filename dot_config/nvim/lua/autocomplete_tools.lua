@@ -50,8 +50,8 @@ function M.setup()
       -- ['<Down>'] = cmp.mapping.select_next_item(select_opts),
       ['<C-p>'] = cmp.mapping.select_prev_item(select_opts),
       ['<C-n>'] = cmp.mapping.select_next_item(select_opts),
-      -- set <C-Space> as the autocomplete trigger key
-      ['<C-Space>'] = cmp.mapping(function(_)
+      -- set <A-C> as the autocomplete trigger key
+      ['<A-c>'] = cmp.mapping(function(_)
         if cmp.visible() then
           cmp.abort()
         else
@@ -61,7 +61,7 @@ function M.setup()
       ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 
       -- Snippet expansion
-      ['<C-A-Space>'] = cmp.mapping(function(fallback)
+      ['<A-S-c>'] = cmp.mapping(function(fallback)
         if luasnip.expandable(1) then
           luasnip.expand_or_jump(1)
         else

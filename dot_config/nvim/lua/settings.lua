@@ -120,7 +120,8 @@ function M.load_defaults()
 		tab = '>' .. icons.ui.DotSmall
 	})
 
-	vim.g.python3_host_prog  = '~/.local/share/venvs/pynvim/bin/python3'
+	vim.g.python3_host_prog  = '/home/abhinav/.pyenv/versions/pynvim/bin/python'
+	vim.g.loaded_ruby_provider = 0
 	vim.g.loaded_perl_provider = 0
 	vim.g.mapleader = " "
 
