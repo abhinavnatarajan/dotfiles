@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-DOWNLOADS=$HOME/Downloads
+DOWNLOADS=$HOME/downloads
 APPFOLDER=$HOME/opt
 LOCALBIN=$HOME/.local/bin
 mkdir -p $DOWNLOADS
@@ -92,6 +92,12 @@ mkdir -p $NEOVIM_DEST_FOLDER
 mv squashfs-root/* $NEOVIM_DEST_FOLDER
 ln -sf $NEOVIM_DEST_FOLDER/AppRun $LOCALBIN/nvim
 
+# Setup python environment for neovim
+python3 -m venv $HOME/.local/share/venvs/pynvim --upgrade-deps
+source ~/.local/share/venvs/pynvim/bin/activate
+pip3 install pynvim
+deactivate
+
 # Install neovide
 NEOVIDE_DEST_FOLDER="$APPFOLDER/neovide"
 cd $DOWNLOADS
@@ -102,11 +108,12 @@ mkdir -p $NEOVIDE_DEST_FOLDER
 mv squashfs-root/* $NEOVIDE_DEST_FOLDER
 ln -sf $NEOVIDE_DEST_FOLDER/AppRun $LOCALBIN/neovide
 
-# Setup python environment for neovim
-python3 -m venv $HOME/.local/share/venvs/pynvim --upgrade-deps
-source ~/.local/share/venvs/pynvim/bin/activate
-pip3 install pynvim
-deactivate
+# Install JetBrains Font
+cd $DOWNLOADS
+curl -LO https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.0/JetBrainsMono.zip
+unzip JetBrainsMono.zip -d JetBrainsMono
+mkdir -p $HOME/.local/share/fonts
+mv JetBrainsMono $HOME/.local/share/fonts
 
 # Install nodejs and npm
 # https://github.com/nvm-sh/nvm#installing-and-updating
@@ -135,7 +142,7 @@ QUARTO_FILE="quarto-${QUARTO_VERSION}-linux-amd64.tar.gz"
 QUARTO_DEST_FOLDER=$APPFOLDER/quarto
 mkdir -p $QUARTO_DEST_FOLDER
 curl -LO "https://github.com/quarto-dev/quarto-cli/releases/latest/download/${QUARTO_FILE}"
-tar -xzf ${QUARTO_FILE} --strip-components=1 -C $QUARTO_DEST_FOLDER 
+tar -xzf ${QUARTO_FILE} --strip-components=1 -C $QUARTO_DEST_FOLDER
 ln -sf $QUARTO_DEST_FOLDER/bin/quarto $LOCALBIN/quarto
 
 # Install sioyek
