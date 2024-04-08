@@ -302,7 +302,7 @@ M.which_key_defaults = {
 	},
 	{
 		mapping = {
-			["<A-CR>"] = {
+			["<C-CR>"] = {
 				function()
 					local m = vim.fn.mode()
 					if m == "v" then
@@ -315,12 +315,6 @@ M.which_key_defaults = {
 			},
 		},
 		opts = DefaultOpts { mode = "v", expr = true, replace_keycodes = true }
-	},
-	{
-		mapping = {
-			["<C-CR>"] = { [[<CMD>ToggleTermSendVisualLines<CR>gv]], icons.ui.Terminal .. " Run selected lines in terminal" },
-		},
-		mode = { "v" }
 	},
 	-- searching
 	{
