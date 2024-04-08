@@ -171,17 +171,6 @@ return {
 					},
 				},
 				lualine_z = {
-					{
-						function()
-							local wordcount = vim.fn.wordcount()
-							if vim.fn.mode() == "v" or vim.fn.mode() == "V" or vim.fn.mode() == "" then
-								return wordcount.visual_chars .. "C" .. wordcount.visual_words .. "W"
-							else
-								return wordcount.words .. "W"
-							end
-						end,
-						filetypes = { 'tex', 'markdown', 'text', 'rtf', }
-					},
 					{ "location" },
 				}
 			},

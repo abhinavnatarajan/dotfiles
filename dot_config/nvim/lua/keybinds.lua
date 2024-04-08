@@ -5,6 +5,7 @@ local DefaultOpts = require("utils").prototype {
 	silent = true, -- use `silent` when creating keymaps
 	noremap = true, -- use `noremap` when creating keymaps
 	nowait = true, -- use `nowait` when creating keymaps
+	expr = false,
 }
 local icons = require("icons")
 
@@ -110,14 +111,9 @@ M.which_key_defaults = {
 						"Jump to tab"
 					}
 				},
-				["`"] = {
-					name  = icons.ui.Terminal .. " Terminals",
-					["f"] = { "<CMD>TermSelect<CR>", icons.ui.Select .. " Select terminal" },
-					["r"] = { "<CMD>ToggleTermSetName<CR>", icons.syntax.String .. " Rename terminal" }
-				},
 				["u"] = { "<CMD>Telescope undo<CR>", icons.ui.Undo .. " Undo history" }
 			},
-			["<F15>"]    = { [[<CMD>lua require('notify').dismiss({pending = true, silent=true})<CR>]], "Dismiss notifications" },
+			["<F15>"]    = { [[<CMD>lua require('notify').dismiss({pending = true, silent=true})<CR>]], "Dismiss notifications", mode = { "n", "i" } },
 			["gx"]       = { [[:exe 'silent !open ' . shellescape(expand('<cfile>', 1))<CR>]], icons.ui.Window .. " Open in external program" },
 		}
 	},
@@ -188,38 +184,83 @@ M.which_key_defaults = {
 			["<C-Down>"] = { "<CMD>resize -2<CR>", icons.ui.ExpandVertical .. " Expand window vertically" },
 			["<C-Left>"] = { "<CMD>vertical resize -2<CR>", icons.ui.ExpandHorizontal .. " Shrink window horizontally" },
 			["<C-Right>"] = { "<CMD>vertical resize +2<CR>", icons.ui.ExpandHorizontal .. " Expand window horizontally" },
-			-- Terminal keys
-			["<A-`>"] = { icons.ui.Terminal .. " Toggle terminal" },
-			["<C-CR>"] = { [[<CMD>ToggleTermSendCurrentLine<CR>]], icons.ui.Terminal .. " Run line in terminal" },
 		}
 	},
-
 	{
 		-- Normal mode editing shortcuts
 		mapping = {
-			["<A-a>"] = { "ggVG", icons.ui.Cursor .. " Select all" },
+			["<A-a>"]     = { "ggVG", icons.ui.Cursor .. " Select all" },
 			-- Move current line / block with Alt-j/k a la vscode.
-			["<A-k>"] = { "<CMD>move .-2<CR>==", icons.ui.MoveUp .. " Move line up" },
-			["<A-j>"] = { "<CMD>move .+1<CR>==", icons.ui.MoveDown .. " Move line down" },
-			["<A-/>"] = { "<Plug>(comment_toggle_linewise_current)", icons.ui.Comment .. " Toggle comment" },
-			-- QuickFix
-			["]q"] = { "<CMD>cnext<CR>", icons.diagnostics.Next .. " Next error" },
-			["[q"] = { "<CMD>cprev<CR>", icons.diagnostics.Previous .. " Previous error" },
-			-- ["<C-q>"] = { "<CMD>call QuickFixToggle()<CR>", "Toggle quickfix" },
+			["<A-k>"]     = { "<CMD>move .-2<CR>==", icons.ui.MoveUp .. " Move line up" },
+			["<A-j>"]     = { "<CMD>move .+1<CR>==", icons.ui.MoveDown .. " Move line down" },
+			["<A-/>"]     = { "<Plug>(comment_toggle_linewise_current)", icons.ui.Comment .. " Toggle comment" },
 			-- Indentation and whitespace formatting
 			["<leader>="] = { require("utils.editing").silent_auto_indent, icons.ui.Indent .. " Auto-indent file" },
 			["<leader>$"] = { require("utils.editing").remove_trailing_whitespace, icons.ui.WhiteSpace .. " Remove trailing whitespace" },
-			["ga"] = { "<Plug>(EasyAlign)", icons.ui.Align .. " Align lines" },
-			["gA"] = { "<Plug>(LiveEasyAlign)", icons.ui.Align .. " Align lines with preview" },
-			-- Delimiter formatting
-			["ys"] = { "<Plug>(nvim-surround-normal)", icons.ui.DelimiterPair .. " Surround" },
+			["ga"]        = { "<Plug>(EasyAlign)", icons.ui.Align .. " Align lines" },
+			["gA"]        = { "<Plug>(LiveEasyAlign)", icons.ui.Align .. " Align lines with preview" },
+			-- Word info
+			["g<C-g>"]    = { icons.ui.Note .. " Count lines, words, and characters" }
+		},
+	},
+	{
+		-- insert mode editing shorcuts
+		mode = "i",
+		mapping = {
+			["<A-a>"] = { "<ESC>ggVG", icons.ui.Cursor .. " Select all" },
+			["<A-j>"] = { "<Esc>:m .+1<CR>==gi", icons.ui.MoveDown .. " Move line down" },
+			["<A-k>"] = { "<Esc>:m .-2<CR>==gi", icons.ui.MoveUp .. " Move line up" },
+			["<A-/>"] = { require("utils.editing").comment_in_insert_mode, icons.ui.Comment .. " Toggle comment", noremap = false },
+			["<F3>"] = { "<CMD>noh<CR>", "Turn off search highlights" },
+			["<F15>"] = { [[<CMD>lua require('notify').dismiss({pending = true, silent=true})<CR>]], "Dismiss notifications" },
+			["<A-,>"] = { "<C-D>", icons.ui.IndentDecrease .. " Decrease indentation" },
+			["<A-.>"] = { "<C-T>", icons.ui.IndentIncrease .. " Increase indentation" },
+		},
+	},
+	{
+		-- visual block mode editing shortcuts
+		mode = { "x" },
+		mapping = {
+			["<A-k>"] = { ":m '<-2<CR>gv-gv", icons.ui.MoveUp .. " Move selection up" },
+			["<A-j>"] = { ":m '>+1<CR>gv-gv", icons.ui.MoveDown .. " Move selection down" },
+			["<A-/>"] = { "<Plug>(comment_toggle_linewise_visual)gv", icons.ui.Comment .. " Toggle comment" },
+			-- Indentation and whitespace formatting
+			["<"] = { "<gv", icons.ui.IndentDecrease .. " Decrease indent" },
+			[">"] = { ">gv", icons.ui.IndentIncrease .. " Increase indent" },
+			["ga"] = { "<Plug>(EasyAlign)", icons.ui.Align .. "Align lines" },
+			["gA"] = { "<Plug>(LiveEasyAlign)", icons.ui.Align .. "Align lines with preview" },
+			["g<C-g>"] = { icons.ui.Note .. " Count highlighted lines, words, and characters" },
+		}
+	},
+	-- nvim-surround
+	{
+		mapping = {
+			["ys"]  = { "<Plug>(nvim-surround-normal)", icons.ui.DelimiterPair .. " Surround" },
 			["yss"] = { "<Plug>(nvim-surround-normal-cur)", icons.ui.DelimiterPair .. " Surround line" },
-			["yS"] = { "<Plug>(nvim-surround-normal-line)", icons.ui.DelimiterPair .. " Surround on new lines" },
+			["yS"]  = { "<Plug>(nvim-surround-normal-line)", icons.ui.DelimiterPair .. " Surround on new lines" },
 			["ySS"] = { "<Plug>(nvim-surround-normal-cur-line)", icons.ui.DelimiterPair .. " Surround line on new lines" },
-			["ds"] = { "<Plug>(nvim-surround-delete)", icons.ui.DelimiterPair .. " Delete delimiter" },
-			["cs"] = { "<Plug>(nvim-surround-change)", icons.ui.DelimiterPair .. " Change delimiter" },
-			-- Find and replace
-			["<F2>"] = {
+			["ds"]  = { "<Plug>(nvim-surround-delete)", icons.ui.DelimiterPair .. " Delete delimiter" },
+			["cs"]  = { "<Plug>(nvim-surround-change)", icons.ui.DelimiterPair .. " Change delimiter" },
+		},
+	},
+	{
+		mode = { "i" },
+		mapping = {
+			["<A-s>"] = { "<Plug>(nvim-surround-insert)", "Surround" },
+			["<A-S>"] = { "<Plug>(nvim-surround-insert-line)", "Surround on new lines" },
+		},
+	},
+	{
+		mode = { "x" },
+		mapping = {
+			["<A-s>"] = { "<Plug>(nvim-surround-visual)", icons.ui.DelimiterPair .. " Surround" },
+			["<A-S>"] = { "<Plug>(nvim-surround-visual-line)", icons.ui.DelimiterPair .. " Surround on new lines" },
+		},
+	},
+	-- Find and replace (see also LSP keybinds)
+	{
+		mapping = {
+			["<F2>"]  = {
 				function()
 					local k = vim.api.nvim_replace_termcodes(":%s/<C-R><C-w>", true, false, true)
 					vim.api.nvim_feedkeys(k, "t", false)
@@ -233,59 +274,11 @@ M.which_key_defaults = {
 				end,
 				icons.ui.FindAndReplace .. " Find and replace (whole word)"
 			},
-			["<F3>"] = { "<CMD>noh<CR>", icons.ui.Highlight .. " Clear search highlights" },
-			["*"] = { [[*<Cmd>lua require('hlslens').start()<CR>]], "Search forwards (whole word)" },
-			["#"] = { [[#<Cmd>lua require('hlslens').start()<CR>]], "Search backwards (whole word)" },
-			["g*"] = { [[g*<Cmd>lua require('hlslens').start()<CR>]], "Search forwards" },
-			["g#"] = { [[g#<Cmd>lua require('hlslens').start()<CR>]], "Search backwards" },
-			["n"] = { [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], "Next search result" },
-			["N"] = { [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]], "Previous search result" },
-			-- Hop motions
-			-- ['sw'] = { "<CMD>HopWord<CR>", "Hop to word", mode = {'n', 'v', 'o'} },
-			-- ['sp'] = { "<CMD>HopPattern<CR>", "Hop to pattern", mode = {'n', 'v'} },
-			-- ['sb'] = { "<CMD>HopChar2<CR>", "Hop to bigram", mode = {'n', 'v'} },
-			-- ['sl'] = { "<CMD>HopLine<CR>", "Hop to line", mode = {'n', 'v'} },
-			-- ['sn'] = { "<CMD>HopNode<CR>", "Hop to treesitter node", mode = {'n', 'v'} },
-			-- provided by vim-illuminate
-			-- already registered, just putting it here so I know it exists
-			["<A-n>"] = { icons.ui.Next .. " Move to next reference" },
-			["<A-p>"] = { icons.ui.Previous .. " Move to previous reference" },
-		},
-	},
-
-	{
-		-- insert mode editing shorcuts
-		mode = "i",
-		mapping = {
-			["<A-a>"] = { "<ESC>ggVG", icons.ui.Cursor .. " Select all" },
-			["<A-j>"] = { "<Esc>:m .+1<CR>==gi", icons.ui.MoveDown .. " Move line down" },
-			["<A-k>"] = { "<Esc>:m .-2<CR>==gi", icons.ui.MoveUp .. " Move line up" },
-			["<A-/>"] = { require("utils.editing").comment_in_insert_mode, icons.ui.Comment .. " Toggle comment", noremap = false },
-			["<F3>"] = { "<CMD>noh<CR>", "Turn off search highlights" },
-			["<F15>"] = { [[<CMD>lua require('notify').dismiss({pending = true, silent=true})<CR>]], "Dismiss notifications" },
-			["<A-,>"] = { "<C-D>", icons.ui.IndentDecrease .. " Decrease indentation" },
-			["<A-.>"] = { "<C-T>", icons.ui.IndentIncrease .. " Increase indentation" },
-
-			-- Delimiter formatting
-			["<A-s>"] = { "<Plug>(nvim-surround-insert)", "Surround" },
-			["<A-S>"] = { "<Plug>(nvim-surround-insert-line)", "Surround on new lines" },
-		},
+		}
 	},
 	{
-		-- visual block mode editing shortcuts
 		mode = { "x" },
 		mapping = {
-			["<A-k>"] = { ":m '<-2<CR>gv-gv", icons.ui.MoveUp .. " Move selection up" },
-			["<A-j>"] = { ":m '>+1<CR>gv-gv", icons.ui.MoveDown .. " Move selection down" },
-			["<A-/>"] = { "<Plug>(comment_toggle_linewise_visual)gv", icons.ui.Comment .. " Toggle comment" },
-			-- Delimiter formatting
-			["<A-s>"] = { "<Plug>(nvim-surround-visual)", icons.ui.DelimiterPair .. " Surround" },
-			["<A-S>"] = { "<Plug>(nvim-surround-visual-line)", icons.ui.DelimiterPair .. " Surround on new lines" },
-			-- Indentation and whitespace formatting
-			["<"] = { "<gv", icons.ui.IndentDecrease .. " Decrease indent" },
-			[">"] = { ">gv", icons.ui.IndentIncrease .. " Increase indent" },
-			["ga"] = { "<Plug>(EasyAlign)", icons.ui.Align .. "Align lines" },
-			["gA"] = { "<Plug>(LiveEasyAlign)", icons.ui.Align .. "Align lines with preview" },
 			["<F2>"] = {
 				function()
 					local k = vim.api.nvim_replace_termcodes(":s/", true, false, true)
@@ -293,20 +286,67 @@ M.which_key_defaults = {
 				end,
 				"Find and replace highlighted"
 			},
-			["<A-CR>"] = { [[:ToggleTermSendVisualSelection<CR>gv]], icons.ui.Terminal .. " Run selection in terminal" },
-			["<C-CR>"] = { [[:ToggleTermSendVisualLines<CR>gv]], icons.ui.Terminal .. " Run selected lines in terminal" },
-			["<A-i>"] = { "Symbol under cursor" } -- provided by vim-illuminate
 		}
 	},
+	-- Toggleterm
 	{
-		-- operator-pending mode mappings
-		mode = "o",
 		mapping = {
-			["<A-i>"] = { "Symbol under cursor" } -- provided by vim-illuminate
+			["<leader>`"] = {
+				name  = icons.ui.Terminal .. " Terminals",
+				["f"] = { "<CMD>TermSelect<CR>", icons.ui.Select .. " Select terminal" },
+				["r"] = { "<CMD>ToggleTermSetName<CR>", icons.syntax.String .. " Rename terminal" }
+			},
+			["<A-`>"] = { icons.ui.Terminal .. " Toggle terminal" },
+			["<C-CR>"] = { [[<CMD>ToggleTermSendCurrentLine<CR>]], icons.ui.Terminal .. " Run line in terminal" },
 		},
 	},
 	{
-		-- leap motions
+		mapping = {
+			["<A-CR>"] = {
+				function()
+					local m = vim.fn.mode()
+					if m == "v" then
+						return [[<CMD>ToggleTermSendVisualSelection<CR>gv]]
+					elseif m == "V" then
+						return [[<CMD>ToggleTermSendVisualLines<CR>gv]]
+					end
+				end,
+				icons.ui.Terminal .. " Run selection in terminal",
+			},
+		},
+		opts = DefaultOpts { mode = "v", expr = true, replace_keycodes = true }
+	},
+	{
+		mapping = {
+			["<C-CR>"] = { [[<CMD>ToggleTermSendVisualLines<CR>gv]], icons.ui.Terminal .. " Run selected lines in terminal" },
+		},
+		mode = { "v" }
+	},
+	-- searching
+	{
+		mode    = { 'n', 'x', 'o' },
+		mapping = {
+			["*"]    = { [[*<Cmd>lua require('hlslens').start()<CR>]], "Search forwards (whole word)" },
+			["#"]    = { [[#<Cmd>lua require('hlslens').start()<CR>]], "Search backwards (whole word)" },
+			["g*"]   = { [[g*<Cmd>lua require('hlslens').start()<CR>]], "Search forwards" },
+			["g#"]   = { [[g#<Cmd>lua require('hlslens').start()<CR>]], "Search backwards" },
+			["n"]    = { [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], "Next search result" },
+			["N"]    = { [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]], "Previous search result" },
+			["<F3>"] = { "<CMD>noh<CR>", icons.ui.Highlight .. " Clear search highlights", mode = { "n", "i" } },
+		}
+	},
+	-- vim-illuminate
+	{
+		-- provided by vim-illuminate
+		-- already registered, just putting it here so I know it exists
+		mapping = {
+			["<A-i>"] = { "Symbol under cursor", mode = { "x", "o" } },
+			["<A-n>"] = { icons.ui.Next .. " Move to next reference", mode = { "n", "x", "o" } },
+			["<A-p>"] = { icons.ui.Previous .. " Move to previous reference", mode = { "n", "x", "o" } },
+		}
+	},
+	-- leap.nvim
+	{
 		mode = { 'n', 'x', 'o' },
 		mapping = {
 			['<A-f>'] = { '<Plug>(leap-forward-to)', icons.ui.BoldArrowRight .. " Leap forward to" },
@@ -315,7 +355,6 @@ M.which_key_defaults = {
 			['<A-S-t>'] = { '<Plug>(leap-backward-till)', icons.ui.BoldArrowLeft .. " Leap backward till" },
 		},
 	},
-
 	{
 		-- Debugger
 		mapping = {
@@ -340,7 +379,7 @@ M.which_key_defaults = {
 	},
 	{
 		-- Terminal mode mappings
-		opts = DefaultOpts { mode = "t" },
+		mode = "t",
 		mapping = {
 			["<C-k>"] = { [[<CMD>wincmd k<CR>]], icons.ui.ChevronUpBoxOutline .. " Go to the up window" },
 			["<C-j>"] = { [[<CMD>wincmd j<CR>]], icons.ui.ChevronDownBoxOutline .. " Go to the down window" },
@@ -363,7 +402,7 @@ M.other_defaults = {
 			end
 		end,
 		opts = { noremap = true, silent = true }
-	}                                     -- paste without yanking
+	} -- paste without yanking
 }
 
 M.autocmd_keybinds = {
@@ -435,8 +474,10 @@ M.autocmd_keybinds = {
 			group = "lsp_keybindings",
 			callback = function(args)
 				local opts = { buffer = args.buf }
-				local bufmap = function(mode, lhs, rhs, desc) vim.keymap.set(mode, lhs, rhs,
-						vim.tbl_extend("force", opts, { desc = desc })) end
+				local bufmap = function(mode, lhs, rhs, desc)
+					vim.keymap.set(mode, lhs, rhs,
+						vim.tbl_extend("force", opts, { desc = desc }))
+				end
 				local client_capabilities = vim.lsp.get_client_by_id(args.data.client_id).server_capabilities
 
 				bufmap('n', '<leader>Li', "<CMD>LspInfo<CR>", icons.diagnostics.Information .. " LSP clients info")

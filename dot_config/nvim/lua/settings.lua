@@ -35,10 +35,11 @@ function M.load_defaults()
 		matchpairs         = { "{:}", "(:)", "[:]" },
 		mouse              = "a", -- allow the mouse to be used in neovim
 		mousemoveevent     = true,
-		relativenumber     = true, -- set numbered lines
+		number             = true, -- set numbered lines
 		numberwidth        = 3, -- set number column width to 2 {default 4}
 		pumblend           = 8, -- translucent popup menu
 		pumheight          = 150, -- pop up menu height
+		relativenumber     = true, -- set relative numbered lines
 		ruler              = false,
 		scrolloff          = 4, -- minimal number of screen lines to keep above and below the cursor.
 		sessionoptions     = {
@@ -135,6 +136,8 @@ function M.load_defaults()
 		vim.g.neovide_unlink_border_highlights = true
 		vim.g.neovide_cursor_trail_size = 0.5
 		vim.o.winblend = 25
+		vim.g.neovide_scroll_animation_length = 0.2
+		vim.g.neovide_unlink_border_highlights = true
 		vim.g.pumblend = 25
 		vim.g.neovide_floating_blur_amount_x = 5.0
 		vim.g.neovide_floating_blur_amount_y = 5.0

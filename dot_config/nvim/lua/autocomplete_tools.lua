@@ -58,7 +58,7 @@ function M.setup()
           cmp.complete()
         end
       end, {'i'}),
-      ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 
       -- Snippet expansion
       ['<A-S-c>'] = cmp.mapping(function(fallback)
