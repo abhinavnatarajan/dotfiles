@@ -61,13 +61,13 @@ function latest_github_release_version() {
 }
 
 # xplr file explorer
-XPLR_DEST_DIR=$APPFOLDER/xplr
+XPLR_DEST_DIR=$APPFOLDER/xplr/
 mkdir -p $XPLR_DEST_DIR
 cd $DOWNLOADS
-git clone https://github.com/sayanarijit/xplr.git
+git clone -b dev https://github.com/sayanarijit/xplr.git
 cd xplr
 cargo build --locked --release --bin xplr
-cp target/release/xplr $XPLR_DEST_DIR
+cp target/release/xplr $XPLR_DEST_DIR/
 ln -sf $XPLR_DEST_DIR/xplr $LOCALBIN/xplr
 
 # Install nnn file explorer
