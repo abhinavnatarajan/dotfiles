@@ -62,7 +62,7 @@ function M.setup()
 
       -- Snippet expansion
       ['<A-S-c>'] = cmp.mapping(function(fallback)
-        if luasnip.expandable(1) then
+        if luasnip.expand_or_locally_jumpable(1) then
           luasnip.expand_or_jump(1)
         else
           fallback()
@@ -110,7 +110,7 @@ function M.setup()
           path = icons.ui.Path,
           cmdline = icons.ui.ChevronRight,
         }
-
+        item.kind = string.format('%s %s', icons.syntax[item.kind], item.kind)
         item.menu = menu_icon[entry.source.name]
         return item
       end,

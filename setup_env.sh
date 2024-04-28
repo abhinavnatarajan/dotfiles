@@ -6,22 +6,6 @@ LOCALBIN=$HOME/.local/bin
 mkdir -p $DOWNLOADS
 mkdir -p $APPFOLDER
 
-# Install nnn file explorer
-sudo apt-get install nnn
-
-# fd-find for faster file searching
-# https://github.com/sharkdp/fd
-sudo apt-get install fd-find
-ln -sf $(which fdfind) $LOCALBIN/fd
-
-# Fuzzy finder
-# https://github.com/junegunn/fzf
-sudo apt-get install fzf
-
-# Install rip-grep for searching text inside files
-# https://github.com/BurntSushi/ripgrep
-sudo apt-get install ripgrep
-
 # Install C++ tools
 sudo apt-get install automake libtool build-essential gdb cmake
 
@@ -41,10 +25,66 @@ pip3 install --user pipx
 pipx install jupyterlab jupytext nbdime pydeps
 nbdime config-git --enable --global
 
+# Hatch for Pure Python project management
+pipx install hatch
+
+# Maturin for PyO3 (Python + Rust) projects
+pipx install maturin
+
+# Mambaforge
+cd $DOWNLOADS
+curl -LO "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh"
+bash Miniforge3-Linux-x86_64.sh -b
+
+# conda init
+source $HOME/.bashrc
+conda config --set auto_activate_base false
+
+# Install julia via the juliaup package manager
+cargo install juliaup
+juliaup self update
+juliaup add release
+
+# Install nodejs and npm
+# https://github.com/nvm-sh/nvm#installing-and-updating
+cd $DOWNLOADS
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+# Install node
+nvm install node
+
+# Install Tex Live
+sudo apt-get install texlive-full
+
 # Function to grab latest release tag version from a github repo
 function latest_github_release_version() {
 	echo $(curl -s "https://api.github.com/repos/$1/releases/latest" | grep -Po '"tag_name": "[v]?\K[^"]*')
 }
+
+# xplr file explorer
+XPLR_DEST_DIR=$APPFOLDER/xplr
+mkdir -p $XPLR_DEST_DIR
+cd $DOWNLOADS
+git clone https://github.com/sayanarijit/xplr.git
+cd xplr
+cargo build --locked --release --bin xplr
+cp target/release/xplr $XPLR_DEST_DIR
+ln -sf $XPLR_DEST_DIR/xplr $LOCALBIN/xplr
+
+# Install nnn file explorer
+sudo apt-get install nnn
+
+# fd-find for faster file searching
+# https://github.com/sharkdp/fd
+sudo apt-get install fd-find
+ln -sf $(which fdfind) $LOCALBIN/fd
+
+# Fuzzy finder
+# https://github.com/junegunn/fzf
+sudo apt-get install fzf
+
+# Install rip-grep for searching text inside files
+# https://github.com/BurntSushi/ripgrep
+sudo apt-get install ripgrep
 
 # Install lazygit
 # https://github.com/jesseduffield/lazygit#installation
@@ -56,26 +96,6 @@ curl -LO "https://github.com/jesseduffield/lazygit/releases/latest/download/${LA
 mkdir -p $LAZYGIT_DEST_FOLDER
 tar -xf ${LAZYGIT_FILE} -C $LAZYGIT_DEST_FOLDER
 ln -sf $LAZYGIT_DEST_FOLDER/lazygit $LOCALBIN/lazygit
-
-# Hatch for Pure Python project management
-pipx install hatch
-
-# Maturin for PyO3 (Python + Rust) projects
-pipx install maturin
-
-# Install julia via the juliaup package manager
-cargo install juliaup
-juliaup self update
-juliaup add release
-
-# Mambaforge
-cd $DOWNLOADS
-curl -LO "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh"
-bash Miniforge3-Linux-x86_64.sh -b
-
-# conda init
-source $HOME/.bashrc
-conda config --set auto_activate_base false
 
 # Git-delta
 cargo install git-delta
@@ -104,16 +124,6 @@ curl -LO https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.0/JetBra
 unzip JetBrainsMono.zip -d JetBrainsMono
 mkdir -p $HOME/.local/share/fonts
 mv JetBrainsMono $HOME/.local/share/fonts
-
-# Install nodejs and npm
-# https://github.com/nvm-sh/nvm#installing-and-updating
-cd $DOWNLOADS
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
-# Install node
-nvm install node
-
-# Install Tex Live
-sudo apt-get install texlive-full
 
 # Install pandoc
 cd $DOWNLOADS

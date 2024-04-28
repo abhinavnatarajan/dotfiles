@@ -15,6 +15,7 @@ function M.load_defaults()
 		cmdheight          = 1, -- more space in the neovim command line for displaying messages
 		completeopt        = { "menu", "menuone", "noselect", "longest", },
 		conceallevel       = 2, -- so that `` is visible in markdown files
+		cpoptions          = "aABceFWZ_",
 		cursorline         = true, -- highlight the current line
 		expandtab          = false, -- convert tabs to spaces
 		fileencoding       = "utf-8", -- the encoding written to a file
@@ -76,6 +77,30 @@ function M.load_defaults()
 		wrap               = true, -- display lines as one long line
 		writebackup        = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 	}
+	-- set global defaults
+	for k, v in pairs(global_defaults) do
+		vim.opt[k] = v
+	end
+	local global_defaults_extend = {
+		fillchars = {
+			foldopen = icons.ui.TriangleShortArrowDown,
+			foldclose = icons.ui.TriangleShortArrowRight,
+			foldsep = '┊',
+			eob = " "
+		},
+		listchars = {
+			lead = icons.ui.DotSmall,
+			-- space = icons.ui.DotSmall,
+			multispace = icons.ui.DotSmall,
+			trail = '-',
+			eol = icons.ui.Eol,
+			tab = '>' .. icons.ui.DotSmall
+		}
+	}
+	-- Extend defaults
+	for k, v in pairs(global_defaults_extend) do
+		vim.opt[k] = vim.tbl_extend("force", vim.opt[k]:get(), v)
+	end
 	local local_defaults = {
 		{
 			-- escape from terminal mode in toggleterm
@@ -100,28 +125,8 @@ function M.load_defaults()
 			},
 		},
 	}
-
-	-- set global defaults
-	for k, v in pairs(global_defaults) do
-		vim.opt[k] = v
-	end
-
-	-- vim.opt.guioptions:append("b")
-	vim.opt.fillchars = vim.tbl_extend("force", vim.opt.fillchars:get(), {
-		foldopen = icons.ui.TriangleShortArrowDown,
-		foldclose = icons.ui.TriangleShortArrowRight,
-		foldsep = '┊',
-		eob = " "
-	})
-	vim.opt.listchars = vim.tbl_extend("force", vim.opt.listchars:get(), {
-		lead = icons.ui.DotSmall,
-		-- space = icons.ui.DotSmall,
-		multispace = icons.ui.DotSmall,
-		trail = '-',
-		eol = icons.ui.Eol,
-		tab = '>' .. icons.ui.DotSmall
-	})
-
+	-- set local defaults via autocommands
+	require("autocmds").define_autocmds(local_defaults)
 	vim.g.python3_host_prog  = '/home/abhinav/.pyenv/versions/pynvim/bin/python'
 	vim.g.loaded_ruby_provider = 0
 	vim.g.loaded_perl_provider = 0
@@ -144,8 +149,6 @@ function M.load_defaults()
 		vim.keymap.set({'n', 'i', 'v', 'x', 't'}, '<F11>', function() vim.g.neovide_fullscreen = not vim.g.neovide_fullscreen end, {noremap = true})
 	end
 
-	-- set local defaults via autocommands
-	require("autocmds").define_autocmds(local_defaults)
 
 	-- set powershell options on windows
 	if vim.fn.has('win32') then

@@ -534,30 +534,4 @@ function M.load_defaults()
 	require("autocmds").define_autocmds(M.autocmd_keybinds)
 end
 
---
--- -- navigation
--- ["<A-Up>"] = "<C-\\><C-N><C-w>k",
--- ["<A-Down>"] = "<C-\\><C-N><C-w>j",
--- ["<A-Left>"] = "<C-\\><C-N><C-w>h",
--- ["<A-Right>"] = "<C-\\><C-N><C-w>l",
--- },
---
---
--- term_mode = {
--- -- Terminal window navigation
--- ["<C-h>"] = "<C-\\><C-N><C-w>h",
--- ["<C-j>"] = "<C-\\><C-N><C-w>j",
--- ["<C-k>"] = "<C-\\><C-N><C-w>k",
--- ["<C-l>"] = "<C-\\><C-N><C-w>l",
--- },
---
--- -- ["p"] = ""0p",
--- -- ["P"] = ""0P",
---
--- command_mode = {
--- -- navigate tab completion with <c-j> and <c-k>
--- -- runs conditionally
--- ["<C-j>"] = { "pumvisible() ? "\\<C-n>" <CMD> "\\<C-j>"", { expr = true, noremap = true } },
--- ["<C-k>"] = { "pumvisible() ? "\\<C-p>" <CMD> "\\<C-k>"", { expr = true, noremap = true } },
--- },
 return M
