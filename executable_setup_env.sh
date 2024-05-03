@@ -14,6 +14,12 @@ sudo apt install automake libtool build-essential gdb cmake -y
 curl https://sh.rustup.rs -sSf | sh -s -- -y
 source $HOME/.bashrc
 
+# Install go
+cd $DOWNLOADS
+curl -LO https://go.dev/dl/go1.22.2.linux-amd64.tar.gz
+tar xzf go1.22.2.linux-amd64.tar.gz
+mv go $GOPATH
+
 # Pyenv for python version management
 sudo apt update;
 sudo apt install zlib1g zlib1g-dev libssl-dev libbz2-dev libsqlite3-dev libreadline-dev curl libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev -y
@@ -65,23 +71,13 @@ ln -sf $APPFOLDER/lua/bin/luac $LOCALBIN/luac
 # Install Tex Live
 sudo apt install texlive-full -y
 
+# Install Hugo static website generator
+go install -tags extended github.com/gohugoio/hugo@latest
+
 # Function to grab latest release tag version from a github repo
 function latest_github_release_version() {
 	echo $(curl -s "https://api.github.com/repos/$1/releases/latest" | grep -Po '"tag_name": "[v]?\K[^"]*')
 }
-
-# xplr file explorer
-XPLR_DEST_DIR=$APPFOLDER/xplr/
-mkdir -p $XPLR_DEST_DIR
-cd $DOWNLOADS
-git clone -b dev https://github.com/sayanarijit/xplr.git
-cd xplr
-cargo build --locked --release --bin xplr
-cp target/release/xplr $XPLR_DEST_DIR/
-ln -sf $XPLR_DEST_DIR/xplr $LOCALBIN/xplr
-
-# Install nnn file explorer
-sudo apt-get install nnn
 
 # fd-find for faster file searching
 # https://github.com/sharkdp/fd
@@ -95,6 +91,20 @@ sudo apt install fzf -y
 # Install rip-grep for searching text inside files
 # https://github.com/BurntSushi/ripgrep
 sudo apt install ripgrep -y
+
+# xplr file explorer
+XPLR_DEST_DIR=$APPFOLDER/xplr/
+mkdir -p $XPLR_DEST_DIR
+cd $DOWNLOADS
+git clone -b dev https://github.com/sayanarijit/xplr.git
+cd xplr
+cargo build --locked --release --bin xplr
+cp target/release/xplr $XPLR_DEST_DIR/
+ln -sf $XPLR_DEST_DIR/xplr $LOCALBIN/xplr
+
+# pistol file previewer for xplr and fzf
+sudo apt install libmagic-dev -y
+go install github.com/doronbehar/pistol/cmd/pistol@latest
 
 # Install lazygit
 # https://github.com/jesseduffield/lazygit#installation
@@ -174,7 +184,7 @@ mv squashfs-root/* $SIOYEK_DEST_FOLDER
 ln -sf $SIOYEK_DEST_FOLDER/AppRun $LOCALBIN/sioyek
 
 # Install svg2tikz
-sudo apt install libcairo2-dev libgirepository1.0-devel
+sudo apt install libcairo2-dev libgirepository1.0-devel -y
 pipx install svg2tikz
 
 # Install segno for QR codes

@@ -56,36 +56,8 @@ xplr.config.general.panel_ui.default.border_style = {
     "Dim"
   }
 }
-
--- XPM package manager
-local home = os.getenv("HOME")
-local xpm_path = home .. "/.local/share/xplr/dtomvan/xpm.xplr"
-local xpm_url = "https://github.com/dtomvan/xpm.xplr"
-
-package.path = package.path
-    .. ";"
-    .. xpm_path
-    .. "/?.lua;"
-    .. xpm_path
-    .. "/?/init.lua"
-
-os.execute(
-  string.format(
-    "[ -e '%s' ] || git clone '%s' '%s'",
-    xpm_path,
-    xpm_url,
-    xpm_path
-  )
-)
-require("xpm").setup({
-  plugins = {
-    -- Let xpm manage itself
-    'dtomvan/xpm.xplr',
-    'abhinavnatarajan/web-devicons.xplr',
-  },
-  auto_install = true,
-  auto_cleanup = true,
-})
+xplr.config.general.search.algorithm = "Fuzzy" -- Fuzzy or Regex
+ 
 xplr.config.node_types.directory.meta.icon = "󰉋"
 xplr.config.node_types.file.meta.icon = ""
 xplr.config.node_types.symlink.meta.icon = ""
@@ -129,6 +101,7 @@ xplr.fn.builtin.fmt_general_table_row_cols_1 = function(m)
 end
 --
 -- Type: [Mode](https://xplr.dev/en/mode)
+-- Default mode
 xplr.config.modes.builtin.default = {
   name = "default",
   key_bindings = {
@@ -407,6 +380,149 @@ xplr.config.modes.builtin.default.key_bindings.on_key["tab"] =
 xplr.config.modes.builtin.default.key_bindings.on_key["?"] =
     xplr.config.general.global_key_bindings.on_key["f1"]
 
+-- The builtin search mode.
+xplr.config.modes.builtin.search = {
+  name = "search",
+  prompt = "/",
+  key_bindings = {
+    on_key = {
+      ["up"] = {
+        help = "up",
+        messages = {
+          "FocusPrevious",
+        },
+      },
+      ["down"] = {
+        help = "down",
+        messages = {
+          "FocusNext",
+        },
+      },
+      ["ctrl-z"] = {
+        help = "toggle ordering",
+        messages = {
+          "ToggleSearchOrder",
+          "ExplorePwdAsync",
+        },
+      },
+      ["ctrl-a"] = {
+        help = "toggle search algorithm",
+        messages = {
+          "ToggleSearchAlgorithm",
+          "ExplorePwdAsync",
+        },
+      },
+      ["ctrl-r"] = {
+        help = "regex search",
+        messages = {
+          "SearchRegexFromInput",
+          "ExplorePwdAsync",
+        },
+      },
+      ["ctrl-f"] = {
+        help = "fuzzy search",
+        messages = {
+          "SearchFuzzyFromInput",
+          "ExplorePwdAsync",
+        },
+      },
+      ["ctrl-s"] = {
+        help = "sort (no search order)",
+        messages = {
+          "DisableSearchOrder",
+          "ExplorePwdAsync",
+          { SwitchModeBuiltinKeepingInputBuffer = "sort" },
+        },
+      },
+      ["right"] = {
+        help = "enter",
+        messages = {
+          "Enter",
+          { SetInputBuffer = "" },
+        },
+      },
+      ["left"] = {
+        help = "back",
+        messages = {
+          "Back",
+          { SetInputBuffer = "" },
+        },
+      },
+      ["tab"] = {
+        help = "toggle selection",
+        messages = {
+          "ToggleSelection",
+          "FocusNext",
+        },
+      },
+      ["enter"] = {
+        help = "submit",
+        messages = {
+          "AcceptSearch",
+          "PopMode",
+        },
+      },
+      ["esc"] = {
+        help = "cancel",
+        messages = {
+          "CancelSearch",
+          "PopMode",
+        },
+      },
+    },
+    default = {
+      messages = {
+        "UpdateInputBufferFromKey",
+        "SearchFromInput",
+        "ExplorePwdAsync",
+      },
+    },
+  },
+}
+
+xplr.config.modes.builtin.search.key_bindings.on_key["ctrl-j"] = xplr.config.modes.builtin.search.key_bindings.on_key["down"]
+xplr.config.modes.builtin.search.key_bindings.on_key["ctrl-k"] = xplr.config.modes.builtin.search.key_bindings.on_key["up"]
+xplr.config.modes.builtin.search.key_bindings.on_key["ctrl-h"] = xplr.config.modes.builtin.search.key_bindings.on_key["left"]
+xplr.config.modes.builtin.search.key_bindings.on_key["ctrl-l"] = xplr.config.modes.builtin.search.key_bindings.on_key["right"]
+
+-- XPM package manager
+local home = os.getenv("HOME")
+local xpm_path = home .. "/.local/share/xplr/dtomvan/xpm.xplr"
+local xpm_url = "https://github.com/dtomvan/xpm.xplr"
+
+package.path = package.path
+    .. ";"
+    .. xpm_path
+    .. "/?.lua;"
+    .. xpm_path
+    .. "/?/init.lua"
+
+os.execute(
+  string.format(
+    "[ -e '%s' ] || git clone '%s' '%s'",
+    xpm_path,
+    xpm_url,
+    xpm_path
+  )
+)
+require("xpm").setup({
+  plugins = {
+    -- Let xpm manage itself
+    'dtomvan/xpm.xplr',
+    'abhinavnatarajan/web-devicons.xplr',
+    'sayanarijit/fzf.xplr'
+  },
+  auto_install = true,
+  auto_cleanup = true,
+})
+require("fzf").setup{
+  mode = "default",
+  key = "ctrl-f",
+  bin = "fzf",
+  args = "--bind 'ctrl-]:toggle-preview'",
+  recursive = true,  -- If true, search all files under $PWD
+  enter_dir = false,  -- Enter if the result is directory
+}
 return {
   on_load = {},
   on_directory_change = {},

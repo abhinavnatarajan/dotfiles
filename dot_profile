@@ -22,7 +22,8 @@ export VISUAL=nvim
 export EDITOR=nvim
 
 # add go to PATH
-PATH="$HOME/.go/bin:$PATH"
+export GOPATH="$HOME/.go"
+PATH="$GOPATH/bin:$PATH"
 
 # add cargo to PATH
 . "$HOME/.cargo/env"
