@@ -7,7 +7,7 @@ mkdir -p $DOWNLOADS
 mkdir -p $APPFOLDER
 
 # Install C++ tools
-sudo apt-get install automake libtool build-essential gdb cmake
+sudo apt install automake libtool build-essential gdb cmake -y
 
 # Install rust and cargo
 # https://rust-lang.github.io/rustup/installation/other.html
@@ -16,7 +16,7 @@ source $HOME/.bashrc
 
 # Pyenv for python version management
 sudo apt update;
-sudo apt install zlib1g zlib1g-dev libssl-dev libbz2-dev libsqlite3-dev libreadline-dev curl libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+sudo apt install zlib1g zlib1g-dev libssl-dev libbz2-dev libsqlite3-dev libreadline-dev curl libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev -y
 curl https://pyenv.run | bash
 env PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' PYTHON_CFLAGS='-march=native -mtune=native' pyenv install 3.11.6
 pyenv global 3.11.6
@@ -52,8 +52,18 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 # Install node
 nvm install node
 
+# Lua
+cd $DOWNLOADS
+curl -LO https://www.lua.org/ftp/lua-5.4.6.tar.gz
+tar zxf lua-5.4.6.tar.gz
+cd lua-5.4.6
+make linux-readline test
+make install INSTALL_TOP=$APPFOLDER/lua
+ln -sf $APPFOLDER/lua/bin/lua $LOCALBIN/lua
+ln -sf $APPFOLDER/lua/bin/luac $LOCALBIN/luac
+
 # Install Tex Live
-sudo apt-get install texlive-full
+sudo apt install texlive-full -y
 
 # Function to grab latest release tag version from a github repo
 function latest_github_release_version() {
@@ -75,16 +85,16 @@ sudo apt-get install nnn
 
 # fd-find for faster file searching
 # https://github.com/sharkdp/fd
-sudo apt-get install fd-find
+sudo apt install fd-find -y
 ln -sf $(which fdfind) $LOCALBIN/fd
 
 # Fuzzy finder
 # https://github.com/junegunn/fzf
-sudo apt-get install fzf
+sudo apt install fzf -y
 
 # Install rip-grep for searching text inside files
 # https://github.com/BurntSushi/ripgrep
-sudo apt-get install ripgrep
+sudo apt install ripgrep -y
 
 # Install lazygit
 # https://github.com/jesseduffield/lazygit#installation
@@ -97,8 +107,13 @@ mkdir -p $LAZYGIT_DEST_FOLDER
 tar -xf ${LAZYGIT_FILE} -C $LAZYGIT_DEST_FOLDER
 ln -sf $LAZYGIT_DEST_FOLDER/lazygit $LOCALBIN/lazygit
 
-# Git-delta
-cargo install git-delta
+# Github CLI
+sudo mkdir -p -m 755 /etc/apt/keyrings && cd $_
+sudo curl -LO https://cli.github.com/packages/githubcli-archive-keyring.gpg
+sudo chmod go+r githubcli-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+sudo apt update
+sudo apt install gh -y
 
 # Install neovim
 # https://github.com/neovim/neovim/wiki/Installing-Neovim
@@ -157,3 +172,10 @@ chmod u+x $SIOYEK_APPIMAGE
 ./${SIOYEK_APPIMAGE} --appimage-extract
 mv squashfs-root/* $SIOYEK_DEST_FOLDER
 ln -sf $SIOYEK_DEST_FOLDER/AppRun $LOCALBIN/sioyek
+
+# Install svg2tikz
+sudo apt install libcairo2-dev libgirepository1.0-devel
+pipx install svg2tikz
+
+# Install segno for QR codes
+pipx install segno

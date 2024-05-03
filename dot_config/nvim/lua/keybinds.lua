@@ -11,7 +11,7 @@ local icons = require("icons")
 
 M.which_key_defaults = {
 	{
-		-- File shortcuts
+		-- "File menu" shortcuts
 		mapping = {
 			["<leader>"] = {
 				name = icons.ui.Files .. " Leader shortcuts",

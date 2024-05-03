@@ -1,6 +1,3 @@
-# alias nvim="ABHINAV_NVIM_PPID=$PPID nvim --listen /tmp/nvim-server-${PPID}.pipe"
-alias copy="rsync -ah --info=progress2"
-alias move="rsync -ah --info=progress2 --remove-source-files"
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -15,10 +12,16 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+alias la='ls -Alh'
+alias ll='ls -lh'
  
+# xplr cd on exit
+alias nav='cd "$(xplr --print-pwd-as-result)"'
+
+# alias nvim="ABHINAV_NVIM_PPID=$PPID nvim --listen /tmp/nvim-server-${PPID}.pipe"
+alias copy="rsync -ah --info=progress2"
+alias move="rsync -ah --info=progress2 --remove-source-files"
+
 # Neovide
 if [[ $(grep microsoft /proc/version ) ]]; then
     alias nvd='neovide.exe --wsl --neovim-bin $HOME/.local/bin/nvim & disown'

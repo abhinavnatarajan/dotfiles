@@ -1,59 +1,57 @@
-version = '0.21.7'
+version = '0.21.8'
 
 ---@diagnostic disable
 local xplr = xplr -- The globally exposed configuration to be overridden.
 ---@diagnostic enable
 
-
 xplr.config.general.enable_mouse = true
--- The default style of each item for each row.
--- Type: [Style](https://xplr.dev/en/style)
-xplr.config.general.default_ui.style = {
-  sub_modifiers = {}
-}
-
+--
+xplr.config.general.default_ui.style = {}
 -- Style for focused item.
 xplr.config.general.focus_ui.style = {
-	add_modifiers = {
-		"Bold",
-		"Italic",
-	}
+  add_modifiers = {
+    "Bold",
+    "Reversed"
+  }
 }
 
 -- Style for selected rows.
 xplr.config.general.selection_ui.style = {
-	add_modifiers = {
-		"Reversed"
-	},
+  add_modifiers = {
+    "Italic"
+  },
 }
 
 -- Style for a selected row that gets the focus.
 xplr.config.general.focus_selection_ui.style = {
-	add_modifiers = {
-		"Bold",
-		"Italic",
-		"Reversed"
-	},
+  add_modifiers = {
+    "Bold",
+    "Italic",
+    "Reversed"
+  },
 }
 
 xplr.config.general.sort_and_filter_ui.separator.style = {
-	add_modifiers = {
+  add_modifiers = {
     "Dim"
   },
 }
 
 -- The content that is placed before the item name for each row by default.
-xplr.config.general.default_ui.prefix = "   "
--- The string placed before the item name for a focused row.
-xplr.config.general.focus_ui.prefix = "▸[ "
--- The string placed before the item name for a selected row.
-xplr.config.general.selection_ui.prefix = "  *"
+xplr.config.general.default_ui.prefix = "    "
+-- The string placed before and after the item name for a focused row.
+xplr.config.general.focus_ui.prefix = "▸[  "
+xplr.config.general.focus_ui.suffix = " ]"
+-- The string placed before and after the item name for a selected row.
+xplr.config.general.selection_ui.prefix = "  + "
+xplr.config.general.selection_ui.suffix = ""
 -- The string placed before item name for a selected row that gets the focus.
-xplr.config.general.focus_selection_ui.prefix = "▸[*"
+xplr.config.general.focus_selection_ui.prefix = "▸[+ "
+xplr.config.general.focus_selection_ui.suffix = " ]"
 
 -- Style of the panel borders by default.
 xplr.config.general.panel_ui.default.border_style = {
-	fg = "Gray",
+  fg = "Gray",
   add_modifiers = {
     "Dim"
   }
@@ -65,11 +63,11 @@ local xpm_path = home .. "/.local/share/xplr/dtomvan/xpm.xplr"
 local xpm_url = "https://github.com/dtomvan/xpm.xplr"
 
 package.path = package.path
-  .. ";"
-  .. xpm_path
-  .. "/?.lua;"
-  .. xpm_path
-  .. "/?/init.lua"
+    .. ";"
+    .. xpm_path
+    .. "/?.lua;"
+    .. xpm_path
+    .. "/?/init.lua"
 
 os.execute(
   string.format(
@@ -83,7 +81,7 @@ require("xpm").setup({
   plugins = {
     -- Let xpm manage itself
     'dtomvan/xpm.xplr',
-    'gitlab:hartan/web-devicons.xplr',
+    'abhinavnatarajan/web-devicons.xplr',
   },
   auto_install = true,
   auto_cleanup = true,
@@ -92,6 +90,44 @@ xplr.config.node_types.directory.meta.icon = "󰉋"
 xplr.config.node_types.file.meta.icon = ""
 xplr.config.node_types.symlink.meta.icon = ""
 
+-- Renders the second column in the table
+xplr.fn.builtin.fmt_general_table_row_cols_1 = function(m)
+  local nl = xplr.util.paint("\\n", { add_modifiers = { "Italic", "Dim" } })
+  local r = m.tree .. m.prefix
+  local ls_style = xplr.util.lscolor(m.absolute_path)
+  local style = xplr.util.style_mix({ ls_style, m.style })
+  if m.meta.icon == nil then
+    r = r .. ""
+  else
+    if m.is_dir or m.is_symlink or (m.is_file and m.meta.icon == "") then
+      m.meta.icon = xplr.util.paint(m.meta.icon, ls_style)
+    end
+    r = r .. m.meta.icon .. " "
+  end
+  local rel = m.relative_path
+  if m.is_dir then
+    rel = rel .. "/"
+  end
+  r = r .. xplr.util.paint(xplr.util.shell_escape(rel), style)
+  r = r .. m.suffix .. " "
+
+  if m.is_symlink then
+    r = r .. "-> "
+
+    if m.is_broken then
+      r = r .. "×"
+    else
+      local symlink_path =
+          xplr.util.shorten(m.symlink.absolute_path, { base = m.parent })
+      if m.symlink.is_dir then
+        symlink_path = symlink_path .. "/"
+      end
+      r = r .. symlink_path:gsub("\n", nl)
+    end
+  end
+  return r
+end
+--
 -- Type: [Mode](https://xplr.dev/en/mode)
 xplr.config.modes.builtin.default = {
   name = "default",
@@ -194,7 +230,7 @@ xplr.config.modes.builtin.default = {
           "FocusNext",
         },
       },
-      ["enter"] = {
+      ["q"] = {
         help = "quit with result",
         messages = {
           "PrintResultAndQuit",
@@ -218,12 +254,6 @@ xplr.config.modes.builtin.default = {
         help = "back",
         messages = {
           "Back",
-        },
-      },
-      ["q"] = {
-        help = "quit",
-        messages = {
-          "Quit",
         },
       },
       ["r"] = {
@@ -339,6 +369,13 @@ xplr.config.modes.builtin.default = {
           { SetInputBuffer = "" },
         },
       },
+      ["x"] = {
+        help = "xpm",
+        messages = {
+          "PopMode",
+          { SwitchModeCustom = "xpm" },
+        },
+      }
     },
     on_number = {
       help = "input",
