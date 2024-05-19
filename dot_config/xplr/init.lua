@@ -510,7 +510,8 @@ require("xpm").setup({
     -- Let xpm manage itself
     'dtomvan/xpm.xplr',
     'abhinavnatarajan/web-devicons.xplr',
-    'sayanarijit/fzf.xplr'
+    'sayanarijit/fzf.xplr',
+    'igorepst/context-switch.xplr'
   },
   auto_install = true,
   auto_cleanup = true,
@@ -523,6 +524,7 @@ require("fzf").setup{
   recursive = true,  -- If true, search all files under $PWD
   enter_dir = false,  -- Enter if the result is directory
 }
+require("context-switch").setup()
 return {
   on_load = {},
   on_directory_change = {},

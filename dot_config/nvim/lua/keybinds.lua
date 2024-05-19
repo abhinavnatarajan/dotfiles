@@ -13,7 +13,7 @@ M.which_key_defaults = {
 	{
 		-- "File menu" shortcuts
 		mapping = {
-			["<leader>"] = {
+			["<Leader>"] = {
 				name = icons.ui.Files .. " Leader shortcuts",
 				[";"] = { "<CMD>Alpha<CR>", icons.ui.Dashboard .. " Dashboard" },
 				["a"] = { require("utils.windows").toggle_aerial, icons.ui.FileTree .. " Outline (aerial)" },
@@ -127,12 +127,12 @@ M.which_key_defaults = {
 			["<A-H>"] = { "<CMD>BufferLineMovePrev<CR>", icons.ui.ChevronLeftCircle .. " Move buffer left", mode = { "n", "i" } },
 			["<A-L>"] = { "<CMD>BufferLineMoveNext<CR>", icons.ui.ChevronRightCircle .. " Move buffer right", mode = { "n", "i" } },
 			-- Window movement
-			["<C-w>"] = { icons.ui.Window .. " Manage windows" },
+			["<C-w>"] = { name = icons.ui.Window .. " Manage windows" },
 			-- ["<C-w>S"] = { require("utils.windows").swap_window, icons.ui.Swap .. " Swap windows" },
-			["<C-h>"] = { "<CMD>wincmd h<CR>", icons.ui.ChevronLeftBoxOutline .. " Go to the left window", mode = { "n", "i" } },
-			["<C-j>"] = { "<CMD>wincmd j<CR>", icons.ui.ChevronDownBoxOutline .. " Go to the down window", mode = { "n", "i" } },
-			["<C-k>"] = { "<CMD>wincmd k<CR>", icons.ui.ChevronUpBoxOutline .. " Go to the up window", mode = { "n", "i" } },
-			["<C-l>"] = { "<CMD>wincmd l<CR>", icons.ui.ChevronRightBoxOutline .. " Go to the right window", mode = { "n", "i" } },
+			["<C-w>h"] = { "<CMD>wincmd h<CR>", icons.ui.ChevronLeftBoxOutline .. " Go to the left window", mode = { "n", "i" } },
+			["<C-w>j"] = { "<CMD>wincmd j<CR>", icons.ui.ChevronDownBoxOutline .. " Go to the down window", mode = { "n", "i" } },
+			["<C-w>k"] = { "<CMD>wincmd k<CR>", icons.ui.ChevronUpBoxOutline .. " Go to the up window", mode = { "n", "i" } },
+			["<C-w>l"] = { "<CMD>wincmd l<CR>", icons.ui.ChevronRightBoxOutline .. " Go to the right window", mode = { "n", "i" } },
 			-- Smooth scrolling
 			["<C-y>"] = {
 				function() require("neoscroll").scroll(-0.1, true, 100) end,
@@ -215,6 +215,10 @@ M.which_key_defaults = {
 			["<F15>"] = { [[<CMD>lua require('notify').dismiss({pending = true, silent=true})<CR>]], "Dismiss notifications" },
 			["<A-,>"] = { "<C-D>", icons.ui.IndentDecrease .. " Decrease indentation" },
 			["<A-.>"] = { "<C-T>", icons.ui.IndentIncrease .. " Increase indentation" },
+			["<C-j>"] = { "<Down>", "Move cursor down" },
+			["<C-k>"] = { "<Up>", "Move cursor up" },
+			["<C-h>"] = { "<Left>", "Move cursor left" },
+			["<C-l>"] = { "<Right>", "Move cursor right" },
 		},
 	},
 	{
@@ -371,16 +375,16 @@ M.which_key_defaults = {
 			}
 		}
 	},
-	{
-		-- Terminal mode mappings
-		mode = "t",
-		mapping = {
-			["<C-k>"] = { [[<CMD>wincmd k<CR>]], icons.ui.ChevronUpBoxOutline .. " Go to the up window" },
-			["<C-j>"] = { [[<CMD>wincmd j<CR>]], icons.ui.ChevronDownBoxOutline .. " Go to the down window" },
-			["<C-h>"] = { [[<CMD>wincmd h<CR>]], icons.ui.ChevronLeftBoxOutline .. " Go to the left window" },
-			["<C-l>"] = { [[<CMD>wincmd l<CR>]], icons.ui.ChevronRightBoxOutline .. " Go to the right window" },
-		}
-	},
+	-- {
+	-- 	-- Terminal mode mappings
+	-- 	mode = "t",
+	-- 	mapping = {
+	-- 		["<C-k>"] = { [[<CMD>wincmd k<CR>]], icons.ui.ChevronUpBoxOutline .. " Go to the up window" },
+	-- 		["<C-j>"] = { [[<CMD>wincmd j<CR>]], icons.ui.ChevronDownBoxOutline .. " Go to the down window" },
+	-- 		["<C-h>"] = { [[<CMD>wincmd h<CR>]], icons.ui.ChevronLeftBoxOutline .. " Go to the left window" },
+	-- 		["<C-l>"] = { [[<CMD>wincmd l<CR>]], icons.ui.ChevronRightBoxOutline .. " Go to the right window" },
+	-- 	}
+	-- },
 }
 
 -- Don't yank when replacing text
@@ -496,11 +500,11 @@ M.autocmd_keybinds = {
 				end
 				if client_capabilities.signatureHelpProvider then
 					bufmap('n', 'gs', vim.lsp.buf.signature_help, "Signature help")
-					bufmap('i', '<C-s>', vim.lsp.buf.signature_help, "Signature help")
+					bufmap('i', '<C-.>', vim.lsp.buf.signature_help, "Signature help")
 				end
 				if client_capabilities.hoverProvider then
 					bufmap('n', 'gk', vim.lsp.buf.hover, "Hover symbol")
-					bufmap('i', '<C-h>', vim.lsp.buf.hover, "Hover symbol")
+					bufmap('i', '<C-,>', vim.lsp.buf.hover, "Hover symbol")
 				end
 				if client_capabilities.referencesProvider then
 					bufmap('n', 'gr', vim.lsp.buf.references, "List references")

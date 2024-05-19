@@ -48,8 +48,8 @@ function M.setup()
       ['<C-d>'] = cmp.mapping.scroll_docs(4),
       -- ['<Up>'] = cmp.mapping.select_prev_item(select_opts),
       -- ['<Down>'] = cmp.mapping.select_next_item(select_opts),
-      ['<C-p>'] = cmp.mapping.select_prev_item(select_opts),
-      ['<C-n>'] = cmp.mapping.select_next_item(select_opts),
+      -- ['<C-p>'] = cmp.mapping.select_prev_item(select_opts),
+      -- ['<C-n>'] = cmp.mapping.select_next_item(select_opts),
       -- set <A-C> as the autocomplete trigger key
       ['<A-c>'] = cmp.mapping(function(_)
         if cmp.visible() then
@@ -69,7 +69,7 @@ function M.setup()
         end
       end, {'i', 's'}),
       -- If the completion menu is visible, move to the next item.
-      ['<Tab>'] = cmp.mapping(function(fallback)
+      ['<C-n>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item(select_opts)
         elseif luasnip.jumpable(1) then
@@ -79,7 +79,7 @@ function M.setup()
         end
       end, {'i', 's'}),
       -- If the completion menu is visible, move to the previous item.
-      ['<S-Tab>'] = cmp.mapping(function(fallback)
+      ['<C-p>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_prev_item(select_opts)
         elseif luasnip.jumpable(-1) then
