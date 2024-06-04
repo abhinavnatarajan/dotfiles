@@ -1,7 +1,19 @@
 return {
   "dstein64/nvim-scrollview",
   event = "User FileOpened",
-  config = function()
+  cmd = {
+    "ScrollViewDisable",
+    "ScrollViewEnable",
+    "ScrollViewToggle",
+    "ScrollViewRefresh",
+    "ScrollViewNext",
+    "ScrollViewPrev",
+    "ScrollViewFirst",
+    "ScrollViewLast",
+  },
+  -- this plugin is versioned but there are several unversioned commits since the last release
+  -- version = "*",
+  opts = function()
     local icons = require("icons")
     require("scrollview").setup {
       always_show = false,
@@ -28,7 +40,7 @@ return {
       folds_symbol = icons.ui.TriangleShortArrowRight,
       loclist_symbol = icons.ui.LocationList,
       quickfix_symbol = icons.ui.Fix,
-      search_symbol = icons.ui.Circle,
+      search_symbol = icons.ui.Search,
       spell_symbol = '~',
       textwidth_symbol = icons.ui.DoubleChevronRight,
       trail_symbol = icons.ui.Square,

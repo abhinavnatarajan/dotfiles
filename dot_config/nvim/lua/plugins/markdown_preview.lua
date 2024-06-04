@@ -6,7 +6,8 @@ return {
 		"MarkdownPreview",
 		"MarkdownPreviewStop"
 	},
-	-- ft = { "markdown" },
+	-- this plugin is versioned but has severa bugfixes since the last release
+	ft = { "markdown" },
 	keys = {
 		"<Plug>(MarkdownPreview)",
 		"<Plug>(MarkdownPreviewStop)",

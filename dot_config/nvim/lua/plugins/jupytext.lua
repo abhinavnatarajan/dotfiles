@@ -1,8 +1,10 @@
 return {
-	"goerz/jupytext.vim",
-	-- event = "BufReadCmd *.ipynb",
-	init = function()
-		vim.g.jupytext_fmt = 'py:percent'
-		vim.g.jupytext_to_ipynb_opts = '--to=ipynb --update'
-	end
+	"GCBallesteros/jupytext.nvim",
+	lazy = false,
+	opts = {
+		style = "py:percent",
+		output_extension = "auto", -- Default extension. Don't change unless you know what you are doing
+		force_ft = nil, -- Default filetype. Don't change unless you know what you are doing
+		custom_language_formatting = {},
+	},
 }

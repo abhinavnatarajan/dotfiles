@@ -1,7 +1,7 @@
 return {
 	syntax = {
 		Array                     = "󰅪" ,
-		Boolean                   = "" ,
+		Boolean                   = "󰨙" ,
 		Class                     = "" ,
 		Color                     = "" ,
 		Constant                  = "󰏿" ,
@@ -17,7 +17,7 @@ return {
 		Key                       = "" ,
 		Keyword                   = "" ,
 		Method                    = "󰡱" ,
-		Module                    = "" ,
+		Module                    = "󰕳" ,
 		Namespace                 = "" ,
 		Null                      = "󰟢" ,
 		Number                    = "" ,
@@ -30,7 +30,7 @@ return {
 		String                    = "" ,
 		Struct                    = "" ,
 		Text                      = "" ,
-		TypeParameter             = "󰊄" ,
+		TypeParameter             = "t" ,
 		Unit                      = "" ,
 		Value                     = "" ,
 		Variable                  = "󰫧" ,

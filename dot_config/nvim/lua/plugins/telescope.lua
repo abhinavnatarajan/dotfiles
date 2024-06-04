@@ -32,7 +32,16 @@ return {
         },
         wrap_results = true,
         winblend = (vim.g.neovide and 25) or 5,
-        get_selection_window = require("utils.windows").get_window
+        get_selection_window = require("utils.windows").get_window,
+        vimgrep_arguments = {
+          "rg",
+          "--color=never",
+          "--no-heading",
+          "--with-filename",
+          "--line-number",
+          "--column",
+          -- "--smart-case" -- we enable this in the keybinds, but we don't want it in the command line
+        }
       },
       pickers = {
         help_tags = {
@@ -50,9 +59,6 @@ return {
         },
         git_files = {
           no_ignore = true,
-        },
-        live_grep = {
-          prompt_title = "Search text",
         },
         oldfiles = {
           prompt_title = "Recent files"

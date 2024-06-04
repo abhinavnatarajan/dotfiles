@@ -1,7 +1,9 @@
 local M = {}
 
-function M.filter(winid, bufid)
-	return vim.api.nvim_buf_get_option(bufid, 'filetype') == "alpha" or not M.exclude_buftypes[vim.api.nvim_buf_get_option(bufid, 'buftype')]
+function M.filter(_, bufid)
+	return vim.api.nvim_get_option_value("filetype", { buf = bufid }) == "alpha"
+			or not M.exclude_buftypes[vim.api.nvim_get_option_value("buftype", { buf = bufid })]
+	-- return vim.api.nvim_buf_get_option(bufid, 'filetype') == "alpha" or not M.exclude_buftypes[vim.api.nvim_buf_get_option(bufid, 'buftype')]
 end
 
 M.exclude_buftypes = {
@@ -10,7 +12,6 @@ M.exclude_buftypes = {
 	nofile = true,
 }
 
-
 function M.list_wins(silent)
 	silent = silent or true
 	local res = vim.tbl_map(function(win)
@@ -18,12 +19,10 @@ function M.list_wins(silent)
 		return {
 			winnr = win,
 			bufnr = buf,
-			buftype = vim.api.nvim_buf_get_option(buf, 'buftype'),
-			filetype = vim.api.nvim_buf_get_option(buf, 'filetype')
+			buftype = vim.api.nvim_get_option_value("buftype", { buf = buf }),
+			filetype = vim.api.nvim_get_option_value("filetype", { buf = buf }),
 		}
-	end,
-		vim.api.nvim_tabpage_list_wins(0)
-	)
+	end, vim.api.nvim_tabpage_list_wins(0))
 	if not silent then
 		vim.notify(vim.inspect(res), vim.log.levels.INFO)
 	end
@@ -61,12 +60,11 @@ function M.new_window()
 	return vim.api.nvim_get_current_win()
 end
 
-function M.aerial_winid()
-	local aerial = require('aerial')
+-- If aerial is open then return its window id
+function M.aerial_is_open()
 	local wins = M.list_wins()
-	for i, v in ipairs(wins) do
-		-- If aerial is open for any window then close it
-		if v.filetype == 'aerial' then
+	for _, v in ipairs(wins) do
+		if v.filetype == "aerial" then
 			return v
 		end
 	end
@@ -76,24 +74,22 @@ end
 -- Function to toggle aerial with positioning compatible with nvimtree
 function M.toggle_aerial()
 	--  Check if aerial is already open
-	local aerial = require('aerial')
-	local aerial_winid = M.aerial_winid()
-	if aerial_winid then
+	local aerial = require("aerial")
+	if M.aerial_is_open() then
 		aerial.close_all()
 		return
 	end
 	-- If aerial is not open then we will open it
 	-- Check if nvim-tree is open
 	local nvt = require("nvim-tree.api").tree
-	local nvt_winid = nvt.winid()
-	if nvt_winid then
+	if nvt.winid() then
 		local source_winid = vim.api.nvim_get_current_win()
 		nvt.open()
 		vim.cmd("split")
 		local target_winid = vim.api.nvim_get_current_win()
 		aerial.open_in_win(target_winid, source_winid)
 	else
-		aerial.open({focus = true, direction = 'right'})
+		aerial.open({ focus = true, direction = "right" })
 	end
 end
 
@@ -101,17 +97,17 @@ end
 function M.toggle_nvimtree()
 	-- If NvimTree is open we close it
 	local nvt = require("nvim-tree.api").tree
-	local aerial = require('aerial')
-	local aerial_winid = M.aerial_winid()
+	local aerial = require("aerial")
+	local aerial_winid = M.aerial_is_open()
 	if nvt.is_visible() or not aerial_winid then
 		vim.cmd("silent NvimTreeToggle")
 		return
 	end
 
 	aerial.focus()
-	vim.cmd('aboveleft split')
+	vim.cmd("aboveleft split")
 	local nvt_winid = vim.api.nvim_get_current_win()
-	nvt.open({winid = nvt_winid})
+	nvt.open({ winid = nvt_winid })
 end
 
 return M

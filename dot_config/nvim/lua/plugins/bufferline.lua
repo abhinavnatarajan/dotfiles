@@ -1,7 +1,6 @@
 -- use a tab row to display open buffers
 return {
   'akinsho/bufferline.nvim',
-  lazy = true,
   event = 'User FileOpened',
   version = '*',
   dependencies = {
@@ -10,6 +9,42 @@ return {
     -- "sainnhe/sonokai",
     "nvim-tree/nvim-web-devicons",
     "abhinavnatarajan/winpick.nvim",
+  },
+  cmd = {
+    "BufferLinePick",
+    "BufferLineTogglePin",
+    "BufferLineCyclePrev",
+    "BufferLineCycleNext",
+    "BufferLineMovePrev",
+    "BufferLineMoveNext"
+  },
+  keys = {
+    { "<leader>bj", "<CMD>BufferLinePick<CR>",      desc = require("icons").ui.GotoFile .. " Jump to buffer", },
+    { "<leader>bp", "<CMD>BufferLineTogglePin<CR>", desc = require("icons").ui.Pin .. " Pin buffer", },
+    {
+      "<A-h>",
+      "<CMD>BufferLineCyclePrev<CR>",
+      desc = require("icons").ui.ChevronLeftCircleOutline .. " Previous buffer",
+      mode = { "n", "i" },
+    },
+    {
+      "<A-l>",
+      "<CMD>BufferLineCycleNext<CR>",
+      desc = require("icons").ui.ChevronRightCircleOutline .. " Next buffer",
+      mode = { "n", "i" },
+    },
+    {
+      "<A-H>",
+      "<CMD>BufferLineMovePrev<CR>",
+      desc = require("icons").ui.ChevronLeftCircle .. " Move buffer left",
+      mode = { "n", "i" },
+    },
+    {
+      "<A-L>",
+      "<CMD>BufferLineMoveNext<CR>",
+      desc = require("icons").ui.ChevronRightCircle .. " Move buffer right",
+      mode = { "n", "i" },
+    },
   },
   config = function()
     local bufferline = require('bufferline')
@@ -37,7 +72,7 @@ return {
         },
         separator_style = "slant",
         show_tab_indicators = true,
-        move_wraps_at_ends = false, -- moving buffers wraps around at ends
+        move_wraps_at_ends = false,   -- moving buffers wraps around at ends
         enforce_regular_tabs = false, -- enforce all visual tabs have same size
         persist_buffer_sort = true,
         offsets = {

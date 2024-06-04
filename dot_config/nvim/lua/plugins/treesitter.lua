@@ -45,12 +45,13 @@ return {
 
           keymaps = {
             -- You can use the capture groups defined in textobjects.scm
-            ["af"] = { query = "@function.outer", desc = "a function" },
-            ["if"] = { query = "@function.inner", desc = "inner function" },
-            ["ac"] = { query = "@class.outer", desc = "a class"},
             -- You can optionally set descriptions to the mappings (used in the desc parameter of
             -- nvim_buf_set_keymap) which plugins like which-key display
-            ["ic"] = { query = "@class.inner", desc = "inner class" },
+            ["af"] = { query = "@function.outer", desc = "a function" },
+            ["if"] = { query = "@function.inner", desc = "inner function" },
+            -- ["gc"] = { query = "@comment", desc = "a comment" },
+            -- ["ac"] = { query = "@class.outer", desc = "a class"},
+            -- ["ic"] = { query = "@class.inner", desc = "inner class" },
             -- You can also use captures from other query groups like `locals.scm`
             -- ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
           },
@@ -64,6 +65,7 @@ return {
           selection_modes = {
             ['@parameter.outer'] = 'v', -- charwise
             ['@function.outer'] = 'V', -- linewise
+            ['@class.outer'] = 'V',
             -- ['@class.outer'] = '<c-v>', -- blockwise
           },
           -- If you set this to `true` (default is `false`) then any textobject is
@@ -107,6 +109,7 @@ return {
         'matlab',
         -- 'pip requirements',
         'python',
+        'query',
         'r',
         'regex',
         'rst',

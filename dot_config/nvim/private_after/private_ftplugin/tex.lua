@@ -1,34 +1,49 @@
-require('nvim-surround').buffer_setup({
+require("nvim-surround").buffer_setup({
 	-- Configuration here, or leave empty to use defaults
 	surrounds = {
 		["e"] = {
 			add = function()
-				local env = require("nvim-surround.config").get_input "Environment: "
+				local env = require("nvim-surround.config").get_input("Environment: ")
 				return { { "\\begin{" .. env .. "}" }, { "\\end{" .. env .. "}" } }
 			end,
 		},
 		["c"] = {
 			add = function()
-				local cmd = require("nvim-surround.config").get_input "Command: "
+				local cmd = require("nvim-surround.config").get_input("Command: ")
 				return { { "\\" .. cmd .. "{" }, { "}" } }
 			end,
 		},
-	}
+	},
 })
+
+-- Text objects
+-- require("nvim-treesitter.configs").setup({
+-- 	textobjects = {
+-- 		select = {
+-- 			enable = true,
+-- 			keymaps = {
+-- 				["ae"] = { query = "@block.outer", desc = "an environment" },
+-- 				["ie"] = { query = "@block.inner", desc = "inside environment" },
+-- 				["ac"] = { query = "@call.outer", desc = "a command" },
+-- 				["ic"] = { query = "@call.inner", desc = "inside command" },
+-- 			},
+-- 		},
+-- 	},
+-- })
 
 -- Labelled vimtex keybinds
 local vimtex_keybind = function()
 	local wk = require("which-key")
-	local DefaultOpts = require("utils").prototype {
-		buffer = 0,   -- Global mappings. Specify a buffer number for buffer local mappings
+	local DefaultOpts = require("utils").prototype({
+		buffer = 0, -- Global mappings. Specify a buffer number for buffer local mappings
 		silent = true, -- use `silent` when creating keymaps
 		noremap = true, -- use `noremap` when creating keymaps
 		nowait = true, -- use `nowait` when creating keymaps
 		expr = false,
-	}
+	})
 	local mappings = {
 		["<leader>"] = {
-			["l"] = {
+			["\\"] = {
 				name = "Vimtex",
 				["i"] = { "<plug>(vimtex-info-full)", "Info" },
 				["I"] = { "<plug>(vimtex-info-full)", "Info (full)" },
@@ -37,7 +52,7 @@ local vimtex_keybind = function()
 				["v"] = { "<plug>(vimtex-view)", "View document" },
 				["r"] = { "<plug>(vimtex-reverse-search)", "Reverse search" },
 				["l"] = { "<plug>(vimtex-compile)", "Compile" },
-				["L"] = { "<plug>(vimtex-compile-selected)", "Compile selected", { mode = {"n", "x"} } },
+				["L"] = { "<plug>(vimtex-compile-selected)", "Compile selected", { mode = { "n", "x" } } },
 				["k"] = { "<plug>(vimtex-stop)", "Stop" },
 				["K"] = { "<plug>(vimtex-stop-all)", "Stop (all)" },
 				["e"] = { "<plug>(vimtex-errors)", "Errors" },
@@ -51,8 +66,8 @@ local vimtex_keybind = function()
 				["X"] = { "<plug>(vimtex-reload-state)", "Reload Vimtex state" },
 				["s"] = { "<plug>(vimtex-toggle-main)", "Toggle main file" },
 				["a"] = { "<plug>(vimtex-context-menu)", "Context menu" },
-			}
-		}
+			},
+		},
 	}
 	wk.register(mappings, DefaultOpts)
 end

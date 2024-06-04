@@ -28,14 +28,17 @@ env PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' PYTHON_CFLAGS='-ma
 pyenv global 3.11.6
 # pipx for global packages
 pip3 install --user pipx
-pipx install jupyterlab jupytext nbdime pydeps
+pipx install jupyterlab # jupyter notebook viewer
+pipx install nbdime # git diffs for jupyter notebooks
 nbdime config-git --enable --global
-
-# Hatch for Pure Python project management
-pipx install hatch
-
-# Maturin for PyO3 (Python + Rust) projects
-pipx install maturin
+pipx install pydeps # python module dependency graph generator
+pipx install tldr # tldr man pages
+pipx install hatch # Hatch for Python project management
+pipx install maturin # Maturin for PyO3 (Python + Rust) projects
+pipx install segno # QR code generator
+# Install svg2tikz
+sudo apt install libcairo2-dev libgirepository1.0-devel -y
+pipx install svg2tikz
 
 # Mambaforge
 cd $DOWNLOADS
@@ -182,10 +185,3 @@ chmod u+x $SIOYEK_APPIMAGE
 ./${SIOYEK_APPIMAGE} --appimage-extract
 mv squashfs-root/* $SIOYEK_DEST_FOLDER
 ln -sf $SIOYEK_DEST_FOLDER/AppRun $LOCALBIN/sioyek
-
-# Install svg2tikz
-sudo apt install libcairo2-dev libgirepository1.0-devel -y
-pipx install svg2tikz
-
-# Install segno for QR codes
-pipx install segno

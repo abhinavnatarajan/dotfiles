@@ -1,6 +1,5 @@
 local M = {}
 
-
 local defaults = {
 	{
 		"TextYankPost",
@@ -57,6 +56,7 @@ local defaults = {
 				"mason",
 				"Trouble",
 				"alpha",
+				"aerial",
 				"NvimTree"
 			},
 			callback = function()
@@ -78,12 +78,6 @@ local defaults = {
 		{
 			group = "colorscheme",
 			callback = function()
-				--[[ if lvim.builtin.breadcrumbs.active then
-						require("lvim.core.breadcrumbs").get_winbar()
-					end ]]
-				local statusline_hl = vim.api.nvim_get_hl(0, {name="StatusLine", link=true})
-				local cursorline_hl = vim.api.nvim_get_hl(0, {name="CursorLine", link=true})
-				local normal_hl = vim.api.nvim_get_hl(0, {name="Normal", link=true})
 				vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
 				vim.api.nvim_set_hl(0, "CmpItemKindTabnine", { fg = "#CA42F0" })
 				vim.api.nvim_set_hl(0, "CmpItemKindCrate", { fg = "#F64D00" })
@@ -150,7 +144,7 @@ local defaults = {
 
 				if numbufs == 1 then
 					local fallback_name = vim.api.nvim_buf_get_name(args.buf)
-					local fallback_ft = vim.api.nvim_buf_get_option(args.buf, "filetype")
+					local fallback_ft = vim.api.nvim_get_option_value("filetype", { buf = args.buf })
 					local fallback_on_empty = fallback_name == "" and fallback_ft == ""
 					if fallback_on_empty then
 						vim.cmd("Alpha")
@@ -200,38 +194,5 @@ function M.clear_augroup(name)
 		end)
 	end)
 end
-
---[[ function M:reload()
-	vim.schedule(function()
-	reload("lvim.utils.hooks").run_pre_reload()
-
-	M:load()
-
-	reload("lvim.core.autocmds").configure_format_on_save()
-
-	local plugins = reload "lvim.plugins"
-	local plugin_loader = reload "lvim.plugin-loader"
-
-	plugin_loader.reload { plugins, lvim.plugins }
-	reload("lvim.core.theme").setup()
-	reload("lvim.utils.hooks").run_post_reload()
-	end)
-	end
-
-	function M.enable_reload_config_on_save()
-	-- autocmds require forward slashes (even on windows)
-	local pattern = get_config_dir():gsub("\\", "/") .. "/*.lua"
-
-	vim.api.nvim_create_augroup("reload_config_on_save", {})
-	vim.api.nvim_create_autocmd("BufWritePost", {
-	group = "reload_config_on_save",
-	pattern = pattern,
-	desc = "Reload settings on making changes to any config file",
-	callback = function()
-	require("lvim.config"):reload()
-	end,
-	})
-	end ]]
-
 
 return M

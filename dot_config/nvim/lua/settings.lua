@@ -48,10 +48,10 @@ function M.load_defaults()
 			"buffers",
 			"curdir",
 			"folds",
-			"help",
-			"localoptions",
+			-- "help",
+			-- "localoptions",
 			"tabpages",
-			"terminal",
+			-- "terminal",
 			"winpos",
 			"winsize",
 		},
@@ -59,10 +59,12 @@ function M.load_defaults()
 		showcmd        = false,
 		showmode       = true,                                   -- INSERT/VISUAL etc
 		sidescrolloff  = 4,                                      -- minimal number of screen lines to keep left and right of the cursor.
-		-- signcolumn         = "yes:3", -- one for git, one for LSP, and one for breakpoints
+		signcolumn         = "yes", -- one for git, one for LSP, and one for breakpoints
 		smartcase      = true,                                   -- smart case
+		smoothscroll   = true,
 		splitbelow     = true,                                   -- force all horizontal splits to go below current window
 		splitright     = true,                                   -- force all vertical splits to go to the right of current window
+		statuscolumn   = "",
 		swapfile       = false,                                  -- creates a swapfile
 		tabstop        = 2,                                      -- insert 2 spaces for a tab
 		termguicolors  = true,                                   -- set term gui colors (most terminals support this)
@@ -92,9 +94,10 @@ function M.load_defaults()
 			lead = icons.ui.DotSmall,
 			-- space = icons.ui.DotSmall,
 			multispace = icons.ui.DotSmall,
-			trail = '-',
-			eol = icons.ui.Eol,
-			tab = '>' .. icons.ui.DotSmall
+			trail = '…',
+			-- eol = '',
+			tab = '>' .. icons.ui.DotSmall,
+			nbsp = '~',
 		}
 	}
 	-- Extend defaults
@@ -143,7 +146,7 @@ function M.load_defaults()
 	-- set local defaults via autocommands
 	local local_defaults = {
 		{
-			-- escape from terminal mode in toggleterm
+			-- no sign column in toggleterm
 			"TermOpen",
 			{
 				group = "no_signs_in_toggleterm",

@@ -1,7 +1,6 @@
 return {
   'akinsho/toggleterm.nvim',
   version = "*",
-  lazy = true,
   cmd = {
     'ToggleTerm',
     'TermSelect',
@@ -10,15 +9,51 @@ return {
     "ToggleTermSendVisualSelection",
     "ToggleTermSetName",
   },
-  keys = { [[<A-`>]] },
-  config = function ()
+  init = function()
+    vim.api.nvim_create_user_command("ToggleTermSendCurrentLine",
+      function(opts)
+        require("toggleterm").send_lines_to_terminal("single_line", false, opts.args)
+      end,
+      { nargs = "?", force = true }
+    )
+    vim.api.nvim_create_user_command("ToggleTermSendVisualSelection",
+      function(opts)
+        require("toggleterm").send_lines_to_terminal("visual_selection", false, opts.args)
+      end,
+      { range = true, nargs = "?", force = true }
+    )
+    vim.api.nvim_create_user_command("ToggleTermSendVisualLines",
+      function(opts)
+        require("toggleterm").send_lines_to_terminal("visual_lines", false, opts.args)
+      end,
+      { range = true, nargs = "?", force = true }
+    )
+    local icons = require("icons")
+    vim.keymap.set("n", "<leader>`f", "<CMD>TermSelect<CR>", { desc = icons.ui.Select .. " Select terminal" })
+    vim.keymap.set("n", "<leader>`r", "<CMD>ToggleTermSetName<CR>", { desc = icons.syntax.String .. " Rename terminal" })
+    vim.keymap.set("n", "<A-`>", "<CMD>ToggleTerm<CR>", { desc = icons.ui.Terminal .. " Toggle terminal" })
+    vim.keymap.set("n", "<C-CR>", [[<CMD>ToggleTermSendCurrentLine<CR>]],
+      { desc = icons.ui.Terminal .. " Run line in terminal" })
+    vim.keymap.set("v", "<C-CR>",
+      function()
+        local m = vim.fn.mode()
+        if m == "v" then
+          return [[<CMD>ToggleTermSendVisualSelection<CR>gv]]
+        elseif m == "V" then
+          return [[<CMD>ToggleTermSendVisualLines<CR>gv]]
+        end
+      end,
+      { desc = icons.ui.Terminal .. " Run selection in terminal", expr = true, replace_keycodes = true }
+    )
+  end,
+  config = function()
     local toggleterm = require("toggleterm")
     toggleterm.setup {
       size = 70,
       open_mapping = [[<A-`>]],
-      insert_mappings = true, -- whether or not the open mapping applies in insert mode
+      insert_mappings = true,   -- whether or not the open mapping applies in insert mode
       terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
-      close_on_exit = true, -- close the terminal window when the process exits
+      close_on_exit = true,     -- close the terminal window when the process exits
       -- Change the default shell. Can be a string or a function returning a string
       shell = vim.o.shell,
       auto_scroll = true, -- automatically scroll to the bottom on terminal output
@@ -30,7 +65,7 @@ return {
         -- see :h nvim_open_win for details on borders however
         -- the 'curved' border is a custom border type
         -- not natively supported but implemented in this plugin.
-        border = "rounded",-- other options supported by win_open
+        border = "rounded", -- other options supported by win_open
         -- like `size`, width and height can be a number or function which is passed the current terminal
         -- width = <value>,
         -- height = <value>,
@@ -44,23 +79,5 @@ return {
         end
       },
     }
-    vim.api.nvim_create_user_command("ToggleTermSendCurrentLine",
-      function(opts)
-        toggleterm.send_lines_to_terminal("single_line", false, opts.args)
-      end,
-      { nargs = "?", force = true }
-    )
-    vim.api.nvim_create_user_command("ToggleTermSendVisualSelection",
-      function(opts)
-        toggleterm.send_lines_to_terminal("visual_selection", false, opts.args)
-      end,
-      { range = true, nargs = "?", force = true }
-    )
-    vim.api.nvim_create_user_command("ToggleTermSendVisualLines",
-      function(opts)
-        toggleterm.send_lines_to_terminal("visual_lines", false, opts.args)
-      end,
-      { range = true, nargs = "?", force = true }
-    )
   end
 }
