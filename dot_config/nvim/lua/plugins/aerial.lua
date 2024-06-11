@@ -22,7 +22,7 @@ return {
 	},
 	keys = {
 		{
-			"<leader>a",
+			"<leader>o",
 			require("utils.windows").toggle_aerial,
 			desc = require("icons").ui.FileTree .. " Outline (aerial)"
 		}

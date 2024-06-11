@@ -1,7 +1,6 @@
 -- use a tab row to display open buffers
 return {
   'akinsho/bufferline.nvim',
-  event = 'User FileOpened',
   version = '*',
   dependencies = {
     -- "tokyonight.nvim",
@@ -18,6 +17,7 @@ return {
     "BufferLineMovePrev",
     "BufferLineMoveNext"
   },
+  event = "BufWinEnter",
   keys = {
     { "<leader>bj", "<CMD>BufferLinePick<CR>",      desc = require("icons").ui.GotoFile .. " Jump to buffer", },
     { "<leader>bp", "<CMD>BufferLineTogglePin<CR>", desc = require("icons").ui.Pin .. " Pin buffer", },
@@ -70,7 +70,7 @@ return {
           style = 'icon',
           icon = '▎',
         },
-        separator_style = "slant",
+        separator_style = "thick",
         show_tab_indicators = true,
         move_wraps_at_ends = false,   -- moving buffers wraps around at ends
         enforce_regular_tabs = false, -- enforce all visual tabs have same size

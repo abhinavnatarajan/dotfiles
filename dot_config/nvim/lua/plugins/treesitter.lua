@@ -11,7 +11,7 @@ return {
     "TSInstallSync",
     "TSInstallFromGrammar",
   },
-  event = "User FileOpened",
+  event = "BufWinEnter",
   config = function()
     local configs = require('nvim-treesitter.configs')
     configs.setup {
@@ -20,6 +20,7 @@ return {
       sync_install = false,
       highlight = {
         enable = true,
+        additional_vim_regex_highlighting = false,
         disable = { "tex", "latex" },
       },
       indent = {
@@ -98,6 +99,7 @@ return {
         'html',
         'javascript',
         'json',
+        'jsonc',
         'json5',
         'julia',
         'latex',

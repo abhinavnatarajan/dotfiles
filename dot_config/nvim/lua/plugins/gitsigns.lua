@@ -1,7 +1,7 @@
+local icons = require("icons")
 return {
 	"lewis6991/gitsigns.nvim",
-	event = "User FileOpened",
-	cmd = "Gitsigns",
+	event = "User FileReadPre", -- plugin attaches itself on BufReadPost
 	version = "*",
 	opts = {
 		signs = {
@@ -28,7 +28,7 @@ return {
 		current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
 		current_line_blame_opts = {
 			virt_text = true,
-			virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
+			virt_text_pos = "right_aligned", -- 'eol' | 'overlay' | 'right_align'
 			delay = 1000,
 			ignore_whitespace = false,
 		},
@@ -45,69 +45,85 @@ return {
 			row = 0,
 			col = 1,
 		},
-		yadm = {
-			enable = false,
-		},
+		trouble = true, -- use trouble.nvim for qflist
 		diff_opts = {
-			algorithm = "patience",
+			algorithm = "histogram",
 			internal = false,
 		},
+		base = nil, -- diff against index by default
+		on_attach = function()
+			-- vim.keymap.set(
+			-- 	"n", "<leader>gs",
+			-- 	function()
+			-- 		require("gitsigns").stage_hunk()
+			-- 	end,
+			-- 	{ desc = "Stage hunk" }
+			-- )
+			-- vim.keymap.set(
+			-- 	"n", "<leader>gr",
+			-- 	function()
+			-- 		require("gitsigns").reset_hunk()
+			-- 	end,
+			-- 	{ desc = "Reset hunk" }
+			-- )
+			-- vim.keymap.set(
+			-- 	"n", "<leader>gu",
+			-- 	function()
+			-- 		require("gitsigns").undo_stage_hunk()
+			-- 	end,
+			-- 	{ desc = "Undo stage hunk" }
+			-- )
+			vim.keymap.set(
+				"n", "<leader>gK",
+				function()
+					require("gitsigns").preview_hunk()
+				end,
+				{ desc = "Hunk preview (hover)" }
+			)
+			vim.keymap.set(
+				"n", "<leader>gp",
+				function()
+					require("gitsigns").preview_hunk_inline()
+				end,
+				{ desc = "Hunk preview (inline)" }
+			)
+			-- vim.keymap.set(
+			-- 	"n", "<leader>gS",
+			-- 	function()
+			-- 		require("gitsigns").stage_buffer()
+			-- 	end,
+			-- 	{ desc = "Stage buffer" }
+			-- )
+			-- vim.keymap.set(
+			-- 	"n", "<leader>gR",
+			-- 	function()
+			-- 		require("gitsigns").reset_buffer()
+			-- 	end,
+			-- 	{ desc = "Reset buffer" }
+			-- )
+			-- vim.keymap.set(
+			-- 	"n", "<leader>gD",
+			-- 	function()
+			-- 		require("gitsigns").diffthis("index", { split = "rightbelow" })
+			-- 	end,
+			-- 	{ desc = icons.git.Diff .. " Diff against index" }
+			-- )
+			-- vim.keymap.set(
+			-- 	"n", "<leader>gd",
+			-- 	function()
+			-- 		require("gitsigns").diffthis("@", { split = "rightbelow" })
+			-- 	end,
+			-- 	{ desc = icons.git.Diff .. " Diff against HEAD" }
+			-- )
+			vim.keymap.set(
+				"n", "<leader>gt",
+				function()
+					require("gitsigns").toggle_deleted()
+				end,
+				{ desc = "Toggle deleted" }
+			)
+			-- vim.keymap.set("n", "]c", function() require("gitsigns").next_hunk() end, { desc = "Next hunk" })
+			-- vim.keymap.set("n", "[c", function() require("gitsigns").prev_hunk() end, { desc = "Previous hunk" })
+		end
 	},
-	init = function()
-		--
-		-- ["s"] = {
-		-- 	function()
-		-- 		require("gitsigns").stage_hunk()
-		-- 	end,
-		-- 	"Stage hunk",
-		-- },
-		-- ["r"] = {
-		-- 	function()
-		-- 		require("gitsigns").reset_hunk()
-		-- 	end,
-		-- 	"Reset hunk",
-		-- },
-		-- ["u"] = {
-		-- 	function()
-		-- 		require("gitsigns").undo_stage_hunk()
-		-- 	end,
-		-- 	"Undo stage hunk",
-		-- },
-		-- ["p"] = {
-		-- 	function()
-		-- 		require("gitsigns").preview_hunk()
-		-- 	end,
-		-- 	"Preview hunk",
-		-- },
-		-- ["S"] = {
-		-- 	function()
-		-- 		require("gitsigns").stage_buffer()
-		-- 	end,
-		-- 	"Stage buffer",
-		-- },
-		-- ["R"] = {
-		-- 	function()
-		-- 		require("gitsigns").reset_buffer()
-		-- 	end,
-		-- 	"Reset buffer",
-		-- },
-		-- ["d"] = {
-		-- 	function()
-		-- 		require("gitsigns").diffthis(nil, { split = "rightbelow" })
-		-- 	end,
-		-- 	"Diff this",
-		-- },
-		-- ["D"] = {
-		-- 	function()
-		-- 		require("gitsigns").diffthis("~")
-		-- 	end,
-		-- 	"Diff this",
-		-- },
-		-- ["t"] = {
-		-- 	function()
-		-- 		require("gitsigns").toggle_deleted()
-		-- 	end,
-		-- 	"Toggle deleted",
-		-- },
-	end,
 }

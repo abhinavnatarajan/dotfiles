@@ -13,7 +13,7 @@ return {
 		"LazyGitFilterCurrentFile",
 	},
 	keys = {
-		{ "<leader>gg", "<cmd>LazyGit<cr>", desc = require("icons").git.Branch .. "LazyGit" },
+		{ "<leader>gg", function() require("lazygit").lazygit() end, desc = require("icons").git.Branch .. "LazyGit" },
 	},
 	config = function()
 		-- require("telescope").load_extension("lazygit")

@@ -71,6 +71,15 @@ function M.aerial_is_open()
 	return nil
 end
 
+function M.get_window_handle(window_number)
+	for _, win in ipairs(vim.api.nvim_list_wins()) do
+		if vim.api.nvim_win_get_number(win) == window_number then
+			return win
+		end
+	end
+	return nil
+end
+
 -- Function to toggle aerial with positioning compatible with nvimtree
 function M.toggle_aerial()
 	--  Check if aerial is already open
@@ -95,19 +104,37 @@ end
 
 -- Function to toggle nvimtree with positioning compatible with aerial
 function M.toggle_nvimtree()
-	-- If NvimTree is open we close it
 	local nvt = require("nvim-tree.api").tree
-	local aerial = require("aerial")
-	local aerial_winid = M.aerial_is_open()
-	if nvt.is_visible() or not aerial_winid then
-		vim.cmd("silent NvimTreeToggle")
+	local aerial_win = M.aerial_is_open()
+	if not aerial_win or nvt.is_visible() then
+		nvt.toggle()
 		return
 	end
 
-	aerial.focus()
-	vim.cmd("aboveleft split")
-	local nvt_winid = vim.api.nvim_get_current_win()
-	nvt.open({ winid = nvt_winid })
+	-- if aerial is open then we split its window
+	local nvt_target_win = vim.api.nvim_open_win(0, false, {
+		win = aerial_win.winnr,
+		style = "minimal",
+		split = 'above',
+	})
+	nvt.toggle({ winid = nvt_target_win })
 end
 
+-- Function to toggle nvimtree with positioning compatible with aerial
+function M.focus_file_in_nvim_tree()
+	local nvt = require("nvim-tree.api").tree
+	local aerial_win = M.aerial_is_open()
+	if not aerial_win or nvt.is_visible() then
+		nvt.open({ find_file = true })
+		return
+	end
+
+	-- if aerial is open then we split its window
+	local nvt_target_win = vim.api.nvim_open_win(0, false, {
+		win = aerial_win.winnr,
+		style = "minimal",
+		split = 'above',
+	})
+	nvt.open({ find_file = true, winid = nvt_target_win })
+end
 return M

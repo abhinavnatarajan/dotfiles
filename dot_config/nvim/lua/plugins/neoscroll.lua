@@ -1,6 +1,5 @@
 return {
   'karb94/neoscroll.nvim', --smooth scrolling
-  event = 'User FileOpened',
   version = "*",
   keys = {
     {
@@ -8,7 +7,7 @@ return {
       function()
         require("neoscroll").scroll(-0.1, true, 100)
       end,
-      require("icons").ui.ChevronUp .. " Scroll up 10% of window height",
+      desc = require("icons").ui.ChevronUp .. " Scroll up a bit",
       mode = { "n", "i", "x", "o" },
     },
     {
@@ -26,7 +25,7 @@ return {
       function()
         require("neoscroll").scroll(0.1, true, 100)
       end,
-      desc = require("icons").ui.ChevronDown .. " Scroll down 10% of window height",
+      desc = require("icons").ui.ChevronDown .. " Scroll down a bit",
       mode = { "n", "i", "x", "o" },
     },
     {
@@ -42,7 +41,7 @@ return {
     {
       "<PageUp>",
       function()
-        require("neoscroll").scroll(-vim.api.nvim_win_get_height(0), true, 100)
+        require("neoscroll").scroll(-vim.api.nvim_win_get_height(0), true, 200)
       end,
       desc = require("icons").ui.ChevronTripleUp .. " Page up",
       mode = { "n", "i", "x", "o" },
@@ -50,7 +49,7 @@ return {
     {
       "<PageDown>",
       function()
-        require("neoscroll").scroll(vim.api.nvim_win_get_height(0), true, 100)
+        require("neoscroll").scroll(vim.api.nvim_win_get_height(0), true, 200)
       end,
       desc = require("icons").ui.ChevronTripleDown .. " Page down",
       mode = { "n", "i", "x", "o" },

@@ -9,13 +9,14 @@ return {
 				require("conform").format({
 					lsp_fallback = false, -- if set to true, then only falls back when there are no formatters
 					quiet = true,
+					timeout_ms = 2000,
 				}, function(err, did_edit)
 					if err or not did_edit then
-						vim.lsp.buf.format()
+						vim.lsp.buf.format({ timeout_ms = 2000 })
 					end
 				end)
 			end,
-			desc = require("icons").ui.Indent .. "Format buffer",
+			desc = require("icons").ui.Indent .. " Format buffer",
 			mode = { "n", "x" },
 		},
 	},
@@ -27,7 +28,6 @@ return {
 		},
 	},
 	init = function()
-		-- If you want the formatexpr, here is the place to set it
 		vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-	end,
+	end
 }

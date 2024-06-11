@@ -1,187 +1,25 @@
 local M = {}
 
-local defaults = {
-	{
-		"TextYankPost",
-		{
-			desc = "Highlight text on yank",
-			group = "general_settings",
-			pattern = "*",
-			callback = function()
-				vim.highlight.on_yank { higroup = "Search", timeout = 100 }
-			end,
-		},
-	},
-	{
-		"FileType",
-		{
-			desc = "Hide the debugger REPL from buffer listing",
-			group = "hide_dap_repl",
-			pattern = "dap-repl",
-			command = "set nobuflisted",
-		},
-	},
-	{
-		"FileType",
-		{
-			desc = "Fix gf functionality inside .lua files",
-			group = "filetype_settings",
-			pattern = { "lua" },
-			callback = function()
-				-- credit: https://github.com/sam4llis/nvim-lua-gf
-				vim.opt_local.include = [[\v<((do|load)file|require|reload)[^''"]*[''"]\zs[^''"]+]]
-				vim.opt_local.includeexpr = "substitute(v:fname,'\\.','/','g')"
-				vim.opt_local.suffixesadd:prepend ".lua"
-				vim.opt_local.suffixesadd:prepend "init.lua"
-
-				for _, path in pairs(vim.api.nvim_list_runtime_paths()) do
-					vim.opt_local.path:append(path .. "/lua")
-				end
-			end,
-		},
-	},
-	{
-		"FileType",
-		{
-			desc = "Hide certain buffers from listing",
-			group = "set_nobuflisted_UI_buffers",
-			pattern = {
-				"qf",
-				"help",
-				"man",
-				"floaterm",
-				"lspinfo",
-				"lsp-installer",
-				"null-ls-info",
-				"mason",
-				"Trouble",
-				"alpha",
-				"aerial",
-				"NvimTree"
-			},
-			callback = function()
-				vim.opt_local.buflisted = false
-				vim.opt_local.foldenable = false
-			end,
-		},
-	},
-	{
-		"VimResized",
-		{
-			group = "auto_resize",
-			pattern = "*",
-			command = "tabdo wincmd =",
-		},
-	},
-	{
-		"ColorScheme",
-		{
-			group = "colorscheme",
-			callback = function()
-				vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
-				vim.api.nvim_set_hl(0, "CmpItemKindTabnine", { fg = "#CA42F0" })
-				vim.api.nvim_set_hl(0, "CmpItemKindCrate", { fg = "#F64D00" })
-				vim.api.nvim_set_hl(0, "CmpItemKindEmoji", { fg = "#FDE030" })
-			end,
-		},
-	},
-	{
-		-- executed on new directory opened
-		-- taken from AstroNvim
-		"BufEnter",
-		{
-			group = "dir_opened",
-			nested = true,
-			callback = function(args)
-				local bufname = vim.api.nvim_buf_get_name(args.buf)
-				if require("utils").is_directory(bufname) then
-					vim.api.nvim_del_augroup_by_name "dir_opened"
-					vim.cmd "do User DirOpened"
-					vim.api.nvim_exec_autocmds(args.event, { buffer = args.buf, data = args.data })
-				end
-			end,
-		},
-	},
-	{
-		-- executed when a file is opened
-		-- taken from AstroNvim
-		{ "BufRead", "BufWinEnter", "BufNewFile" },
-		{
-			group = "file_opened",
-			nested = true,
-			callback = function(args)
-				local buftype = vim.api.nvim_get_option_value("buftype", { buf = args.buf })
-				if not (vim.fn.expand "%" == "" or buftype == "nofile") then
-					vim.api.nvim_del_augroup_by_name "file_opened"
-					vim.cmd "do User FileOpened"
-				end
-			end,
-		},
-	},
-	{
-		-- open dashboard when all writable buffers are closed
-		"User", --bufdelete.nvim triggers a User autocommand BDeletePost <buffer>
-		{
-			group = "fallback_to_dashboard",
-			pattern = "BDeletePost*",
-			callback = function(args)
-				-- args is a table, args.buf is the currently effective buffer
-				-- see nvim_create_autocmd()
-
-				-- check if this is the last buffer
-				local numbufs = #vim.tbl_filter(
-					function(b)
-						if 1 ~= vim.fn.buflisted(b) then
-							return false
-						end
-						if not vim.api.nvim_buf_is_loaded(b) then
-							return false
-						end
-						return true
-					end,
-					vim.api.nvim_list_bufs()
-				)
-
-				if numbufs == 1 then
-					local fallback_name = vim.api.nvim_buf_get_name(args.buf)
-					local fallback_ft = vim.api.nvim_get_option_value("filetype", { buf = args.buf })
-					local fallback_on_empty = fallback_name == "" and fallback_ft == ""
-					if fallback_on_empty then
-						vim.cmd("Alpha")
-						vim.cmd(args.buf .. "bwipeout")
-					end
-				end
-			end
-		}
-	},
-	{
-		"User",
-		{
-			group = "save_session_notify",
-			pattern = "SessionSavePost",
-			callback = function() vim.notify("Saved session for workspace\n" .. vim.fn.getcwd()) end
-		},
-	},
-}
---- Load the default set of autogroups and autocommands.
-function M.load_defaults()
-	M.define_autocmds(defaults)
+--- Create autocommand group based on the given definition
+--- Also creates the augroup automatically if it doesn't exist
+--- @param event string: The event to trigger the autocommand
+--- @param opts table: The options for the autocommand
+--- @return nil
+function M.define_autocmd(event, opts)
+	if type(opts.group) == "string" and opts.group ~= "" then
+		local exists, _ = pcall(vim.api.nvim_get_autocmds, { group = opts.group })
+		if not exists then
+			vim.api.nvim_create_augroup(opts.group, {})
+		end
+	end
+	vim.api.nvim_create_autocmd(event, opts)
 end
 
 --- Create autocommand groups based on the passed definitions
 --- Also creates the augroup automatically if it doesn't exist
+--- @param definitions table: The definitions of the autocommands
 function M.define_autocmds(definitions)
-	for _, entry in ipairs(definitions) do
-		local event = entry[1]
-		local opts = entry[2]
-		if type(opts.group) == "string" and opts.group ~= "" then
-			local exists, _ = pcall(vim.api.nvim_get_autocmds, { group = opts.group })
-			if not exists then
-				vim.api.nvim_create_augroup(opts.group, {})
-			end
-		end
-		vim.api.nvim_create_autocmd(event, opts)
-	end
+	for _, entry in ipairs(definitions) do M.define_autocmd(entry[1], entry[2]) end
 end
 
 --- Clean autocommand in a group if it exists

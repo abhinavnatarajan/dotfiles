@@ -3,7 +3,7 @@ return {
 	dependencies = { "lewis6991/gitsigns.nvim" },
 	branch = "0.10",
 	-- this plugin is not versioned
-	event = "User FileOpened",
+	event = "BufWinEnter",
 	config = function()
 		local builtin = require("statuscol.builtin")
 		local bt_ignore = {}

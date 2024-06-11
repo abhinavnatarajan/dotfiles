@@ -1,5 +1,6 @@
+-- Setup lazy.nvim for lazy loading plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
 		"clone",
@@ -11,8 +12,9 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Default settings
-require("settings").load_defaults()
+-- Setup my config excluding plugins
+table.unpack = table.unpack or unpack
+require("config").setup()
 
 -- Lazy load plugins
 require("lazy").setup("plugins", {
@@ -25,13 +27,7 @@ require("lazy").setup("plugins", {
 })
 
 -- Setup LSP servers and attach autocomplete capabilities
-require("lsp_tools").setup()
+require("config.LSP").setup()
 
--- Setup debug adapters
-require("dapconfig").setup()
-
--- Keybindings
-require("keybinds").load_defaults()
-
--- Events and callbacks
-require("autocmds").load_defaults()
+-- Setup DAP servers and attach debugging capabilities
+require("config.DAP").setup()

@@ -1,14 +1,8 @@
 return {
   'kevinhwang91/nvim-ufo',
-  event = 'User FileOpened',
+  event = 'BufWinEnter',
   dependencies = { 'kevinhwang91/promise-async' },
   version = "*",
-  init = function()
-    vim.o.foldcolumn = '1' -- '0' is not bad
-    vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
-    vim.o.foldlevelstart = 99
-    vim.o.foldenable = true
-  end,
   opts = {
     provider_selector = function()
       return { 'treesitter', 'indent' }   -- treesitter is less heavy than using LSP

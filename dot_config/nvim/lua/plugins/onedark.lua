@@ -1,19 +1,19 @@
 return {
 	"navarasu/onedark.nvim",
-	event = "VeryLazy",
+	lazy = false,
 	priority = 1000,
 	-- this plugin is not versioned
 	config = function()
 		local colours_to_darken = { -- darker background for more contrast
-			bg0 = 0.25,
-			bg1 = 0.25,
-			bg2 = 0.25,
-			bg3 = 0.25,
-			bg_d = 0.3,
+			bg0 = 0.45,              -- main background
+			bg1 = 0.35,              -- Foldcolumn, cursor column, conceal bg, tabline bg, float border
+			-- bg2 = 0.15,              -- lots of stuff
+			-- bg3 = 0.1, -- indent blankline and window separators
+			bg_d = 0.45,             -- nvim_tree bg
 		}
 		local colours_to_lighten = { -- lighter comments and delimiters
-			grey = 0.1, -- mostly comments
-			fg = 0.15 -- text
+			grey = 0.15,              -- mostly comments
+			fg = 0.15                -- text
 		}
 		local replacement_colours = {}
 		for name, val in pairs(colours_to_darken) do
@@ -31,8 +31,12 @@ return {
 			)
 		end
 		replacement_colours["dark_grey"] = require("onedark.util").darken(
-			'#000000', 0.25, require('onedark.palette').darker.grey
+			'#000000', 0.15, require('onedark.palette').darker.grey
 		)
+		replacement_colours["dark_blue"] = require("onedark.util").darken(
+			'#000000', 0.75, require('onedark.palette').darker.blue
+		)
+		replacement_colours["purple"] = '#d950b2'
 		require('onedark').setup {
 			-- Main options --
 			style = 'darker',          -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
@@ -42,14 +46,14 @@ return {
 			cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
 
 			-- toggle theme style ---
-			toggle_style_key = "<leader>sC",                                                -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
+			toggle_style_key = nil,                                                           -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
 			toggle_style_list = { 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light' }, -- List of styles to toggle between
 
 			-- Change code style ---
 			-- Options are italic, bold, underline, none
 			-- You can configure multiple style with comma separated, For e.g., keywords = 'italic,bold'
 			code_style = {
-				comments = 'italic',
+				comments = 'none',
 				keywords = 'none',
 				functions = 'none',
 				strings = 'none',
@@ -64,12 +68,27 @@ return {
 			-- Custom Highlights --
 			colors = replacement_colours, -- Override default colors
 			highlights = {
+				-- Visual selection
+				Visual = { bg = "$dark_blue" },
 				MatchParen = { bg = '$dark_grey' }, -- background of matched delimiters
+
+				-- IndentBlankline
+				IblIndent = { fg = '$bg3', fmt = "nocombine" },
+				IblWhitespace = { fg = '$grey', fmt = "nocombine" },
+				IblScope = { fg = '$grey', fmt = "nocombine" },
+
 				-- Search highlights
-				CurSearch = { bg = '$yellow' },
-				IncSearch = { bg = '$yellow' },
-				Search = { bg = '$dark_yellow' },
-				CmpGhostText = { fg = '$grey', fmt = 'italic' },
+				CurSearch = { bg = "$orange" },
+				IncSearch = { bg = "$orange" },
+				Search = { bg = '$yellow' },
+
+				--- Cmp highlights
+				CmpGhostText = { fg = '$grey', fmt = "italic" },
+
+				-- Diagnostic highlights
+				DiagnosticOk = { fg = '$green' },
+
+				--- Gitsigns
 				GitSignsAdd = { fg = '$green', fmt = "bold" },
 				GitSignsChange = { fg = '$blue', fmt = "bold" },
 				GitSignsDelete = { fg = '$red', fmt = "bold" },
@@ -84,8 +103,8 @@ return {
 				background = true, -- use background color for virtual text
 			},
 		}
-		require('onedark').load()
-		vim.keymap.set("n", "<leader>sC", function() require("onedark").toggle() end,
-			{ desc = "Toggle Onedark colourscheme" })
+		if vim.g.colorscheme == 'onedark' then
+			vim.cmd [[colorscheme onedark]]
+		end
 	end
 }

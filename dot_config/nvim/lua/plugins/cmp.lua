@@ -1,24 +1,47 @@
 return {
 	"hrsh7th/nvim-cmp",
 	dependencies = {
-		"hrsh7th/cmp-buffer",
-		"hrsh7th/cmp-path",
-		"hrsh7th/cmp-cmdline",
 		"hrsh7th/cmp-nvim-lsp",
-		"jmbuhr/otter.nvim",
-		"micangl/cmp-vimtex",
 		{
-			"L3MON4D3/LuaSnip",
-			version = "2.*",
-			build = "make install_jsregexp",
+			"saadparwaiz1/cmp_luasnip",
 			dependencies = {
-				"rafamadriz/friendly-snippets",
-				"molleweide/LuaSnip-snippets.nvim"
+				"L3MON4D3/LuaSnip",
+				version = "2.*",
+				build = "make install_jsregexp",
+				dependencies = {
+					"rafamadriz/friendly-snippets",
+					"molleweide/LuaSnip-snippets.nvim"
+				},
+				config = function()
+					require("luasnip.loaders.from_vscode").lazy_load()
+					require("luasnip").filetype_extend('quarto', { 'markdown' })
+					require("luasnip").filetype_extend('rmarkdown', { 'markdown' })
+				end
 			},
-			config = function() require("luasnip.loaders.from_vscode").lazy_load() end
 		},
-		"saadparwaiz1/cmp_luasnip",
-		"petertriho/cmp-git",
+		"hrsh7th/cmp-buffer",
+		"hrsh7th/cmp-cmdline",
+		"hrsh7th/cmp-path",
+		{
+			"petertriho/cmp-git",
+			dependencies = { "nvim-lua/plenary.nvim" },
+			opts = {}
+		},
+		-- {
+		-- 	"ExaFunction/codeium.nvim",
+		-- 	dependencies = {
+		-- 		"nvim-lua/plenary.nvim"
+		-- 	},
+		-- 	opts = {
+		-- 		enable_chat = true
+		-- 	}
+		-- }
+		{
+			"zbirenbaum/copilot-cmp",
+			cmd = { "Copilot" },
+			dependencies = { "zbirenbaum/copilot.lua" },
+			opts = {}
+		},
 	},
 	-- this plugin is not versioned
 	-- version = "*",
@@ -27,6 +50,17 @@ return {
 		local cmp = require("cmp")
 		local luasnip = require("luasnip")
 		local icons = require("icons")
+		local source_icons = {
+			nvim_lsp = icons.ui.Lightbulb,
+			luasnip = icons.ui.Code,
+			buffer = icons.ui.CodeFile,
+			path = icons.ui.Path,
+			git = icons.git.Branch,
+			cmdline = icons.ui.ChevronRight,
+			codeium = icons.ui.Fix,
+			copilot = icons.ui.Copilot,
+		}
+		local lspkindicons = vim.tbl_extend('force', icons.syntax, { Copilot = icons.ui.Copilot, Codeium = icons.ui.Fix })
 		local select_opts = { behaviour = cmp.SelectBehavior.Select }
 		local confirm_opts = { select = false, behaviour = cmp.ConfirmBehavior.Replace }
 		cmp.setup({
@@ -39,6 +73,7 @@ return {
 				-- matches where the first few characters do not match
 				-- will be discarded
 				disallow_prefix_unmatching = false,
+				disallow_symbol_nonprefix_matching = false,
 				-- partial_matching allows an input like "bode" to be matched to "border"
 				disallow_partial_matching = false,
 				disallow_fuzzy_matching = false,
@@ -50,22 +85,20 @@ return {
 			snippet = {
 				-- REQUIRED - you must specify a snippet engine
 				expand = function(args)
-					-- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
 					require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-					-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-					-- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
 				end,
 			},
 			window = {
 				completion = {
-					border = "rounded",
+					border = "single",
 				},
 				documentation = {
 					border = "rounded"
 				}
 			},
 			experimental = {
-				ghost_text = { hl_group = 'CmpGhostText' },
+				-- ghost_text = true,
+				ghost_text = {hl_group = 'CmpGhostText'},
 			},
 			mapping = {
 				['<C-u>'] = cmp.mapping.scroll_docs(-4),
@@ -125,45 +158,45 @@ return {
 					end
 				end, { 'i', 's' }),
 			},
-			sources = cmp.config.sources(
-				{
-					{ name = 'nvim_lsp' },
-					-- { name = 'nvim_lsp_signature_help' },
-					{ name = 'luasnip' }, -- For luasnip users.
-					{ name = 'otter' },
-				},
-				-- by grouping sources we don't see the second group when the first group is available
-				{
-					{ name = 'buffer' }
-				}
-			),
+			sources = {
+				{ name = 'copilot',  group_index = 1 },
+				-- { name = 'codeium' },
+				{ name = 'nvim_lsp', group_index = 1 },
+				-- { name = 'nvim_lsp_signature_help' },
+				{ name = 'luasnip',  group_index = 1 }, -- For luasnip users.
+				{ name = 'otter',    group_index = 1 },
+				{ name = 'git',      group_index = 1 }, -- only active for gitcommit and octo files
+				{ name = 'buffer',   group_index = 2 }
+			},
 			formatting = {
 				fields = { 'menu', 'abbr', 'kind' },
+				expandable_indicator = true,
 				format = function(entry, item)
-					local menu_icon = {
-						nvim_lsp = icons.ui.Lightbulb,
-						luasnip = icons.ui.Code,
-						buffer = icons.ui.CodeFile,
-						path = icons.ui.Path,
-						cmdline = icons.ui.ChevronRight,
-					}
-					item.kind = string.format('%s %s', icons.syntax[item.kind], item.kind)
-					item.menu = menu_icon[entry.source.name]
+					item.kind = string.format('%s %s', lspkindicons[item.kind], item.kind)
+					item.menu = source_icons[entry.source.name]
 					return item
 				end,
 			},
 		})
 
 		-- Set configuration for specific filetype.
-		cmp.setup.filetype('gitcommit', {
-			sources = cmp.config.sources(
-				{
-					{ name = 'git' },
-				}, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
-				{
-					{ name = 'buffer' },
-				}
-			)
+		cmp.setup.filetype('tex', {
+			formatting = {
+				fields = { 'menu', 'abbr', 'kind' },
+				expandable_indicator = true,
+				format = function(entry, item)
+					local kinds = require("config.LSP.servers").get("texlab").CompletionItemKind
+					if entry.source.name == 'nvim_lsp' then
+						local k = item.kind
+						item.kind = kinds[k].icon .. ' ' .. kinds[k].desc
+					else
+						item.kind = lspkindicons[item.kind] .. ' ' .. item.kind
+					end
+					item.menu = source_icons[entry.source.name]
+
+					return item
+				end
+			}
 		})
 
 		-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
@@ -176,28 +209,24 @@ return {
 		cmp.setup.cmdline(':',
 			{
 				mapping = cmp.mapping.preset.cmdline(),
-				sources = cmp.config.sources(
+				sources = {
 					{
-						{
-							name = 'cmdline',
-							option = {
-								ignore_cmds = { 'Man', '!' }
-							},
+						name = 'cmdline',
+						option = {
+							ignore_cmds = { 'Man', '!' }
 						},
+						group_index = 0
 					},
 					{
-						{
-							name = 'path',
-							option = {
-								trailing_slash = true,
-								label_trailing_slash = true,
-								-- get_cwd = vim.fn.getcwd
-							},
+						name = 'path',
+						option = {
+							trailing_slash = true,
+							label_trailing_slash = true,
+							-- get_cwd = vim.fn.getcwd
 						},
+						group_index = 1
 					}
-				)
-			}
-		)
-		require("cmp_git").setup()
+				}
+			})
 	end
 }

@@ -4,14 +4,26 @@ return {
 	event = "VeryLazy",
 	version = "*",
 	keys = {
-		{ "<leader>!", "<CMD>Noice telescope<CR>", desc = require("icons").ui.Notification .. " Notification history", }
+		-- in the setup we redefine this if telescope is available
+		{ "<leader>!", "<CMD>Noice history<CR>", desc = require("icons").ui.Notification .. " Notification history", }
+	},
+	cmd = {
+		"Noice",
+		"NoiceAll",
+		"NoiceLast",
+		"NoiceDismiss",
+		"NoiceErrors",
+		"NoiceDisable",
+		"NoiceEnable",
+		"NoiceStat",
+		"NoiceTelescope"
 	},
 	dependencies = {
 		"MunifTanjim/nui.nvim",
 		-- OPTIONAL:
 		--   `nvim-notify` is only needed, if you want to use the notification view.
 		--   If not available, we use `mini` as the fallback
-		"nvim-notify",
+		'rcarriga/nvim-notify',
 		-- "tokyonight.nvim",
 		-- "sainnhe/sonokai",
 		"navarasu/onedark.nvim",
@@ -19,31 +31,19 @@ return {
 	config = function()
 		require("noice").setup({
 			views = {
+				-- command line at the top
 				cmdline_popup = {
 					position = {
-						row = "10%",
+						row = "3",
 						col = "50%",
 					},
-				},
-				confirm = {
-					backend = "popup",
-					relative = "editor",
-					position = {
-						row = "100%",
-						col = 0,
-					},
-					size = {
-						height = "auto",
-						max_height = 1,
-						width = "100%",
-					},
 					border = {
-						style = "none",
+						style = 'rounded',
 					},
 				},
 				mini = {
 					size = {
-						max_height = 1,
+						max_height = 2,
 						height = "auto",
 						width = "auto",
 					},
@@ -65,7 +65,7 @@ return {
 					filter = { pattern = "^:%s*!", icon = "$", lang = "bash" },
 					lua = { pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua" },
 					help = { pattern = "^:%s*he?l?p?%s+", icon = "" },
-					input = {}, -- Used by input()
+					input = { icon = require("icons").ui.Keyboard .. ' ' }, -- Used by input()
 					-- lua = false, -- to disable a format, set to `false`
 				},
 			},
@@ -75,7 +75,7 @@ return {
 				enabled = true,          -- enables the Noice messages UI
 				view = "mini",           -- default view for messages
 				view_error = "notify",   -- view for errors
-				view_warn = "notify",    -- view for warnings
+				view_warn = "mini",      -- view for warnings
 				view_history = "messages", -- view for :messages
 				view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
 			},
@@ -189,7 +189,7 @@ return {
 						replace = true,
 						render = "plain",
 						format = { "{message}" },
-						win_options = { concealcursor = "n", conceallevel = 3 },
+						win_options = { concealcursor = "n", conceallevel = 2 },
 					},
 				},
 			},
@@ -220,15 +220,33 @@ return {
 				-- you can enable a preset by setting it to true, or a table that will override the preset config
 				-- you can also add custom presets that you can enable/disable with enabled=true
 				bottom_search = false,     -- use a classic bottom cmdline for search
-				command_palette = false,   -- position the cmdline and popupmenu together
+				command_palette = true,    -- position the cmdline and popupmenu together
 				long_message_to_split = false, -- long messages will be sent to a split
 				inc_rename = false,        -- enables an input dialog for inc-rename.nvim
-				lsp_doc_border = false,    -- add a border to hover docs and signature help
+				lsp_doc_border = true,     -- add a border to hover docs and signature help
 			},
 			throttle = 1000 / 30,        -- how frequently does Noice need to check for ui updates? This has no effect when in blocking mode.
-			routes = {},                 --- @see section on routes
-			status = {},                 --- @see section on statusline components
-			format = {},                 --- @see section on formatting
+			routes = {
+				--- @see section on routes
+				{
+					view = "cmdline",
+					filter = { event = "msg_show", kind = "confirm_sub" },
+				}
+			},
+			status = {}, --- @see section on statusline components
+			format = {}, --- @see section on formatting
 		})
+
+		-- if the overall plugin config contains telescope then we load the noice extension
+		local have_telescope = false
+		for _, plugin in ipairs(require("lazy").plugins()) do
+			if plugin.name == "telescope.nvim" then
+				have_telescope = true
+			end
+		end
+		if have_telescope then
+			-- if we have telescope we will redefine the keybinding
+			vim.keymap.set("n", "<leader>!", "<CMD>Noice telescope<CR>", require("config.keybinds").DefaultOpts {})
+		end
 	end,
 }

@@ -143,7 +143,7 @@ ln -sf $NEOVIM_DEST_FOLDER/AppRun $LOCALBIN/nvim
 # Setup python environment for neovim
 pyenv virtualenv 3.11.6 pynvim
 pyenv activate pynvim
-pip install pynvim
+pip install pynvim debugpy
 pyenv deactivate
 
 # Install JetBrains Font

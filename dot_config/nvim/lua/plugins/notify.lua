@@ -13,9 +13,5 @@ return {
       mode = { "n", "i", "v", "o" }
     }
   },
-  config = function()
-    if package.loaded["telescope"] then
-      require("telescope").load_extension("notify")
-    end
-  end
+  config = false
 }
