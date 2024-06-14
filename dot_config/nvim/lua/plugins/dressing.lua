@@ -5,7 +5,7 @@ return {
 	opts = {
 		input = {
 			-- Set to false to disable the vim.ui.input implementation
-			enabled = false,
+			enabled = true,
 
 			-- Default prompt string
 			default_prompt = "Input: ",

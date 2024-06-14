@@ -47,7 +47,7 @@ return
 				-- override the default handler
 				-- pull our settings
 				function(server_name)
-					require("lspconfig")[server_name].setup(require("config.LSP.servers").get_config_by_name(server_name))
+					require("lspconfig")[server_name].setup(require("config.LSP.servers").get(server_name).config)
 				end
 			},
 		},
@@ -66,7 +66,12 @@ return
 		},
 		opts = {
 			ensure_installed = require("config.DAP.adapters").ensure_installed,
-			handlers = require("config.DAP.adapters").handlers,
+			handlers = {
+					function (config)
+						require("mason-nvim-dap").default_setup(config)
+					end,
+				python = require("config.DAP.adapters").get("python").handler
+			}
 		},
-	},
+	}
 }

@@ -46,7 +46,7 @@ local trouble = {
 }
 
 local function get_hl_fg(name)
-	local hl = vim.api.nvim_get_hl(0, {name = name, link = false, create = false})
+	local hl = vim.api.nvim_get_hl(0, { name = name, link = false, create = false })
 	if hl.fg then
 		return string.format("#%06x", hl.fg)
 	end
@@ -63,88 +63,55 @@ return {
 		-- "folke/tokyonight.nvim",
 	},
 	event = "BufWinEnter",
+	-- enabled = false,
 	-- this plugin is not versioned
 	config = function()
-		require("lualine").setup({
+		require("lualine").setup {
 			theme = "auto",
 			extensions = {
+				"aerial",
 				"nvim-tree",
+				"overseer",
 				"lazy",
 				"fzf",
 				toggleterm,
 				"quickfix",
 				"nvim-dap-ui",
 				trouble,
+				"mason",
 			},
 			options = {
 				disabled_filetypes = {
-					winbar = { "NvimTree", "alpha" },
+					winbar = {
+						"NvimTree",
+						"alpha",
+						'dap-repl',
+						'dapui_console',
+						'dapui_watches',
+						'dapui_stacks',
+						'dapui_breakpoints',
+						'dapui_scopes',
+					},
 					statusline = { "alpha" },
 				},
 				component_separators = { left = icons.ui.RoundDividerRight, right = icons.ui.RoundDividerLeft },
 				section_separators = { left = icons.ui.BoldRoundDividerRight, right = icons.ui.BoldRoundDividerLeft },
 			},
-			inactive_winbar = {
-				lualine_c = {
-					{
-						-- cwd
-						function()
-							return icons.ui.FileTree
-									.. " "
-									.. vim.fn.getcwd()
-							-- .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~:.:gs%\\v(\\.?[^/]{0,2})[^/]*/%\\1/%")
-						end,
-						on_click = function()
-							require("telescope").extensions.file_browser.file_browser()
-						end,
-					},
-					{
-						-- filename
-						function()
-							return vim.fn.fnamemodify(
-								vim.api.nvim_buf_get_name(0),
-								":~:.:g" -- make relative to cwd
-							)
-						end,
-						on_click = function()
-							require("telescope.builtin").find_files()
-							-- s%\\v(\\.?[^/]{0,2})[^/]*/%\\1/
-						end,
-					}
-				}
-			},
-			winbar = {
-				lualine_c = {
-					{
-						-- cwd
-						function()
-							return icons.ui.FileTree
-									.. " "
-									.. vim.fn.getcwd()
-							-- .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~:.:gs%\\v(\\.?[^/]{0,2})[^/]*/%\\1/%")
-						end,
-						on_click = function()
-							require("telescope").extensions.file_browser.file_browser()
-						end,
-					},
-					{
-						-- filename
-						function()
-							return vim.fn.fnamemodify(
-								vim.api.nvim_buf_get_name(0),
-								":~:.:g" -- make relative to cwd
-							)
-						end,
-						on_click = function()
-							require("telescope.builtin").find_files()
-							-- s%\\v(\\.?[^/]{0,2})[^/]*/%\\1/
-						end,
-					}
-				},
-				lualine_x = {
-					"overseer",
-				},
-			},
+			-- inactive_winbar = {
+			-- 	lualine_c = {
+			-- 		{
+			-- 			-- cwd
+			-- 			function()
+			-- 				return icons.ui.FileTree
+			-- 						.. " "
+			-- 						.. vim.fn.getcwd()
+			-- 				-- .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~:.:gs%\\v(\\.?[^/]{0,2})[^/]*/%\\1/%")
+			-- 			end,
+			-- 			on_click = function()
+			-- 				require("telescope").extensions.file_browser.file_browser()
+			-- 			end,
+			-- 		},
+			-- },
 			sections = {
 				lualine_a = {
 					"mode",
@@ -199,7 +166,7 @@ return {
 									unknown = get_hl_fg("DiagnosticError")
 								}
 							},
-							spinners = require("copilot-lualine.spinners").dots,
+							spinners = icons.ui.Spinner,
 							spinner_color = get_hl_fg("Constant")
 						},
 						show_colors = true,
@@ -210,8 +177,26 @@ return {
 					},
 				},
 				lualine_c = {
+					{
+						"overseer",
+					},
 				},
 				lualine_x = {
+					{
+						-- filename
+						function()
+							return vim.fn.fnamemodify(
+								vim.api.nvim_buf_get_name(0),
+								":~:.:g" -- make relative to cwd
+							)
+						end,
+						on_click = function()
+							require("telescope.builtin").find_files()
+							-- s%\\v(\\.?[^/]{0,2})[^/]*/%\\1/
+						end,
+					},
+				},
+				lualine_y = {
 					{
 						function()
 							if vim.bo.expandtab then
@@ -224,17 +209,15 @@ return {
 								return icons.ui.TabCharacter .. " " .. tostring(vim.bo.tabstop)
 							end
 						end,
-						on_click = require("utils.editing").choose_buffer_indent,
+						on_click = function() require("utils.editing").select_indent(true) end,
 					},
-				},
-				lualine_y = {
 					"encoding",
 					{
 						function()
 							local symbols = {
-								unix = icons.ui.Unix, -- e712
-								dos = icons.ui.Windows, -- e70f
-								mac = icons.ui.MacOS, -- e711
+								unix = icons.ui.Unix, -- LF
+								dos = icons.ui.Windows, -- CRLF
+								mac = icons.ui.MacOS, -- CR
 							}
 							return symbols[vim.bo.fileformat]
 						end,
@@ -251,6 +234,6 @@ return {
 					{ "location" },
 				},
 			},
-		})
-	end,
+		}
+	end
 }

@@ -5,14 +5,14 @@ return {
 	-- this plugin is not versioned
 	config = function()
 		local colours_to_darken = { -- darker background for more contrast
-			bg0 = 0.45,              -- main background
-			bg1 = 0.35,              -- Foldcolumn, cursor column, conceal bg, tabline bg, float border
+			bg0 = 0.45,             -- main background
+			bg1 = 0.35,             -- Foldcolumn, cursor column, conceal bg, tabline bg, float border
 			-- bg2 = 0.15,              -- lots of stuff
 			-- bg3 = 0.1, -- indent blankline and window separators
 			bg_d = 0.45,             -- nvim_tree bg
 		}
 		local colours_to_lighten = { -- lighter comments and delimiters
-			grey = 0.15,              -- mostly comments
+			grey = 0.15,             -- mostly comments
 			fg = 0.15                -- text
 		}
 		local replacement_colours = {}
@@ -36,7 +36,13 @@ return {
 		replacement_colours["dark_blue"] = require("onedark.util").darken(
 			'#000000', 0.75, require('onedark.palette').darker.blue
 		)
-		replacement_colours["purple"] = '#d950b2'
+		replacement_colours["dark_yellow"] = require("onedark.util").darken(
+			'#000000', 0.90, require('onedark.palette').darker.yellow
+		)
+		replacement_colours["darker_cyan"] = require("onedark.util").darken(
+			require("onedark.palette").darker.cyan, 0.1, replacement_colours["bg0"]
+		)
+		replacement_colours["purple"] = '#d950b2' -- replace purple with a nicer pink
 		require('onedark').setup {
 			-- Main options --
 			style = 'darker',          -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
@@ -72,6 +78,8 @@ return {
 				Visual = { bg = "$dark_blue" },
 				MatchParen = { bg = '$dark_grey' }, -- background of matched delimiters
 
+				ScrollView = { bg = '$dark_grey' }, -- background of scrollbar
+
 				-- IndentBlankline
 				IblIndent = { fg = '$bg3', fmt = "nocombine" },
 				IblWhitespace = { fg = '$grey', fmt = "nocombine" },
@@ -94,6 +102,10 @@ return {
 				GitSignsDelete = { fg = '$red', fmt = "bold" },
 				GitSignsCol = { fg = '$grey', fmt = "bold", },
 				CursorLineSign = { fg = '$grey', fmt = "bold" },
+				GitSignsCurrentLineBlame = { fg = '$cyan', bg = '$darker_cyan' },
+
+				-- DAP highlights
+				DAPStoppedLine = {bg = "$dark_yellow"},
 			}, -- Override highlight groups
 
 			-- Plugins Config --

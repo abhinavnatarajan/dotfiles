@@ -2,7 +2,7 @@ local M = {}
 
 --- Create autocommand group based on the given definition
 --- Also creates the augroup automatically if it doesn't exist
---- @param event string: The event to trigger the autocommand
+--- @param event string | string[]: The event to trigger the autocommand
 --- @param opts table: The options for the autocommand
 --- @return nil
 function M.define_autocmd(event, opts)

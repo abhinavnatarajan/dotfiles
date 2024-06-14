@@ -62,6 +62,16 @@ return {
 					click = "v:lua.ScSa",
 				},
 				{
+					-- debug breakpoint column
+					sign = {
+						name = { "Dap.*" },
+						maxwidth = 2,
+						colwidth = 2,
+						auto = true,
+					},
+					click = "v:lua.ScSa",
+				},
+				{
 					-- line numbers
 					text = { builtin.lnumfunc },
 					click = "v:lua.ScLa",
@@ -75,15 +85,6 @@ return {
 						auto = false,
 						fillcharhl = "GitSignsCol",
 						fillchar = "┃",
-					},
-					click = "v:lua.ScSa",
-				},
-				{
-					sign = {
-						name = { ".*" },
-						maxwidth = 1,
-						colwidth = 1,
-						auto = true,
 					},
 					click = "v:lua.ScSa",
 				},

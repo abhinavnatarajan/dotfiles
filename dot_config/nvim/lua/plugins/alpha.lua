@@ -30,7 +30,12 @@ return {
 			dashboard.button(
 				"f",
 				icons.ui.FindFile .. " Find files",
-				[[:Telescope find_files<CR>]],
+				function()
+					local ok = pcall(require("telescope.builtin").git_files)
+					if not ok then
+						require("telescope.builtin").find_files()
+					end
+				end,
 				{ desc = "Find files" }
 			),
 			dashboard.button(
@@ -60,7 +65,9 @@ return {
 			dashboard.button(
 				"s",
 				icons.ui.Gear .. " Configuration",
-				[[:lua require("telescope_custom_pickers").config()<CR>]],
+				function()
+					require("telescope").extensions.file_browser.file_browser({cwd = "~/.config/nvim"})
+				end,
 				{ desc = "Browse config files" }
 			),
 			dashboard.button("q", icons.ui.SignOut .. " Quit NVIM", "<CMD>confirm qa<CR>"),

@@ -17,49 +17,49 @@ function M.remove_trailing_whitespace()
 	end)
 end
 
-function M.choose_buffer_indent()
-	vim.ui.select({ "Spaces", "Tabs" }, { prompt = "Choose indent method" }, function(indent_method)
-		if indent_method then
-			vim.ui.input({ prompt = "Set auto-indent width:" }, function(input)
-				if input then
-					local indent_w = tonumber(input)
-					if indent_method == "Spaces" then
-						vim.bo.expandtab = true
-						vim.bo.tabstop = indent_w
-						vim.bo.shiftwidth = 0
-						vim.cmd([[ retab! ]])
-					elseif indent_method == "Tabs" then
-						local old_tabstop = vim.bo.tabstop
-						vim.bo.expandtab = false
-						vim.bo.tabstop = indent_w
-						vim.bo.shiftwidth = indent_w
-						M.retab_leading_spaces(old_tabstop)
-					end
-				end
-			end)
-		end
-	end)
+local set_indent_width = function(indent_width, buffer)
+	buffer = buffer or false
+	local scope = "go"
+	if buffer then
+		scope = "bo"
+	end
+	vim[scope].softtabstop = 0 -- spaces that Tab counts for during editing. 0 means fallback to shiftwidth
+	vim[scope].shiftwidth = 0 -- number of spaces for indentation. 0 means fallback to tabstop.
+	vim[scope].tabstop = indent_width
 end
 
-function M.choose_global_indent()
-	vim.ui.select({ "Spaces", "Tabs" }, { prompt = "Choose indent method" }, function(indent_method)
-		if indent_method then
-			vim.ui.input({ prompt = "Set auto-indent width:" }, function(input)
-				if input then
-					local indent_w = tonumber(input)
-					if indent_method == "Spaces" then
-						vim.go.expandtab = true
-						vim.go.tabstop = indent_w
-						vim.go.shiftwidth = 0
-					elseif indent_method == "Tabs" then
-						vim.go.expandtab = false
-						vim.go.tabstop = indent_w
-						vim.go.shiftwidth = indent_w
-					end
-				end
-			end)
+local set_indent_type = function(type, buffer)
+	buffer = buffer or false
+	local scope = "go"
+	if buffer then
+		scope = "bo"
+	end
+	if type == "Spaces" then
+		vim[scope].expandtab = true
+		return
+	end
+	if type == "Tabs" then
+		vim[scope].expandtab = false
+		return
+	end
+	assert(false, "Invalid indent type")
+end
+
+M.select_indent = function(buffer_local)
+	buffer_local = buffer_local or false
+	local utils = require("utils")
+	coroutine.wrap(function()
+		local indent_type = utils.async_get_selection({ "Tabs", "Spaces" }, { prompt = "Choose indent method: " })
+		if not indent_type then
+			return
 		end
-	end)
+		set_indent_type(indent_type, buffer_local)
+		local indent_width = utils.async_get_input({ prompt = "Choose indent width: " })
+		if not indent_width then
+			return
+		end
+		set_indent_width(tonumber(indent_width), buffer_local)
+	end)()
 end
 
 function M.choose_file_newline()
