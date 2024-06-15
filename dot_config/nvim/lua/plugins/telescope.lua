@@ -47,6 +47,8 @@ local buffer_delete = function(prompt_bufnr)
 end
 
 ---use telescope to create a save as dialog
+---@param opts table
+---@field close_current boolean
 local save_as = function(opts)
 	local fb_picker = require("telescope").extensions.file_browser
 	local fb_utils = require("telescope._extensions.file_browser.utils")
@@ -55,6 +57,11 @@ local save_as = function(opts)
 	local state = require("telescope.state")
 	local Path = require "plenary.path"
 	local bufdelete = require("bufdelete").bufdelete
+
+	local bufnr = vim.api.nvim_get_current_buf()
+	opts = opts or {}
+	local replace_buffer = opts.replace_buffer
+
 	-- return Path file on success, otherwise nil
 	local create = function(file, finder)
 		if not file then
@@ -109,13 +116,10 @@ local save_as = function(opts)
 						)
 					else
 						actions.close(prompt_bufnr)
-						opts = opts or {}
-						local close_current = opts.close_current or false
-						if close_current then
-							vim.cmd("w! " .. entry_path:absolute())
-							bufdelete(vim.fn.bufnr("#"), true)
+						if replace_buffer then
+							vim.cmd("silent w! " .. entry_path:absolute())
 						else
-							vim.cmd("saveas! " .. entry_path:absolute())
+							vim.cmd("silent saveas! " .. entry_path:absolute())
 						end
 					end
 				end
@@ -126,11 +130,18 @@ local save_as = function(opts)
 	}
 end
 
----save the current buffer, if it is a new file, open the save as dialog
-local check_save_as = function()
+--save the current buffer
+--if file_dialog is true, open a file dialog to save the buffer
+--if the buffer has no name, open a file dialog to save the buffer
+local save = function(file_dialog)
+	file_dialog = file_dialog or false
 	if vim.api.nvim_buf_get_name(0) == "" then
 		save_as {
-			close_current = true,
+			replace_buffer = true
+		}
+	elseif file_dialog then
+		save_as {
+			replace_buffer = false
 		}
 	else
 		vim.cmd [[silent w!]]
@@ -322,12 +333,12 @@ return {
 		keys = {
 			{
 				"<leader>w",
-				check_save_as,
+				save,
 				desc = icons.ui.Save .. " Save",
 			},
 			{
 				"<leader>fw",
-				save_as,
+				function() save(true) end,
 				desc = icons.ui.SaveAs .. " Save as",
 			},
 			{

@@ -16,6 +16,7 @@ M.get = function(adapter_name)
 end
 
 M.handlers = {}
+
 -- see the file lua/config/DAP/adapters/python.lua to understand this
 -- the handlers are functions that are called when the adapter is loaded
 -- the handler is responsible for setting up the adapter dynamically

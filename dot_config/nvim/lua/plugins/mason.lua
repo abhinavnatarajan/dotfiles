@@ -20,6 +20,37 @@ return
 		config = false,
 	},
 	{
+		'nvimtools/none-ls.nvim',
+		config = function()
+			local null_ls = require("null-ls")
+			null_ls.setup({
+				sources = {
+					-- these sources are not from Mason
+					null_ls.builtins.hover.dictionary,
+					null_ls.builtins.hover.printenv,
+				},
+			})
+		end,
+	},
+	{
+		"jay-babu/mason-null-ls.nvim",
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			"williamboman/mason.nvim",
+			"nvimtools/none-ls.nvim",
+		},
+		cmd = {
+			"NullLsInstall",
+			"NullLsUninstall",
+			"NoneLsInstall",
+			"NoneLsUninstall",
+		},
+		opts = {
+			ensure_installed = require("config.LSP.linters").ensure_installed,
+			handlers = require("config.LSP.linters").handlers,
+		},
+	},
+	{
 		"williamboman/mason.nvim",
 		version = "*",
 		opts = {

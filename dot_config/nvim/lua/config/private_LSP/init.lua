@@ -1,10 +1,6 @@
 local M = {}
 
 -- TODO: automatically install the following packages
-M.linters = {
-	"cspell",
-	"editorconfig-checker",
-}
 M.formatter_configs = {
 	"bibtex-tidy",
 	"jupytext",
@@ -131,8 +127,8 @@ function M.setup()
 	require("mason")
 	-- setup the LSP servers
 	require("mason-lspconfig")
-	-- setup linters via nvim-lint
-	require("lint")
+	-- setup linters
+	require("mason-null-ls")
 end
 
 return M

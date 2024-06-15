@@ -1,25 +1,22 @@
 local M = {}
 
 M.ensure_installed = {
-	"lua_ls",
-	"julials",
+	"basedpyright", -- Python LSP
 	"bashls",
-	-- Python LSP
-	"basedpyright",
-	"ruff",
-	-- Markdown
-	"marksman",
-	"html",
-	"texlab",
-	"jsonls",
-	"yamlls",
 	"clangd",
 	"cmake",
-	"taplo",
 	"cssls",
+	"html",
+	"jsonls",
+	"julials",
+	"ltex", -- LanguageTool
+	"lua_ls",
+	"marksman", -- Markdown
+	"ruff",
 	"rust_analyzer",
-	-- LanguageTool
-	"ltex",
+	"taplo",
+	"texlab",
+	"yamlls",
 }
 
 -- Accepts lspconfig server names

@@ -29,6 +29,7 @@ pyenv global 3.11.6
 # pipx for global packages
 pip3 install --user pipx
 pipx install jupyterlab # jupyter notebook viewer
+pipx install jupytext # jupyter notebook to markdown and python
 pipx install nbdime # git diffs for jupyter notebooks
 nbdime config-git --enable --global
 pipx install pydeps # python module dependency graph generator
@@ -143,7 +144,7 @@ ln -sf $NEOVIM_DEST_FOLDER/AppRun $LOCALBIN/nvim
 # Setup python environment for neovim
 pyenv virtualenv 3.11.6 pynvim
 pyenv activate pynvim
-pip install pynvim debugpy
+pip install pynvim
 pyenv deactivate
 
 # Install JetBrains Font
