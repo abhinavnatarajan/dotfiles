@@ -7,7 +7,6 @@ M.ensure_installed = {
 	"vale"
 }
 
-
 -- accepts null-ls names
 M.get = function(linter_name)
 	local ok, val = pcall(require, "config.LSP.linters." .. linter_name)

@@ -123,8 +123,18 @@ return {
 				vim.keymap.set("n", "[g", function() require("gitsigns").prev_hunk() end, { desc = "Previous hunk" })
 				-- keymaps to activate diffview.nvim
 				-- we set them here so that they are only activated in a git repository
-				vim.keymap.set("n", "<leader>gd", "<CMD>DiffviewOpen<CR>", { desc = icons.git.Diff .. " Open Diffview" })
-				vim.keymap.set("n", "<leader>gr", "<CMD>DiffviewFileHistory<CR>", { desc = icons.ui.History .. " Diffview of file history" })
+				vim.keymap.set(
+					"n",
+					"<leader>gd",
+					"<CMD>DiffviewOpen<CR>",
+					{ desc = icons.git.Diff .. " Open Diffview" }
+				)
+				vim.keymap.set(
+					"n",
+					"<leader>gr",
+					"<CMD>DiffviewFileHistory<CR>",
+					{ desc = icons.ui.History .. " Diffview of file history" }
+				)
 			end
 		},
 	},

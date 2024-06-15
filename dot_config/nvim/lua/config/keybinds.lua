@@ -59,7 +59,6 @@ M.keymaps = {
 	{ "n", "<A-j>",     "<CMD>move .+1<CR>==",                                                DefaultOpts { desc = icons.ui.MoveDown .. " Move line down" } },
 	-- Indentation and whitespace formatting
 	{ "n", "<leader>=", function() require("utils.editing").silent_auto_indent() end,         DefaultOpts { desc = icons.ui.Indent .. " Auto-indent file" } },
-	{ "n", "<leader>$", function() require("utils.editing").remove_trailing_whitespace() end, DefaultOpts { desc = icons.ui.WhiteSpace .. " Remove trailing whitespace" } },
 
 	--[[ Word info ]]
 	["g<C-g>"] = { icons.ui.Note .. " Count lines, words, and characters" },

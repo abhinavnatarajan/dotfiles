@@ -74,13 +74,7 @@ return
 		cmd = { "LspInstall", "LspUninstall" },
 		opts = {
 			ensure_installed = require("config.LSP.servers").ensure_installed,
-			handlers = {
-				-- override the default handler
-				-- pull our settings
-				function(server_name)
-					require("lspconfig")[server_name].setup(require("config.LSP.servers").get_config_by_name(server_name))
-				end
-			},
+			handlers = require("config.LSP.servers").handlers,
 		},
 	},
 	{
@@ -95,9 +89,12 @@ return
 			"DapInstall",
 			"DapUninstall",
 		},
-		opts = {
-			ensure_installed = require("config.DAP.adapters").ensure_installed,
-			handlers = require("config.DAP.adapters").handlers,
-		},
+		config = function()
+			local dap_adapters = require("config.DAP.adapters")
+			require("mason-nvim-dap").setup({
+				ensure_installed = dap_adapters.ensure_installed,
+				handlers = dap_adapters.handlers,
+			})
+		end
 	},
 }

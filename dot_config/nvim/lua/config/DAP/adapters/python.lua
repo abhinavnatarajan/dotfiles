@@ -61,7 +61,7 @@ M.handler = function(dap_config)
 		end
 	end
 
-	-- debugee configurations
+	-- debuggee configurations
 	dap_config.configurations = {
 		{
 			-- Values for properties other than the 3 required properties `type`, `request`, and `name` can be functions.
@@ -95,9 +95,8 @@ M.handler = function(dap_config)
 			request = 'attach',
 			name = 'Attach remote',
 			connect = function()
-				local host = vim.fn.input('Host (default 127.0.0.1): ')
-				host = host ~= '' and host or '127.0.0.1'
-				local port = tonumber(vim.fn.input('Port (default 5678): ')) or 5678
+				local host = vim.fn.input({ prompt = 'Host', default = '127.0.0.1', cancelreturn = '127.0.0.1'})
+				local port = tonumber(vim.fn.input({prompt = 'Port', default = '5678', cancelreturn = '5678'})) or 5678
 				return { host = host, port = port }
 			end,
 		}
