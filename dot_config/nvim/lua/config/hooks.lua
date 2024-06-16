@@ -148,8 +148,8 @@ local defaults = {
 				)
 
 				if numbufs == 1 then
-					local fallback_name = vim.api.nvim_buf_get_name(args.buf)
-					local fallback_ft = vim.api.nvim_get_option_value("filetype", { buf = args.buf })
+					local fallback_name = vim.api.nvim_buf_get_name(0)
+					local fallback_ft = vim.opt_local.filetype:get()
 					local fallback_on_empty = fallback_name == "" and fallback_ft == ""
 					if fallback_on_empty then
 						vim.cmd("Alpha")

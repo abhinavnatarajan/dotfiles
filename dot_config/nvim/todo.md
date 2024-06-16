@@ -1,4 +1,3 @@
 # Todo
-- [] Texlab symbolkinds in trouble and aerial
+- [] eventually replace vimtex with only texlab
 - [] Ltex-ls-extra paths
-- fix ruff
