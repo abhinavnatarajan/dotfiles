@@ -9,13 +9,13 @@ function M.load_defaults()
 		backup         = false, -- creates a backup file
 		breakat        = " ^!@*-+;,/?",
 		breakindent    = true,
-		cindent        = false,       -- smart indenting for new lines
+		cindent        = true,       -- smart indenting for new lines
 		-- cinkeys            = "0{,0},0),0],:,0#,!^F,o,O,e",
 		clipboard      = "unnamedplus", -- allows neovim to access the system clipboard
 		cmdheight      = 1,           -- more space in the neovim command line for displaying messages
 		completeopt    = { "menu", "menuone", "noselect", "longest", },
 		conceallevel   = 2,           -- so that `` is visible in markdown files
-		cpoptions      = "aABceFWZ_",
+		cpoptions      = "aABceFWZI_",
 		cursorline     = true,        -- highlight the current line
 		expandtab      = false,       -- convert tabs to spaces
 		fileencoding   = "utf-8",     -- the encoding written to a file
@@ -116,8 +116,8 @@ function M.load_defaults()
 	vim.g.maplocalleader       = "\\"
 
 	-- set colourscheme
-	-- vim.g.colorscheme = 'github_dark_default'
 	vim.g.colorscheme          = 'onedark'
+	-- vim.g.colorscheme          = 'balance'
 	-- if using neovide GUI
 	if vim.g.neovide then
 		-- vim.g.neovide_scale_factor = 0.78

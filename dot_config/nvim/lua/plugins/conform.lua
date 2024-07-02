@@ -4,20 +4,14 @@ return {
 	cmd = { "ConformInfo" },
 	keys = {
 		{
-			"<leader>Lf",
+			"<leader>F",
 			function()
 				require("conform").format(
 					{
-						lsp_fallback = false, -- if set to true, then only falls back when there are no formatters
-						quiet = true,
+						lsp_format = 'prefer', -- if set to true, then only falls back when there are no formatters
 						timeout_ms = 2000,
-					},
-					-- callback
-					function(err, did_edit)
-						if err or not did_edit then
-							vim.lsp.buf.format({ timeout_ms = 2000 })
-						end
-					end)
+					}
+				)
 				vim.cmd("silent GuessIndent")
 			end,
 			desc = require("icons").ui.Indent .. " Format buffer",
@@ -35,16 +29,9 @@ return {
 			mode = { "n", "x" },
 		},
 		{
-			"<leader>LF",
-			function()
-				local conform = require("conform")
-				local formatter_list = conform.list_formatters()
-				if vim.tbl_isempty(formatter_list) then
-					vim.notify('No formatters found, will use LSP.', vim.log.levels.INFO)
-				else
-					vim.notify('Formatters found: ' .. table.concat(formatter_list, ', '), vim.log.levels.INFO)
-				end
-			end
+			"<leader>Lf",
+			"<CMD>silent ConformInfo<CR>",
+			desc = "Formatter info for buffer",
 		}
 	},
 	-- Everything in opts will be passed to setup()

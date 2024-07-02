@@ -37,7 +37,7 @@ eval "$(pyenv init -)"
 eval "$(register-python-argcomplete pipx)"
 
 # vcpkg
-export VCPKG_INSTALLATION_ROOT="$HOME/.vcpkg"
+export VCPKG_ROOT="$HOME/.vcpkg"
 
 # node version manager
 export NVM_DIR="$HOME/.nvm"

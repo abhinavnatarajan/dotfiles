@@ -48,7 +48,7 @@ end
 
 ---use telescope to create a save as dialog
 ---@param opts table
----@field close_current boolean
+---@field replace_buffer boolean
 local save_as = function(opts)
 	local fb_picker = require("telescope").extensions.file_browser
 	local fb_utils = require("telescope._extensions.file_browser.utils")
@@ -56,9 +56,7 @@ local save_as = function(opts)
 	local actions = require("telescope.actions")
 	local state = require("telescope.state")
 	local Path = require "plenary.path"
-	local bufdelete = require("bufdelete").bufdelete
 
-	local bufnr = vim.api.nvim_get_current_buf()
 	opts = opts or {}
 	local replace_buffer = opts.replace_buffer
 
@@ -117,9 +115,9 @@ local save_as = function(opts)
 					else
 						actions.close(prompt_bufnr)
 						if replace_buffer then
-							vim.cmd("silent w! " .. entry_path:absolute())
+							vim.cmd("w! " .. entry_path:absolute())
 						else
-							vim.cmd("silent saveas! " .. entry_path:absolute())
+							vim.cmd("saveas! " .. entry_path:absolute())
 						end
 					end
 				end
@@ -279,6 +277,9 @@ return {
 								["<C-x>"] = buffer_delete,
 							}
 						}
+					},
+					keymaps = {
+						modes = { "n", "i", "x", "t", "v", "s", "c" }
 					}
 				},
 				fzf = {

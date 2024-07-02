@@ -11,6 +11,7 @@ return {
     "ScrollViewPrev",
     "ScrollViewFirst",
     "ScrollViewLast",
+    "ScrollViewLegend"
   },
   -- this plugin is versioned but there are several unversioned commits since the last release
   -- version = "*",

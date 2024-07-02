@@ -26,8 +26,8 @@ return
 			null_ls.setup({
 				sources = {
 					-- these sources are not from Mason
-					null_ls.builtins.hover.dictionary,
-					null_ls.builtins.hover.printenv,
+					null_ls.builtins.hover.dictionary, -- get dictionary meaning of word on hover
+					null_ls.builtins.hover.printenv, -- get current value of environment variable on hover
 				},
 			})
 		end,

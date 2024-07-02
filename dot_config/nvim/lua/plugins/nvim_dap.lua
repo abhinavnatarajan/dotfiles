@@ -5,7 +5,7 @@ return {
 		keys = {
 			{ "<Leader>Dt", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
 			{ "<Leader>Db", function() require("dap").step_back() end,         desc = "Step Back" },
-			{ "<Leader>Ds", function() require("dap").continue() end,          desc = "Start" },
+			{ "<Leader>Ds", function() require("dap").continue({new = true}) end,          desc = "Start debug session" },
 			{ "<Leader>Dc", function() require("dap").continue() end,          desc = "Continue" },
 			{ "<Leader>DC", function() require("dap").run_to_cursor() end,     desc = "Run To Cursor" },
 			{ "<Leader>Dk", function() require("dap").session() end,           desc = "Get Session" },
@@ -24,7 +24,7 @@ return {
 				-- disconnect the adapter from the debuggee and terminate the adapter
 				-- this will terminate the debuggee if it was launched by the adapter
 				"<Leader>Dd",
-				function() local dap = require("dap").disconnect() end,
+				function() require("dap").disconnect() end,
 				desc = icons.debug.Disconnect .. " Disconnect debugger"
 			},
 		},

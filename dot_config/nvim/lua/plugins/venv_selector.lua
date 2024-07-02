@@ -56,6 +56,15 @@ return {
 			cache = {
 				file = "~/.cache/venv-selector/venvs2.json",
 			},
+			search = {
+				hatch = {
+					command = "$FD 'bin/python$' ~/.local/share/hatch/env/virtual --full-path --color never -E '*-build*' -E /proc"
+				},
+				mambaforge_envs = {
+					command = "$FD '/bin/python$' ~/mambaforge/envs --full-path --color never -E /proc -a -L",
+					type = "anaconda"
+				},
+			},
 			options = {
 				on_venv_activate_callback = nil,     -- callback function for after a venv activates
 				enable_default_searches = true,      -- switches all default searches on/off
@@ -72,14 +81,8 @@ return {
 				on_telescope_result_callback = nil, -- callback function for modifying telescope results
 				show_telescope_search_type = true, -- Shows which of the searches found which venv in telescope
 				telescope_filter_type =
-				"substring"                     -- When you type something in telescope, filter by "substring" or "character"		},
+				"substring"                     -- When you type something in telescope, filter by "substring" or "character"
 			},
-			search = {
-				mambaforge_envs = {
-					command = "$FD '/bin/python$' ~/mambaforge/envs --full-path --color never -E /proc -a -L",
-					type = "anaconda"
-				},
-			},
-		}
+		},
 	},
 }

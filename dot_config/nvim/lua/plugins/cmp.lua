@@ -164,7 +164,6 @@ return {
 				{ name = 'nvim_lsp', group_index = 1 },
 				-- { name = 'nvim_lsp_signature_help' },
 				{ name = 'luasnip',  group_index = 1 }, -- For luasnip users.
-				{ name = 'otter',    group_index = 1 },
 				{ name = 'git',      group_index = 1 }, -- only active for gitcommit and octo files
 				{ name = 'buffer',   group_index = 2 }
 			},

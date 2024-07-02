@@ -2,7 +2,9 @@ local M = {}
 
 M.config = {
 	on_attach = function(client)
-		local path = client.workspace_folders[1].name
+		local cwd = client.workspace_folders
+		if not cwd then return end
+		local path = cwd[1].name
 		if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
 			return
 		elseif path == vim.fn.stdpath('config') then

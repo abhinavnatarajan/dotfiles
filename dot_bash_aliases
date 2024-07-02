@@ -14,7 +14,7 @@ fi
 # some more ls aliases
 alias la='ls -Alh'
 alias ll='ls -lh'
- 
+
 # xplr cd on exit
 alias nav='cd "$(xplr --print-pwd-as-result)"'
 
@@ -24,8 +24,8 @@ alias move="rsync -ah --info=progress2 --remove-source-files"
 
 # Neovide
 if [[ $(grep microsoft /proc/version ) ]]; then
-    alias nvd='neovide.exe --wsl --neovim-bin $HOME/.local/bin/nvim & disown'
+    alias nvd='neovide.exe --wsl --neovim-bin $HOME/.local/bin/nvim --fork & disown'
     alias open='wslview'
 else
-    alias nvd='neovide $HOME/.local/bin/nvim & disown'
+    alias nvd='neovide --fork'
 fi

@@ -23,17 +23,17 @@ local getPythonPath = function()
 	end
 end
 
-local enrich_config = function(cfg, on_config)
-	if not cfg.python then
-		cfg.python = getPythonPath()
-	end
-	on_config(cfg)
-end
-
--- function that modifies the default dap_config
+---Dynamically setup the adapter and configurations when neovim starts.
+---@param dap_config.name string the name of the adapter
+---@param dap_config.adapters table a table containing the adapter setup (should really be adapter, not adapters)
+---@param dap_config.configurations table a table containing the configurations for the adapter
+---@param dap_config.filetypes table a table containing the filetypes supported by the adapter
 M.handler = function(dap_config)
-	-- debugger configurations
+	-- adapter setup
 	dap_config.adapters = function(callback, config)
+		-- this function is run when debugging starts
+		-- allows for dynamic adapter setup
+		-- here we use it to change the adapter setup based on the debug request
 		if config.request == 'attach' then
 			local port = (config.connect or config).port
 			local host = (config.connect or config).host or '127.0.0.1'
@@ -45,7 +45,7 @@ M.handler = function(dap_config)
 					source_filetype = 'python',
 				},
 			})
-		else -- config.request == 'launch'
+		elseif config.request == 'launch' then
 			callback({
 				type = 'executable',
 				command = vim.fn.exepath('debugpy-adapter'),
@@ -53,7 +53,6 @@ M.handler = function(dap_config)
 				-- to enrich a configuration with additional information.
 				-- It receives a configuration as first argument,
 				-- and a callback that must be called with the final configuration as second argument.
-				enrich_config = enrich_config,
 				options = {
 					source_filetype = 'python',
 				},
@@ -61,7 +60,7 @@ M.handler = function(dap_config)
 		end
 	end
 
-	-- debuggee configurations
+	-- adapter configurations
 	dap_config.configurations = {
 		{
 			-- Values for properties other than the 3 required properties `type`, `request`, and `name` can be functions.
@@ -77,6 +76,8 @@ M.handler = function(dap_config)
 			program = "${file}",         -- This configuration will launch the current file if used.
 			console = "integratedTerminal", -- options are: internalConsole, integratedTerminal, externalTerminal
 			-- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
+			python = getPythonPath,
+			justMyCode = false,
 		},
 		{
 			type = 'python',
@@ -85,10 +86,12 @@ M.handler = function(dap_config)
 
 			program = "${file}",
 			console = "integratedTerminal",
+			python = getPythonPath,
 			args = function()
 				local argstr = vim.fn.input("Arguments: ")
 				return vim.split(argstr, " +")
 			end,
+			justMyCode = false,
 		},
 		{
 			type = 'python',

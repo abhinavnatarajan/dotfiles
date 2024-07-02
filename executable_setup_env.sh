@@ -28,7 +28,6 @@ env PYTHON_CONFIGURE_OPTS='--enable-optimizations --with-lto' PYTHON_CFLAGS='-ma
 pyenv global 3.11.6
 # pipx for global packages
 pip3 install --user pipx
-pipx install jupyterlab # jupyter notebook viewer
 pipx install jupytext # jupyter notebook to markdown and python
 pipx install nbdime # git diffs for jupyter notebooks
 nbdime config-git --enable --global

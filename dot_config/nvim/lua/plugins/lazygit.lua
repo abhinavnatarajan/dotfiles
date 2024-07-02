@@ -26,5 +26,16 @@ return {
 		-- vim.g.lazygit_config_file_path = '' -- custom config file path
 		-- -- OR
 		-- vim.g.lazygit_config_file_path = {} -- table of custom config file paths
+		require('autocmds').define_autocmd(
+			"FileType",
+			{
+				desc = "Disable escape key in lazygit",
+				group = "disable_escape_in_lazygit",
+				pattern = { "lazygit" },
+				callback = function()
+					vim.keymap.set("t", "<Esc>", "<Esc>", { buffer = 0 })
+				end,
+			}
+		)
 	end,
 }

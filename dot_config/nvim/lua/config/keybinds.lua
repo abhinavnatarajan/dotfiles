@@ -42,48 +42,48 @@ M.keymaps = {
 		end,
 		{ desc = "Jump to tab" },
 	},
-	{ "t", "<Esc>",     [[<C-\><C-n>]],                                                       DefaultOpts { desc = "Normal mode" } },
-	{ "n", "gx",        [[:exe 'silent !open ' . shellescape(expand('<cfile>', 1))<CR>]],     DefaultOpts { desc = icons.ui.Window .. " Open in external program" } },
+	{ "t", "<Esc>",     [[<C-\><C-n>]],                                                   DefaultOpts { desc = "Normal mode" } },
+	{ "n", "gx",        [[:exe 'silent !open ' . shellescape(expand('<cfile>', 1))<CR>]], DefaultOpts { desc = icons.ui.Window .. " Open in external program" } },
 
 	--[[ Navigation and resizing ]]
 	-- Resize with arrows
-	{ "n", "<C-Up>",    "<CMD>resize +2<CR>",                                                 DefaultOpts { desc = icons.ui.ExpandVertical .. " Shrink window vertically" } },
-	{ "n", "<C-Down>",  "<CMD>resize -2<CR>",                                                 DefaultOpts { desc = icons.ui.ExpandVertical .. " Expand window vertically" } },
-	{ "n", "<C-Left>",  "<CMD>vertical resize -2<CR>",                                        DefaultOpts { desc = icons.ui.ExpandHorizontal .. " Shrink window horizontally" } },
-	{ "n", "<C-Right>", "<CMD>vertical resize +2<CR>",                                        DefaultOpts { desc = icons.ui.ExpandHorizontal .. " Expand window horizontally" } },
+	{ "n", "<C-Up>",    "<CMD>resize +2<CR>",                                             DefaultOpts { desc = icons.ui.ExpandVertical .. " Shrink window vertically" } },
+	{ "n", "<C-Down>",  "<CMD>resize -2<CR>",                                             DefaultOpts { desc = icons.ui.ExpandVertical .. " Expand window vertically" } },
+	{ "n", "<C-Left>",  "<CMD>vertical resize -2<CR>",                                    DefaultOpts { desc = icons.ui.ExpandHorizontal .. " Shrink window horizontally" } },
+	{ "n", "<C-Right>", "<CMD>vertical resize +2<CR>",                                    DefaultOpts { desc = icons.ui.ExpandHorizontal .. " Expand window horizontally" } },
 
 	--[[ Normal mode editing shortcuts ]]
-	{ "n", "<A-a>",     "ggVG",                                                               DefaultOpts { desc = icons.ui.Cursor .. " Select all" } },
+	{ "n", "<A-a>",     "ggVG",                                                           DefaultOpts { desc = icons.ui.Cursor .. " Select all" } },
 	-- Move current line / block with Alt-j/k a la vscode.
-	{ "n", "<A-k>",     "<CMD>move .-2<CR>==",                                                DefaultOpts { desc = icons.ui.MoveUp .. " Move line up" } },
-	{ "n", "<A-j>",     "<CMD>move .+1<CR>==",                                                DefaultOpts { desc = icons.ui.MoveDown .. " Move line down" } },
+	{ "n", "<A-k>",     "<CMD>move .-2<CR>==",                                            DefaultOpts { desc = icons.ui.MoveUp .. " Move line up" } },
+	{ "n", "<A-j>",     "<CMD>move .+1<CR>==",                                            DefaultOpts { desc = icons.ui.MoveDown .. " Move line down" } },
 	-- Indentation and whitespace formatting
-	{ "n", "<leader>=", function() require("utils.editing").silent_auto_indent() end,         DefaultOpts { desc = icons.ui.Indent .. " Auto-indent file" } },
+	{ "n", "<leader>=", function() require("utils.editing").silent_auto_indent() end,     DefaultOpts { desc = icons.ui.Indent .. " Auto-indent file" } },
 
 	--[[ Word info ]]
 	["g<C-g>"] = { icons.ui.Note .. " Count lines, words, and characters" },
 
 	--[[ Insert mode editing shortcuts ]]
-	{ "i",          "<A-a>", "<ESC>ggVG",           DefaultOpts { desc = icons.ui.Cursor .. " Select all" } },
-	{ "i",          "<A-j>", "<Esc>:m .+1<CR>==gi", DefaultOpts { desc = icons.ui.MoveDown .. " Move line down" } },
-	{ "i",          "<A-k>", "<Esc>:m .-2<CR>==gi", DefaultOpts { desc = icons.ui.MoveUp .. " Move line up" } },
-	{ "i",          "<F3>",  "<CMD>noh<CR>",        DefaultOpts { desc = "Turn off search highlights" } },
-	{ "i",          "<A-,>", "<C-D>",               DefaultOpts { desc = icons.ui.IndentDecrease .. " Decrease indentation" } },
-	{ "i",          "<A-.>", "<C-T>",               DefaultOpts { desc = icons.ui.IndentIncrease .. " Increase indentation" } },
-	{ "i",          "<C-j>", "<Down>",              DefaultOpts { desc = "Move cursor down" } },
-	{ "i",          "<C-K>", "<Up>",                DefaultOpts { desc = "Move cursor up" } },
-	{ "i",          "<C-h>", "<Left>",              DefaultOpts { desc = "Move cursor left" } },
-	{ "i",          "<C-l>", "<Right>",             DefaultOpts { desc = "Move cursor right" } },
+	{ "i",          "<A-a>", "<ESC>ggVG",                     DefaultOpts { desc = icons.ui.Cursor .. " Select all" } },
+	{ "i",          "<A-j>", "<Esc>:m .+1<CR>==gi",           DefaultOpts { desc = icons.ui.MoveDown .. " Move line down" } },
+	{ "i",          "<A-k>", "<Esc>:m .-2<CR>==gi",           DefaultOpts { desc = icons.ui.MoveUp .. " Move line up" } },
+	{ "i",          "<F3>",  "<CMD>noh<CR>",                  DefaultOpts { desc = "Turn off search highlights" } },
+	{ "i",          "<A-,>", "<C-D>",                         DefaultOpts { desc = icons.ui.IndentDecrease .. " Decrease indentation" } },
+	{ "i",          "<A-.>", "<C-T>",                         DefaultOpts { desc = icons.ui.IndentIncrease .. " Increase indentation" } },
+	{ "i",          "<C-j>", "<Down>",                        DefaultOpts { desc = "Move cursor down" } },
+	{ "i",          "<C-K>", "<Up>",                          DefaultOpts { desc = "Move cursor up" } },
+	{ "i",          "<C-h>", "<Left>",                        DefaultOpts { desc = "Move cursor left" } },
+	{ "i",          "<C-l>", "<Right>",                       DefaultOpts { desc = "Move cursor right" } },
 
 	--[[ visual block mode editing shortcuts ]]
-	{ "x",          "<A-k>", ":m '<-2<CR>gv-gv",    DefaultOpts { desc = icons.ui.MoveUp .. " Move selection up" } },
-	{ "x",          "<A-j>", ":m '>+1<CR>gv-gv",    DefaultOpts { desc = icons.ui.MoveDown .. " Move selection down" } },
+	{ "x",          "<A-k>", ":m '<-2<CR>gv-gv",              DefaultOpts { desc = icons.ui.MoveUp .. " Move selection up" } },
+	{ "x",          "<A-j>", ":m '>+1<CR>gv-gv",              DefaultOpts { desc = icons.ui.MoveDown .. " Move selection down" } },
 	-- Indentation and whitespace formatting
-	{ "x",          "<",     "<gv",                 DefaultOpts { desc = icons.ui.IndentDecrease .. " Decrease indent" } },
-	{ "x",          ">",     ">gv",                 DefaultOpts { desc = icons.ui.IndentIncrease .. " Increase indent" } },
+	{ "x",          "<",     [[<CMD>exe "silent normal! \<gv"<CR>]], DefaultOpts { desc = icons.ui.IndentDecrease .. " Decrease indent" } },
+	{ "x",          ">",     [[<CMD>exe "silent normal! >gv"<CR>]],  DefaultOpts { desc = icons.ui.IndentIncrease .. " Increase indent" } },
 
 	--Searching
-	{ { "n", "i" }, "<F3>",  "<CMD>noh<CR>",        DefaultOpts { desc = icons.ui.Highlight .. " Clear search highlights" } },
+	{ { "n", "i" }, "<F3>",  "<CMD>noh<CR>",                  DefaultOpts { desc = icons.ui.Highlight .. " Clear search highlights" } },
 
 	--Find and replace (see also LSP keybinds)
 	{

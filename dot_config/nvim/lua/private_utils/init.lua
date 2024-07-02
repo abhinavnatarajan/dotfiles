@@ -31,7 +31,6 @@ M.async_get_selection = function(items, opts)
 	local co, _ = assert(coroutine.running(), "Function must run in a coroutine.")
 	vim.ui.select(items, opts, function(selection) coroutine.resume(co, selection) end)
 	local selection = coroutine.yield()
-	vim.notify("here")
 	return selection
 end
 
