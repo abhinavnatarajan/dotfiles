@@ -61,15 +61,22 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 # Install node
 nvm install node
 
-# Lua
+# LuaJIT
 cd $DOWNLOADS
-curl -LO https://www.lua.org/ftp/lua-5.4.6.tar.gz
-tar zxf lua-5.4.6.tar.gz
-cd lua-5.4.6
-make linux-readline test
-make install INSTALL_TOP=$APPFOLDER/lua
-ln -sf $APPFOLDER/lua/bin/lua $LOCALBIN/lua
-ln -sf $APPFOLDER/lua/bin/luac $LOCALBIN/luac
+git clone https://luajit.org/git/luajit.git
+cd luajit
+make PREFIX=$APPFOLDER/luajit
+make install PREFIX=$APPFOLDER/luajit
+ln -sf $APPFOLDER/luajit/bin/luajit $LOCALBIN/luajit
+
+#LuaRocks
+cd $DOWNLOADS
+curl -LO https://github.com/luarocks/luarocks/archive/refs/tags/v3.11.1.tar.gz
+tar -xzf v3.11.1.tar.gz
+cd luarocks-3.11.1
+./configure --with-lua-include=$APPFOLDER/luajit/include --prefix=$APPFOLDER/luarocks
+make && make install
+ln -sf $APPFOLDER/luarocks/bin/luarocks $LOCALBIN/luarocks-admin
 
 # Install Tex Live
 sudo apt install texlive-full -y

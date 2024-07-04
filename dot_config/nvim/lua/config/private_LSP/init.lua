@@ -128,7 +128,7 @@ function M.setup()
 	require("mason")
 	-- setup the LSP servers
 	require("mason-lspconfig")
-	-- setup linters
+	-- setup linters and hook them into the LSP client via none-ls
 	require("mason-null-ls")
 end
 

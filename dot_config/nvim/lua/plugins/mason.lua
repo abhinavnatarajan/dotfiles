@@ -90,10 +90,9 @@ return
 			"DapUninstall",
 		},
 		config = function()
-			local dap_adapters = require("config.DAP.adapters")
 			require("mason-nvim-dap").setup({
-				ensure_installed = dap_adapters.ensure_installed,
-				handlers = dap_adapters.handlers,
+				ensure_installed = require("config.DAP.adapters").ensure_installed,
+				handlers = require("config.DAP.adapters").handlers,
 			})
 		end
 	},
