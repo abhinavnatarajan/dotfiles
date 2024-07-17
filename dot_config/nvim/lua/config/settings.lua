@@ -9,8 +9,8 @@ function M.load_defaults()
 		backup         = false, -- creates a backup file
 		breakat        = " ^!@*-+;,/?",
 		breakindent    = true,
-		cindent        = true,       -- smart indenting for new lines
-		-- cinkeys            = "0{,0},0),0],:,0#,!^F,o,O,e",
+		cindent        = true,        -- smart indenting for new lines
+		cinkeys        = "0{,0},0),0],:,0#,!^F,o,O,e",
 		clipboard      = "unnamedplus", -- allows neovim to access the system clipboard
 		cmdheight      = 1,           -- more space in the neovim command line for displaying messages
 		completeopt    = { "menu", "menuone", "noselect", "longest", },
@@ -23,14 +23,12 @@ function M.load_defaults()
 		foldenable     = true,
 		foldlevel      = 99,
 		foldlevelstart = 99,
-		foldexpr       = "nvim_treesitter#foldexpr()",        -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
-		foldmethod     = "expr",                              -- folding, set to "expr" for treesitter based folding
 		guifont        = { "JetBrainsMono Nerd Font", ":h11" }, -- the font used in graphical neovim applications
 		-- guioptions         = "mr", -- m for menubar, r for right scrollbar
 		hidden         = true,                                -- required to keep multiple buffers and open multiple buffers
 		hlsearch       = true,                                -- highlight all matches on previous search pattern
 		ignorecase     = true,                                -- ignore case in search patterns
-		-- indentkeys         = "0{,0},0),0],:,0#,!^F,o,O,e",
+		indentkeys     = "0{,0},0),0],:,0#,!^F,o,O,e, <Up>, <Down>",
 		jumpoptions    = { "stack", "view" },
 		keywordprg     = ":vert help",
 		laststatus     = 3,
@@ -44,6 +42,7 @@ function M.load_defaults()
 		pumblend       = 8,  -- translucent popup menu
 		pumheight      = 150, -- pop up menu height
 		relativenumber = true, -- set relative numbered lines
+		report         = 9999999, -- do not emit messages when lines are changed
 		ruler          = false,
 		scrolloff      = 4,  -- minimal number of screen lines to keep above and below the cursor.
 		sessionoptions = {
@@ -74,7 +73,7 @@ function M.load_defaults()
 		timeout        = true,
 		timeoutlen     = 500,                                -- time to wait for a mapped sequence to complete (in milliseconds)
 		title          = true,                               -- set the title of window to the value of the titlestring
-		undodir        = vim.fn.stdpath("state") .. "/undo//", -- set an undo directory
+		undodir        = vim.fn.stdpath("state") .. "/undo//",-- set an undo directory
 		undofile       = true,                               -- enable persistent undo
 		updatetime     = 100,                                -- faster completion
 		whichwrap      = '<>[]lh',

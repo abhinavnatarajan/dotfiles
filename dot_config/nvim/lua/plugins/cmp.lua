@@ -27,15 +27,7 @@ return {
 			dependencies = { "nvim-lua/plenary.nvim" },
 			opts = {}
 		},
-		-- {
-		-- 	"ExaFunction/codeium.nvim",
-		-- 	dependencies = {
-		-- 		"nvim-lua/plenary.nvim"
-		-- 	},
-		-- 	opts = {
-		-- 		enable_chat = true
-		-- 	}
-		-- }
+		-- "sourcegraph/sg.nvim",
 		{
 			"zbirenbaum/copilot-cmp",
 			cmd = { "Copilot" },
@@ -59,8 +51,10 @@ return {
 			cmdline = icons.ui.ChevronRight,
 			codeium = icons.ui.Fix,
 			copilot = icons.ui.Copilot,
+			cody = icons.ui.Copilot,
 		}
-		local lspkindicons = vim.tbl_extend('force', icons.syntax, { Copilot = icons.ui.Copilot, Codeium = icons.ui.Fix })
+		local lspkindicons = vim.tbl_extend('force', icons.syntax,
+			{ Copilot = icons.ui.Copilot, Codeium = icons.ui.Fix, Cody = icons.ui.Copilot })
 		local select_opts = { behaviour = cmp.SelectBehavior.Select }
 		local confirm_opts = { select = false, behaviour = cmp.ConfirmBehavior.Replace }
 		cmp.setup({
@@ -98,7 +92,7 @@ return {
 			},
 			experimental = {
 				-- ghost_text = true,
-				ghost_text = {hl_group = 'CmpGhostText'},
+				ghost_text = { hl_group = 'CmpGhostText' },
 			},
 			mapping = {
 				['<C-u>'] = cmp.mapping.scroll_docs(-4),
@@ -159,8 +153,8 @@ return {
 				end, { 'i', 's' }),
 			},
 			sources = {
+				-- { name = 'cody',     group_index = 1 },
 				{ name = 'copilot',  group_index = 1 },
-				-- { name = 'codeium' },
 				{ name = 'nvim_lsp', group_index = 1 },
 				-- { name = 'nvim_lsp_signature_help' },
 				{ name = 'luasnip',  group_index = 1 }, -- For luasnip users.
@@ -184,7 +178,7 @@ return {
 				fields = { 'menu', 'abbr', 'kind' },
 				expandable_indicator = true,
 				format = function(entry, item)
-					local kinds = require("config.LSP.servers").get("texlab").CompletionItemKind
+					local kinds = require("config.LSP.texlab").CompletionItemKind
 					if entry.source.name == 'nvim_lsp' then
 						local k = item.kind
 						item.kind = kinds[k].icon .. ' ' .. kinds[k].desc

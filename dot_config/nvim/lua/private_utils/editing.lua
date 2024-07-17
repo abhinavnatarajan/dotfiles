@@ -25,7 +25,7 @@ local set_indent_width = function(indent_width, buffer)
 	end
 	vim[scope].softtabstop = indent_width -- spaces that Tab counts for during editing. 0 means fallback to shiftwidth
 	vim[scope].shiftwidth = indent_width -- number of spaces for indentation. 0 means fallback to tabstop.
-	vim[scope].tabstop = indent_width -- number of spaces that a <Tab> in the file counts for
+	vim[scope].tabstop = indent_width    -- number of spaces that a <Tab> in the file counts for
 end
 
 local set_indent_type = function(type, buffer)
@@ -53,11 +53,11 @@ M.select_indent = function(buffer_local)
 		if not indent_type then
 			return
 		end
-		set_indent_type(indent_type, buffer_local)
 		local indent_width = utils.async_get_input({ prompt = "Choose indent width: " })
 		if not indent_width then
 			return
 		end
+		set_indent_type(indent_type, buffer_local)
 		set_indent_width(tonumber(indent_width), buffer_local)
 	end)()
 end

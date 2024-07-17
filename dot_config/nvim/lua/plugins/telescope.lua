@@ -197,8 +197,15 @@ return {
 						require("telescope.builtin").find_files()
 					end
 				end,
-				desc = icons.ui.FindFile .. " Fzf files",
+				desc = icons.ui.FindFile .. " Fzf files respecting gitignore",
 
+			},
+			{
+				"<leader>fF",
+				function()
+					require("telescope.builtin").find_files({hidden = true, no_ignore = true, no_ignore_parent = true})
+				end,
+				desc = icons.ui.FindFile .. " Fzf files",
 			},
 			{
 				"<leader>fr",
@@ -395,7 +402,8 @@ return {
 					-- Mappings for the actions
 					mappings = {
 						open_in_browser = "<C-o>",
-						open_in_file_browser = "<C-e>",
+						-- open_in_file_browser = "<C-e>",
+						open_in_file_browser = "<CR>",
 						open_in_find_files = "<C-f>",
 						open_in_live_grep = "<C-g>",
 						open_in_terminal = "<C-t>",

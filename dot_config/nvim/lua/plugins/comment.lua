@@ -1,5 +1,6 @@
 return {
-	'numToStr/Comment.nvim',
+	-- 'numToStr/Comment.nvim',
+	'abhinavnatarajan/Comment.nvim',
 	opts = {
 		---Add a space b/w comment and the line
 		padding = true,
@@ -39,7 +40,7 @@ return {
 			extra = false,
 		},
 		---Function to call before (un)comment
-		pre_hook = function()
+		pre_hook = function(_)
 			local c = require("Comment")
 			if c.temp_pos ~= nil then return end
 			c.temp_pos = vim.api.nvim_win_get_cursor(0)
@@ -62,12 +63,34 @@ return {
 		end,
 	},
 	keys = {
-		{ "<C-/>", "<Plug>(comment_toggle_linewise_current)",        desc = require("icons").ui.Comment .. " Toggle line comment",  mode = "n", noremap = false },
-		{ "<C-/>", "<Plug>(comment_toggle_linewise_visual)gv",       desc = require("icons").ui.Comment .. " Toggle line comment",  mode = "x", noremap = false },
-		{ "<C-/>", "<Esc><Plug>(comment_toggle_linewise_current)a",  desc = require("icons").ui.Comment .. " Toggle line comment",  mode = "i", noremap = false },
-		{ "<A-/>", "<Plug>(comment_toggle_blockwise_current)",       desc = require("icons").ui.Comment .. " Toggle block comment", mode = "n", noremap = false },
-		{ "<A-/>", "<Plug>(comment_toggle_blockwise_visual)gv",      desc = require("icons").ui.Comment .. " Toggle block comment", mode = "x", noremap = false },
-		{ "<A-/>", "<Esc><Plug>(comment_toggle_blockwise_current)a", desc = require("icons").ui.Comment .. " Toggle block comment", mode = "i", noremap = false },
+		{
+			"<C-/>",
+			function () require('Comment.api').toggle.linewise() end,
+			desc = require("icons").ui.Comment .. " Toggle line comment",
+			mode = { "n", "i" },
+		},
+		{
+			"<C-/>",
+			function ()
+				require('Comment.api').toggle.linewise(vim.fn.mode())
+			end,
+			desc = require("icons").ui.Comment .. " Toggle line comment",
+			mode = "x",
+		},
+		{
+			"<A-/>",
+			function () require('Comment.api').toggle.blockwise() end,
+			desc = require("icons").ui.Comment .. " Toggle block comment",
+			mode = { "n", "i" },
+		},
+		{
+			"<A-/>",
+			function ()
+				require('Comment.api').toggle.blockwise(vim.fn.mode())
+			end,
+			desc = require("icons").ui.Comment .. " Toggle block comment",
+			mode = "x",
+		},
 		{
 			"gcA",
 			function()

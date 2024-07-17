@@ -74,7 +74,7 @@ return {
 				-- This is a current Neovim limitation.
 				enabled = true,        -- enables the Noice messages UI
 				view = "mini",         -- default view for messages
-				view_error = "notify", -- view for errors
+				view_error = "mini", -- view for errors
 				view_warn = "mini",    -- view for warnings
 				view_history = "messages", -- view for :messages
 				view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
@@ -228,10 +228,10 @@ return {
 			throttle = 1000 / 30,      -- how frequently does Noice need to check for ui updates? This has no effect when in blocking mode.
 			routes = {
 				--- @see section on routes
-				{
-					view = "cmdline",
-					filter = { event = "msg_show", kind = "confirm_sub" },
-				}
+				-- {
+				-- 	view = "cmdline",
+				-- 	filter = { event = "msg_show", kind = "confirm_sub" },
+				-- }
 			},
 			status = {}, --- @see section on statusline components
 			format = {}, --- @see section on formatting

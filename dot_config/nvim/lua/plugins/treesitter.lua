@@ -13,6 +13,8 @@ return {
   },
   event = "BufWinEnter",
   config = function()
+		vim.opt.foldexpr       = "nvim_treesitter#foldexpr()"
+		vim.opt.foldmethod     = "expr"
     local configs = require('nvim-treesitter.configs')
     configs.setup {
       auto_install = true,

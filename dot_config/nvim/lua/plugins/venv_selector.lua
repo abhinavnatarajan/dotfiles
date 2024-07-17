@@ -15,7 +15,12 @@ return {
 				desc = "Shortcut key to change python virtual environment for LSP",
 				group = "venv_select",
 				callback = function(args)
-					if vim.tbl_contains({ "pyright", "basedpyright", "pylance", "pylsp" }, vim.lsp.get_client_by_id(args.data.client_id).name) then
+					if vim.tbl_contains({
+						"pyright",
+						"basedpyright",
+						"pylance",
+						"pylsp",
+					}, vim.lsp.get_client_by_id(args.data.client_id).name) then
 						local DefaultOpts = require("config.keybinds").DefaultOpts
 						vim.keymap.set("n", "<leader>Lef", "<CMD>VenvSelect<CR>",
 							DefaultOpts { desc = require("icons").ui.Search .. " Find environment", buffer = 0 })
@@ -29,8 +34,17 @@ return {
 								end
 							end,
 							DefaultOpts { desc = require("icons").ui.ChevronRightBoxOutline .. " Current environment info", buffer = 0 })
-						vim.keymap.set("n", "<leader>Lex", function() require("venv-selector").deactivate() end,
-							DefaultOpts { desc = require("icons").ui.Close .. " Deactivate virtual environment", buffer = 0 })
+						vim.keymap.set(
+							"n",
+							"<leader>Lex",
+							function()
+								require("venv-selector").deactivate()
+							end,
+							DefaultOpts {
+									desc = require("icons").ui.Close .. " Deactivate virtual environment",
+									buffer = 0,
+								}
+						)
 
 						-- if which-key is loaded then add a prefix description for venv-selector
 						local have_which_key = false

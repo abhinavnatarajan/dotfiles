@@ -26,8 +26,14 @@ require("lazy").setup("plugins", {
 	},
 })
 
+-- Ensure external tools are installed
+require('mason-tool-installer')
+
 -- Setup LSP servers and attach autocomplete capabilities
 require("config.LSP").setup()
+
+-- Setup linters and hook them into the LSP client using none-ls
+require('config.linters').setup()
 
 -- Setup DAP servers and attach debugging capabilities
 require("config.DAP").setup()

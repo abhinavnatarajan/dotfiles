@@ -3,7 +3,10 @@ return {
 	{
 		"zbirenbaum/copilot.lua",
 		cmd = "Copilot",
-		-- event = "InsertEnter", -- we want to trigger this from cmp
+		init = function()
+			vim.list_extend(require('config.keybinds').which_key_defaults,
+				{ { "<Leader>a", group = require('icons').ui.Copilot .. ' Copilot', mode = { "n", "x" } } })
+		end,
 		opts = {
 			panel = {
 				enabled = false,
@@ -52,6 +55,7 @@ return {
 					},
 					advanced = {
 						temperature = 0.2, -- GPT temperature
+						top_p = 0.1
 					},
 					inlineSuggestion = { enable = true },
 				}
@@ -94,7 +98,7 @@ return {
 				function()
 					require("CopilotChat").toggle()
 				end,
-				desc = icons.ui.Copilot .. " CopilotChat - Toggle",
+				desc = icons.ui.Copilot .. " Toggle chat window",
 				mode = { "n", "x" }
 			},
 			-- Show help actions with telescope
@@ -104,7 +108,7 @@ return {
 					local actions = require("CopilotChat.actions")
 					require("CopilotChat.integrations.telescope").pick(actions.help_actions())
 				end,
-				desc = icons.ui.Copilot .. " CopilotChat - Help actions",
+				desc = icons.ui.Copilot .. " Help actions",
 				mode = { "n", "x" }
 			},
 			-- Show prompts actions with telescope
@@ -114,9 +118,21 @@ return {
 					local actions = require("CopilotChat.actions")
 					require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
 				end,
-				desc = icons.ui.Copilot .. " CopilotChat - Prompt actions",
+				desc = icons.ui.Copilot .. " Prompts",
 				mode = { "n", "x" }
 			},
+			{
+				"<leader>ae",
+				"<CMD>CopilotChatExplain<CR>",
+				mode = { "n", "x" },
+				desc = "Explain line/selection",
+			},
+			{
+				"<leader>ad",
+				"<CMD>CopilotChatDocs<CR>",
+				mode = { "n", "x" },
+				desc = "Add documentation for line/selection"
+			}
 		},
 		config = function()
 			-- Registers copilot-chat source and enables it for copilot-chat filetype (so copilot chat window)
@@ -142,7 +158,7 @@ return {
 				clear_chat_on_new_prompt = false, -- Clears chat on every new prompt
 				highlight_selection = true, -- Highlight selection in the source buffer when in the chat window
 
-				context = nil, -- Default context to use, 'buffers', 'buffer' or none (can be specified manually in prompt via @).
+				context = 'buffer', -- Default context to use, 'buffers', 'buffer' or none (can be specified manually in prompt via @).
 				history_path = vim.fn.stdpath('data') .. '/copilotchat_history', -- Default path to stored history
 				callback = nil, -- Callback to use when ask response is received
 

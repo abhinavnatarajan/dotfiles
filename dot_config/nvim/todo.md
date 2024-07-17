@@ -1,5 +1,7 @@
 # Todo
 - [] eventually replace vimtex with only texlab
 - [] Ltex-ls-extra paths
-- mason formatters auto-install
-- formatters global on path
+- project templates
+- comment text objects
+- diffview keybind clashes
+- text appearing through transparent windows

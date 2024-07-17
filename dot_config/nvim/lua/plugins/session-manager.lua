@@ -13,6 +13,7 @@ return {
 			{ desc = icons.ui.Save .. " Save current workspace", })
 		vim.keymap.set("n", "<leader>kr", [[<CMD>SessionManager load_last_session<CR>]],
 			{ desc = icons.ui.History .. " Load last session", })
+		vim.list_extend(require('config.keybinds').which_key_defaults, { { "<Leader>k", group = icons.ui.Project .. " Workspaces" } })
 		require("session_manager").setup({
 			sessions_dir = Path:new(vim.fn.stdpath("data"), "sessions"), -- The directory where the session files will be saved.
 			-- session_filename_to_dir = session_filename_to_dir, -- Function that replaces symbols into separators and colons to transform filename into a session directory.

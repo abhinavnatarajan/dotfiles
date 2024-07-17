@@ -1,7 +1,7 @@
 local icons = require("icons")
 
 -- custom toggleterm statusline
-local toggleterm = {
+local toggleterm_extension = {
 	sections = {
 		lualine_a = {
 			function()
@@ -29,7 +29,7 @@ local toggleterm = {
 }
 
 -- add on_click for trouble
-local trouble = {
+local trouble_extension = {
 	filetypes = { "trouble" },
 	winbar = {},
 	inactive_winbar = {},
@@ -43,6 +43,22 @@ local trouble = {
 			},
 		},
 	},
+}
+
+local overseer_extension = {
+	filetypes = { "OverseerList" },
+	winbar = {},
+	inactive_winbar = {},
+	sections = {
+		lualine_a = {
+			{
+				function() return "OverseerList" end,
+				on_click = function()
+					vim.cmd("OverseerToggle")
+				end,
+			},
+		},
+	}
 }
 
 local function get_hl_fg(name)
@@ -59,8 +75,6 @@ return {
 		"nvim-tree/nvim-web-devicons",
 		"navarasu/onedark.nvim",
 		'AndreM222/copilot-lualine'
-		-- "sainnhe/sonokai",
-		-- "folke/tokyonight.nvim",
 	},
 	event = "BufWinEnter",
 	-- enabled = false,
@@ -71,13 +85,13 @@ return {
 			extensions = {
 				"aerial",
 				"nvim-tree",
-				"overseer",
+				overseer_extension,
 				"lazy",
 				"fzf",
-				toggleterm,
+				toggleterm_extension,
 				"quickfix",
 				"nvim-dap-ui",
-				trouble,
+				trouble_extension,
 				"mason",
 			},
 			options = {
@@ -175,12 +189,14 @@ return {
 							require("CopilotChat").toggle()
 						end,
 					},
-				},
-				lualine_c = {
 					{
 						"overseer",
+						on_click = function()
+							vim.cmd("OverseerToggle")
+						end,
 					},
 				},
+				lualine_c = {},
 				lualine_x = {
 					{
 						-- filename

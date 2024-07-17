@@ -3,22 +3,30 @@ return {
 	{
 		"mfussenegger/nvim-dap",
 		keys = {
-			{ "<Leader>Dt", function() require("dap").toggle_breakpoint() end,      desc = "Toggle Breakpoint" },
-			{ "<Leader>Db", function() require("dap").step_back() end,              desc = "Step Back" },
-			{ "<Leader>Ds", function() require("dap").continue({ new = true }) end, desc = "Start debug session" },
-			{ "<Leader>Dc", function() require("dap").continue() end,               desc = "Continue" },
-			{ "<Leader>DC", function() require("dap").run_to_cursor() end,          desc = "Run To Cursor" },
+			{ "<Leader>Dt", function() require("dap").toggle_breakpoint() end,      desc = icons.debug.Breakpoint .. " Toggle Breakpoint" },
+			{
+				"<Leader>DT",
+				function()
+					local condition = vim.fn.input('Condition: ')
+					require("dap").set_breakpoint(condition)
+				end,
+				desc = icons.debug.BreakpointConditional .. " Set conditional breakpoint",
+			},
+			{ "<Leader>Db", function() require("dap").step_back() end,              desc = icons.debug.StepBack .. " Step Back" },
+			{ "<Leader>Ds", function() require("dap").continue({ new = true }) end, desc = icons.debug.Start .. " Start debug session" },
+			{ "<Leader>Dc", function() require("dap").continue() end,               desc = icons.debug.Start .. " Continue" },
+			{ "<Leader>DC", function() require("dap").run_to_cursor() end,          desc = icons.debug.RunToCursor .. " Run To Cursor" },
 			{ "<Leader>Dk", function() require("dap").session() end,                desc = "Get Session" },
-			{ "<Leader>Di", function() require("dap").step_into() end,              desc = "Step Into" },
-			{ "<Leader>Do", function() require("dap").step_over() end,              desc = "Step Over" },
-			{ "<Leader>Du", function() require("dap").step_out() end,               desc = "Step Out" },
-			{ "<Leader>Dp", function() require("dap").pause() end,                  desc = "Pause session" },
+			{ "<Leader>Di", function() require("dap").step_into() end,              desc = icons.debug.StepInto .. " Step Into" },
+			{ "<Leader>Do", function() require("dap").step_over() end,              desc = icons.debug.StepOver .. " Step Over" },
+			{ "<Leader>Du", function() require("dap").step_out() end,               desc = icons.debug.StepOut .. " Step Out" },
+			{ "<Leader>Dp", function() require("dap").pause() end,                  desc = icons.debug.Pause .. " Pause session" },
 			{ "<Leader>Dr", function() require("dap").repl.toggle() end,            desc = "Toggle Repl" },
 			{
 				-- terminate() is a "soft" terminate which the debuggee can ignore
 				"<Leader>Dq",
 				function() require("dap").terminate() end,
-				desc = "Terminate session",
+				desc = icons.debug.Terminate .. " Terminate session",
 			},
 			{
 				-- disconnect the adapter from the debuggee and terminate the adapter
@@ -61,7 +69,7 @@ return {
 				icons = {
 					disconnect = icons.debug.Disconnect,
 					pause = icons.debug.Pause,
-					play = icons.debug.Play,
+					play = icons.debug.Start,
 					run_last = icons.debug.RunLast,
 					step_back = icons.debug.StepBack,
 					step_into = icons.debug.StepInto,

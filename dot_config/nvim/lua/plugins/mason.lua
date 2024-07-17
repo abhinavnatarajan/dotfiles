@@ -2,6 +2,40 @@ local icons = require("icons")
 return
 {
 	{
+		"williamboman/mason.nvim",
+		version = "*",
+		opts = {
+			ui = {
+				border = "rounded",
+			},
+		},
+		keys = {
+			{ "<leader>Lm", "<CMD>Mason<CR>", desc = require("icons").ui.Configure .. " Manage external tools", }
+		},
+	},
+	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		dependencies = {
+			"williamboman/mason.nvim",
+		},
+		config = function()
+			local ensure_installed = {}
+			local install_lists = {
+				require('config.LSP').ensure_installed,
+				require('config.linters').ensure_installed,
+				require('config.formatters').ensure_installed,
+				require('config.DAP').ensure_installed
+			}
+			for _, val in ipairs(install_lists) do
+				vim.list_extend(ensure_installed, val)
+			end
+			require('mason-tool-installer').setup {
+				ensure_installed = ensure_installed,
+			}
+		end
+	},
+	{
+		-- library of default configurations for various LSP servers
 		"neovim/nvim-lspconfig",
 		version = "*",
 		cmd = {
@@ -20,6 +54,18 @@ return
 		config = false,
 	},
 	{
+		-- bridge between mason and lspconfig
+		-- automatic setup of servers installed by mason
+		"williamboman/mason-lspconfig.nvim",
+		version = "*",
+		dependencies = {
+			"neovim/nvim-lspconfig",
+			"williamboman/mason.nvim",
+		},
+		config = false -- manually call setup in lua/config/LSP/init.lua
+	},
+	{
+		-- allow linters to act as LSP servers
 		'nvimtools/none-ls.nvim',
 		config = function()
 			local null_ls = require("null-ls")
@@ -31,69 +77,5 @@ return
 				},
 			})
 		end,
-	},
-	{
-		"jay-babu/mason-null-ls.nvim",
-		event = { "BufReadPre", "BufNewFile" },
-		dependencies = {
-			"williamboman/mason.nvim",
-			"nvimtools/none-ls.nvim",
-		},
-		cmd = {
-			"NullLsInstall",
-			"NullLsUninstall",
-			"NoneLsInstall",
-			"NoneLsUninstall",
-		},
-		opts = {
-			ensure_installed = require("config.LSP.linters").ensure_installed,
-			handlers = require("config.LSP.linters").handlers,
-		},
-	},
-	{
-		"williamboman/mason.nvim",
-		version = "*",
-		opts = {
-			ui = {
-				border = "rounded",
-			},
-		},
-		keys = {
-			{ "<leader>Lm", "<CMD>Mason<CR>", desc = require("icons").ui.Configure .. " Manage installed LSP servers", }
-		},
-		cmd = { "Mason", "MasonUpdate", "MasonInstall", "MasonUninstallAll", "MasonLog" },
-	},
-	{
-		-- automatic LSP installation and configuration using Mason
-		"williamboman/mason-lspconfig.nvim",
-		version = "*",
-		dependencies = {
-			"neovim/nvim-lspconfig",
-			"williamboman/mason.nvim",
-		},
-		cmd = { "LspInstall", "LspUninstall" },
-		opts = {
-			ensure_installed = require("config.LSP.servers").ensure_installed,
-			handlers = require("config.LSP.servers").handlers,
-		},
-	},
-	{
-		-- automatic DAP installation and configuration using Mason
-		'jay-babu/mason-nvim-dap.nvim',
-		version = "*",
-		dependencies = {
-			"williamboman/mason.nvim",
-			"mfussenegger/nvim-dap",
-		},
-		cmd = {
-			"DapInstall",
-			"DapUninstall",
-		},
-		config = function()
-			require("mason-nvim-dap").setup({
-				ensure_installed = require("config.DAP.adapters").ensure_installed,
-				handlers = require("config.DAP.adapters").handlers,
-			})
-		end
 	},
 }

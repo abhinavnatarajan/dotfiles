@@ -1,4 +1,57 @@
 local icons = require("icons")
+local lazy = require("utils.lazy")
+local terminal = lazy.require("toggleterm.terminal")
+local ui = lazy.require("toggleterm.ui")
+local cm = require('utils.component_manager')
+
+-- need to create open/close functions because toggleterm api does not have them
+-- might break if the internal api changes
+local toggleterm_open = function()
+	local count = vim.v.count
+	if count and count >= 1 then
+		local term = terminal.get_or_create_term(count)
+		term:open()
+	else
+		if not ui.open_terminal_view() then
+			local term_id = terminal.get_toggled_id()
+			terminal.get_or_create_term(term_id):open()
+		end
+	end
+end
+
+local toggleterm_is_open = function()
+	local count = vim.v.count
+	if count and count >= 1 then
+		local term = terminal.get(count)
+		return term and term:is_open() or false
+	else
+		local has_open, _ = ui.find_open_windows()
+		return has_open
+	end
+end
+
+local toggleterm_close = function()
+	local count = vim.v.count
+	if count and count >= 1 then
+		local term = terminal.get(count)
+		if term then term:close() end
+	else
+		local has_open, windows = ui.find_open_windows()
+		if has_open then
+			ui.close_and_save_terminal_view(windows)
+		end
+	end
+end
+
+local toggleterm_component = cm.register_component(
+	'toggleterm',
+	{
+		open = toggleterm_open,
+		close = toggleterm_close,
+		is_open = toggleterm_is_open,
+	}
+)
+
 return {
 	'akinsho/toggleterm.nvim',
 	version = "*",
@@ -11,10 +64,15 @@ return {
 		"ToggleTermSetName",
 	},
 	keys = {
-		{ "<leader>`f", "<CMD>TermSelect<CR>",                desc = icons.ui.Select .. " Select terminal" },
-		{ "<leader>`r", "<CMD>ToggleTermSetName<CR>",         desc = icons.syntax.String .. " Rename terminal" },
-		{ "<A-`>",      "<CMD>ToggleTerm<CR>",                desc = icons.ui.Terminal .. " Toggle terminal",     mode = { "n", "x" } },
-		{ "<C-CR>",     "<CMD>ToggleTermSendCurrentLine<CR>", desc = icons.ui.Terminal .. " Run line in terminal" },
+		{ "<leader>`f", "<CMD>TermSelect<CR>",        desc = icons.ui.Select .. " Select terminal" },
+		{ "<leader>`r", "<CMD>ToggleTermSetName<CR>", desc = icons.syntax.String .. " Rename terminal" },
+		{
+			"<A-`>",
+			function() toggleterm_component:toggle() end,
+			desc = icons.ui.Terminal .. " Toggle terminal",
+			mode = { "n", "i" },
+		},
+		{ "<C-CR>", "<CMD>ToggleTermSendCurrentLine<CR>", desc = icons.ui.Terminal .. " Run line in terminal" },
 		{
 			"<C-CR>",
 			function()
@@ -28,12 +86,21 @@ return {
 			desc = icons.ui.Terminal .. " Run selection in terminal",
 			mode = "x",
 			expr = true,
-			replace_keycodes = true
 		}
 	},
+	init = function()
+		vim.list_extend(require('config.keybinds').which_key_defaults,
+			{ { "<Leader>`", group = icons.ui.Terminal .. " Terminals" } })
+	end,
 	opts = {
-		size = 70,
-		open_mapping = "<A-`>",
+		size = function(term)
+			if term.direction == "vertical" then
+				return vim.o.columns * 0.5
+			elseif term.direction == "horizontal" then
+				return vim.o.lines * 0.3
+			end
+		end,
+		open_mapping = false,   -- we set a toggle function manually
 		insert_mappings = true, -- whether or not the open mapping applies in insert mode
 		terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
 		close_on_exit = true,   -- close the terminal window when the process exits
@@ -42,7 +109,7 @@ return {
 		auto_scroll = true, -- automatically scroll to the bottom on terminal output
 		-- This field is only relevant if direction is set to 'float'
 		shade_terminals = false,
-		direction = 'vertical',
+		direction = 'horizontal',
 		float_opts = {
 			-- The border key is *almost* the same as 'nvim_open_win'
 			-- see :h nvim_open_win for details on borders however
@@ -62,36 +129,17 @@ return {
 			end
 		},
 	},
-	config = function(_, setup_opts)
-		require("toggleterm").setup(setup_opts)
-		vim.api.nvim_create_user_command("ToggleTermSendCurrentLine",
-			function(opts)
-				require("toggleterm").send_lines_to_terminal("single_line", false, opts.args)
-			end,
-			{ nargs = "?", force = true }
-		)
-		vim.api.nvim_create_user_command("ToggleTermSendVisualSelection",
-			function(opts)
-				require("toggleterm").send_lines_to_terminal("visual_selection", false, opts.args)
-			end,
-			{ range = true, nargs = "?", force = true }
-		)
-		vim.api.nvim_create_user_command("ToggleTermSendVisualLines",
-			function(opts)
-				require("toggleterm").send_lines_to_terminal("visual_lines", false, opts.args)
-			end,
-			{ range = true, nargs = "?", force = true }
-		)
-		require("autocmds").define_autocmd(
-		-- no sign column in toggleterm
-			"TermOpen",
+	config = function(_, opts)
+		require('toggleterm').setup(opts)
+		require('autocmds').define_autocmd(
+			'FileType',
 			{
-				group = "no_signs_in_toggleterm",
-				pattern = "term://*toggleterm#*",
+				pattern = "toggleterm",
+				group = 'toggleterm_close_mapping',
 				callback = function()
-					vim.opt_local.signcolumn = "no"
-				end,
+					vim.keymap.set("t", "<A-`>", function() toggleterm_component:toggle() end, { buffer = true })
+				end
 			}
 		)
-	end,
+	end
 }

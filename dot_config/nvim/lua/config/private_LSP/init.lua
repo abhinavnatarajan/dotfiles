@@ -1,9 +1,23 @@
 local M = {}
 
--- TODO: automatically install the following packages
-M.formatter_configs = {
-	"bibtex-tidy",
-	"jupytext",
+-- lspconfig names
+M.ensure_installed = {
+	"basedpyright", -- Python LSP
+	"bashls",
+	"clangd",
+	"cmake",
+	"cssls",
+	"html",
+	"jsonls",
+	"julials",
+	"ltex",    -- LanguageTool
+	"lua_ls",
+	"marksman", -- Markdown
+	"ruff",
+	"rust_analyzer",
+	"taplo",
+	"texlab",
+	"yamlls",
 }
 
 function M.setup()
@@ -47,51 +61,51 @@ function M.setup()
 				local bufmap = function(mode, lhs, rhs, desc)
 					vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", opts, { desc = desc }))
 				end
-				local client_capabilities = vim.lsp.get_client_by_id(args.data.client_id).server_capabilities
+				local server_capabilities = vim.lsp.get_client_by_id(args.data.client_id).server_capabilities
 
-				if not client_capabilities then
+				if not server_capabilities then
 					return
 				end
 
 				bufmap("n", "gl", vim.diagnostic.open_float, icons.ui.Diagnostics .. " Toggle diagnostics")
-				if client_capabilities.inlayHintProvider then
+				if server_capabilities.inlayHintProvider then
 					bufmap({ "n", "i" }, "<F1>",
 						function()
 							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
 						end,
 						icons.diagnostics.Hint .. " Toggle inlay hints")
 				end
-				if client_capabilities.renameProvider then
+				if server_capabilities.renameProvider then
 					bufmap("n", "gR", vim.lsp.buf.rename, icons.syntax.Object .. " Rename symbol")
 				end
-				if client_capabilities.definitionProvider then
+				if server_capabilities.definitionProvider then
 					bufmap("n", "gd", vim.lsp.buf.definition, "Go to definition")
 				end
-				if client_capabilities.declarationProvider then
+				if server_capabilities.declarationProvider then
 					bufmap("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
 				end
-				if client_capabilities.implementationProvider then
+				if server_capabilities.implementationProvider then
 					bufmap("n", "gI", vim.lsp.buf.implementation, "Go to implementation")
 				end
-				if client_capabilities.typeDefinitionProvider then
+				if server_capabilities.typeDefinitionProvider then
 					bufmap("n", "gT", vim.lsp.buf.type_definition, "Go to type definition")
 				end
-				if client_capabilities.signatureHelpProvider then
+				if server_capabilities.signatureHelpProvider then
 					bufmap("n", "gs", vim.lsp.buf.signature_help, icons.ui.Help .. " Signature help")
 					bufmap("i", "<C-s>", vim.lsp.buf.signature_help, icons.ui.Help .. " Signature help")
 				end
-				if client_capabilities.hoverProvider then
+				if server_capabilities.hoverProvider then
 					bufmap("n", "K", vim.lsp.buf.hover, icons.ui.Hover .. " Hover symbol")
 					bufmap("i", "<C-S-K>", vim.lsp.buf.hover, icons.ui.Hover .. " Hover symbol")
 				end
-				if client_capabilities.referencesProvider then
+				if server_capabilities.referencesProvider then
 					bufmap("n", "gr",
 						function()
 							vim.lsp.buf.references(nil, { on_list = vim.g.lsp_reference_handler })
 						end,
 						"List references")
 				end
-				if client_capabilities.codeActionProvider then
+				if server_capabilities.codeActionProvider then
 					bufmap("n", "<F4>", vim.lsp.buf.code_action, icons.ui.Fix .. " Code actions")
 					bufmap("x", "<F4>", vim.lsp.buf.code_action, icons.ui.Fix .. " Code actions")
 				end
@@ -102,6 +116,11 @@ function M.setup()
 	)
 
 	-- Default configurations for all servers
+	-- Note: order of priority of server configurations is as follows
+	-- user configuration > lspconfig server_configurations > lspconfig.util.default_config
+	-- lspconfig.__index does lspconfig['server'] = lspconfig.server_configurations['server']
+	-- lspconfig.__newindex is called during the above assignment
+	-- which merges lspconfig.server_configurations['server'] with lspconfig.util.default_config
 	local lspconfig = require("lspconfig")
 	local lsp_defaults = lspconfig.util.default_config
 	-- style LSP floating hints
@@ -122,14 +141,30 @@ function M.setup()
 		lsp_defaults.capabilities =
 				vim.tbl_deep_extend("force", lsp_defaults.capabilities, require("cmp_nvim_lsp").default_capabilities())
 	end
+
 	lspconfig.util.default_config = vim.tbl_deep_extend("force", lspconfig.util.default_config, lsp_defaults)
 
-	-- load Mason
-	require("mason")
+	-- server setup functions
+	local server_handlers = {
+		function(server_name)
+			require("lspconfig")[server_name].setup {}
+		end
+	}
+	for _, server_name in ipairs(M.ensure_installed) do
+		local ok, server = pcall(require, "config.LSP." .. server_name)
+		if ok then
+			if server.handler then
+				server_handlers[server_name] = server.handler
+			elseif server.config then
+				server_handlers[server_name] = function()
+					require("lspconfig")[server_name].setup(server.config)
+				end
+			end
+		end
+	end
+
 	-- setup the LSP servers
-	require("mason-lspconfig")
-	-- setup linters and hook them into the LSP client via none-ls
-	require("mason-null-ls")
+	require("mason-lspconfig").setup({ handlers = server_handlers })
 end
 
 return M
