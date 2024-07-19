@@ -7,7 +7,14 @@ mkdir -p $DOWNLOADS
 mkdir -p $APPFOLDER
 
 # Install C++ tools
-sudo apt install automake libtool build-essential gdb cmake -y
+sudo apt install automake autoconf autoconf-archive libtool build-essential gdb cmake ninja-build -y
+
+# Install vcpkg for C++ package management
+cd $HOME
+git clone https://github.com/microsoft/vcpkg.git .vcpkg
+cd .vcpkg
+./bootstrap-vcpkg.sh
+ln -sf $HOME/.vcpkg/vcpkg $LOCALBIN/vcpkg
 
 # Install rust and cargo
 # https://rust-lang.github.io/rustup/installation/other.html
@@ -192,3 +199,6 @@ chmod u+x $SIOYEK_APPIMAGE
 ./${SIOYEK_APPIMAGE} --appimage-extract
 mv squashfs-root/* $SIOYEK_DEST_FOLDER
 ln -sf $SIOYEK_DEST_FOLDER/AppRun $LOCALBIN/sioyek
+
+# Install jq for json parsing
+sudo apt install jq -y

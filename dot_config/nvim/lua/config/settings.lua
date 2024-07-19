@@ -77,7 +77,6 @@ function M.load_defaults()
 		undofile       = true,                               -- enable persistent undo
 		updatetime     = 100,                                -- faster completion
 		whichwrap      = '<>[]lh',
-		winblend       = 8,                                  -- translucent floating windows
 		wrap           = true,                               -- display lines as one long line
 		writebackup    = false,                              -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 	}

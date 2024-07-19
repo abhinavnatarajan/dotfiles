@@ -68,16 +68,15 @@ function M.motion(key, opts)
 	opts = vim.tbl_deep_extend("keep", opts or {}, options[key])
 
 	local mode = vim.api.nvim_get_mode().mode
-	if mode == "n" then -- normal mode
-		if opts.dotRepeatable then
-			opfunc = function()
-				M._motion(key)
-			end
-			vim.go.operatorfunc = "v:lua.require'utils.motions'.opfunc"
-			vim.cmd.normal("g@l")
-			return
+	if mode == "n" and opts.dotRepeatable then
+		opfunc = function()
+			M._motion(key)
 		end
-	elseif mode == "no" then -- operator pending mode
+		vim.go.operatorfunc = "v:lua.require'utils.motions'.opfunc"
+		vim.cmd.normal(vim.v.count1 .. "g@l")
+		return
+	end
+	if mode == "no" then -- operator pending mode
 		if opts.inclusive then
 			vim.cmd.normal("v") -- force charwise inclusive motion
 		end
