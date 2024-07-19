@@ -6,17 +6,14 @@ return {
 		{
 			"<leader>F",
 			function()
-				require("conform").format(
-					{
-						lsp_format = 'fallback', -- if set to true, then only falls back when there are no formatters
-						timeout_ms = 2000,
-					},
-					function(_, did_edit) -- callback
-						if did_edit then
-							vim.cmd("silent GuessIndent")
-						end
+				require("conform").format({
+					lsp_format = "fallback", -- if set to true, then only falls back when there are no formatters
+					timeout_ms = 2000,
+				}, function(_, did_edit) -- callback
+					if did_edit then
+						vim.cmd("silent GuessIndent")
 					end
-				)
+				end)
 			end,
 			desc = require("icons").ui.Indent .. " Format buffer",
 			mode = { "n", "x" },
@@ -36,7 +33,7 @@ return {
 			"<leader>Lf",
 			"<CMD>silent ConformInfo<CR>",
 			desc = "Formatter info for buffer",
-		}
+		},
 	},
 	-- Everything in opts will be passed to setup()
 	opts = {
@@ -46,9 +43,10 @@ return {
 			python = { "ruff_organize_imports", "ruff_format" },
 			c = { "clang-format" },
 			cpp = { "clang-format" },
+			lua = { "stylua" },
 		},
 	},
 	init = function()
 		vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-	end
+	end,
 }

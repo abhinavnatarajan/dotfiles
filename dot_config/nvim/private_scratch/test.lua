@@ -1,16 +1,4 @@
-local toggleterm_open = function()
-	local terms = require("toggleterm.terminal")
-	local count = vim.v.count
-	if count and count >= 1 then
-		local term = terms.get_or_create_term(count)
-		term:open()
-	else
-		local ui = require("toggleterm.ui")
-		if not ui.open_terminal_view() then
-			local term_id = terms.get_toggled_id()
-			terms.get_or_create_term(term_id):open()
-		end
-	end
-end
-
-vim.keymap.set("n", "<leader>x", function() toggleterm_open() end, { buffer = true })
+local search_pattern = string.format([[^\(%s\)*]], "\t")
+local re = vim.regex(search_pattern)
+local str = "		local _, indent_len = re:match_str(line)"
+vim.print(re:match_str(str))

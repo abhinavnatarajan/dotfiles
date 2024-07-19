@@ -35,16 +35,16 @@ function M.load_defaults()
 		linebreak      = true,
 		list           = true,
 		matchpairs     = { "{:}", "(:)", "[:]" },
-		mouse          = "a", -- allow the mouse to be used in neovim
+		mouse          = "a",   -- allow the mouse to be used in neovim
 		mousemoveevent = true,
-		number         = true, -- set numbered lines
-		numberwidth    = 3,  -- set number column width to 2 {default 4}
-		pumblend       = 8,  -- translucent popup menu
-		pumheight      = 150, -- pop up menu height
-		relativenumber = true, -- set relative numbered lines
+		number         = true,  -- set numbered lines
+		numberwidth    = 3,     -- set number column width to 2 {default 4}
+		pumblend       = 8,     -- translucent popup menu
+		pumheight      = 150,   -- pop up menu height
+		relativenumber = true,  -- set relative numbered lines
 		report         = 9999999, -- do not emit messages when lines are changed
 		ruler          = false,
-		scrolloff      = 4,  -- minimal number of screen lines to keep above and below the cursor.
+		scrolloff      = 4,     -- minimal number of screen lines to keep above and below the cursor.
 		sessionoptions = {
 			"blank",
 			"buffers",
@@ -70,10 +70,10 @@ function M.load_defaults()
 		swapfile       = false,                              -- creates a swapfile
 		tabstop        = 2,                                  -- insert 2 spaces for a tab
 		termguicolors  = true,                               -- set term gui colors (most terminals support this)
-		timeout        = true,
+		timeout        = false,
 		timeoutlen     = 500,                                -- time to wait for a mapped sequence to complete (in milliseconds)
 		title          = true,                               -- set the title of window to the value of the titlestring
-		undodir        = vim.fn.stdpath("state") .. "/undo//",-- set an undo directory
+		undodir        = vim.fn.stdpath("state") .. "/undo//", -- set an undo directory
 		undofile       = true,                               -- enable persistent undo
 		updatetime     = 100,                                -- faster completion
 		whichwrap      = '<>[]lh',

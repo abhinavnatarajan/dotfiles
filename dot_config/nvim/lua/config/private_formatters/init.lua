@@ -5,6 +5,7 @@ M.ensure_installed = {
 	"clang-format",
 	"bibtex-tidy",
 	"jupytext",
+	"stylua",
 }
 
 return M

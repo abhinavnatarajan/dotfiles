@@ -29,6 +29,12 @@ local keys = vim.tbl_map(make_kmap, {
 		desc = icons.ui.Diagnostics .. " Toggle diagnostics (document)",
 	},
 	{
+		key = "<leader>lr",
+		trouble_name = 'References',
+		component_name = "trouble_references",
+		desc = icons.ui.Diagnostics .. " Toggle LSP references",
+	},
+	{
 		key = "<leader>ll",
 		component_name = "trouble_location_list",
 		trouble_name = 'Location list',
@@ -89,12 +95,7 @@ return {
 		)
 
 		---make Trouble the default handler for LSP references
-		local reftoggler = cm.register_component('trouble_references', {
-			open = function() require('trouble').open('References') end,
-			is_open = function() return require('trouble').is_open('References') end,
-			close = function() require('trouble').close('References') end,
-		})
-		vim.g.lsp_reference_handler = function() reftoggler:show() end
+		vim.g.lsp_reference_handler = function() cm.ComponentList['trouble_references']:show() end
 
 		-- actual options
 		require("trouble").setup {
@@ -129,7 +130,7 @@ return {
 				["References"] = {
 					desc = "References",
 					mode = "lsp_references",
-					auto_refresh = false,
+					auto_preview = true,
 				},
 				["Document symbols"] = {
 					desc = "Document Symbols",

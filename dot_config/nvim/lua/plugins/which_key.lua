@@ -15,8 +15,8 @@ return {
   opts = {
     preset = "modern",
     notify = false,
-    modes = {
-      x = false,
+    triggers = {
+      "<auto>", mode = "nisotc"
     },
     win = {
       no_overlap = false,
