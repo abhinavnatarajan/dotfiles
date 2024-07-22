@@ -4,3 +4,4 @@
 - project templates
 - DAP multi-session
 - release comment and motion plugins
+- iw and aw textobjects

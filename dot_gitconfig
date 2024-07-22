@@ -3,12 +3,6 @@
 	name = Abhinav Natarajan
 [safe]
 	directory = *
-[core]
-	pager = delta
-[interactive]
-	diffFilter = delta --color-only
-[delta]
-	navigate = true
 [merge]
 	conflictstyle = diff3
 [diff]
@@ -26,6 +20,6 @@
 	driver = git-nbmergedriver merge %O %A %B %L %P
 	name = jupyter notebook merge driver
 [difftool "nbdime"]
-	cmd = git-nbdifftool diff \"$LOCAL\" \"$REMOTE\" \"$BASE\"
+	cmd = git-nbdifftool diff "$LOCAL" "$REMOTE" "$BASE"
 [mergetool "nbdime"]
-	cmd = git-nbmergetool merge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
+	cmd = git-nbmergetool merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"

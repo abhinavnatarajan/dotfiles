@@ -43,7 +43,7 @@ return {
 			python = { "ruff_organize_imports", "ruff_format" },
 			c = { "clang-format" },
 			cpp = { "clang-format" },
-			lua = { "stylua" },
+			-- lua = { "stylua" },
 		},
 	},
 	init = function()

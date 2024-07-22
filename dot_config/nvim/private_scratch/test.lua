@@ -1,4 +1,4 @@
-local search_pattern = string.format([[^\(%s\)*]], "\t")
-local re = vim.regex(search_pattern)
-local str = "		local _, indent_len = re:match_str(line)"
-vim.print(re:match_str(str))
+-- require
+-- snake_case camelCase kebab-case
+-- vim.keymap.set("o", "iw", "<Plug>(textobject-iw)", {buffer = true})
+vim.keymap.set("o", "iw", function() require('utils.motions').textObject("iw") end, {buffer = true})

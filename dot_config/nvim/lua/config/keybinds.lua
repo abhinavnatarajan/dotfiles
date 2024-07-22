@@ -238,6 +238,40 @@ M.keymaps = {
 		end,
 		DefaultOpts({ desc = "Prev end of word" }),
 	},
+	{
+		{ "n", "o", "x" },
+		"<C-j>", "gj", DefaultOpts { desc = "Move down one screen line" }
+	},
+	{
+		{ "n", "o", "x" },
+		"<C-k>", "gk", DefaultOpts { desc = "Move down one screen line" }
+	},
+
+	--[[ Text objects ]]
+	{
+		{ "o", "x" },
+		"i_",
+		"<Plug>(textobject-iw)",
+		DefaultOpts({ desc = "Inside word" }),
+	},
+	{
+		{ "o", "x" },
+		"a_",
+		"<Plug>(textobject-aw)",
+		DefaultOpts({ desc = "Around word" }),
+	},
+	{
+		{ "o", "x" },
+		"il",
+		"<Plug>(textobject-il)",
+		DefaultOpts({ desc = "Inside line" }),
+	},
+	{
+		{ "o", "x" },
+		"al",
+		"<Plug>(textobject-al)",
+		DefaultOpts({ desc = "Around line" }),
+	},
 
 	--[[ Move lines around a la vscode ]]
 	{
@@ -318,9 +352,9 @@ M.keymaps = {
 		"<C-T>",
 		DefaultOpts({ desc = icons.ui.IndentIncrease .. " Increase indentation" }),
 	},
-	{ "i", "<C-j>", "<Down>", DefaultOpts({ desc = "Move cursor down" }) },
-	{ "i", "<C-K>", "<Up>", DefaultOpts({ desc = "Move cursor up" }) },
-	{ "i", "<C-h>", "<Left>", DefaultOpts({ desc = "Move cursor left" }) },
+	{ "i", "<C-j>", "<Down>",  DefaultOpts({ desc = "Move cursor down" }) },
+	{ "i", "<C-K>", "<Up>",    DefaultOpts({ desc = "Move cursor up" }) },
+	{ "i", "<C-h>", "<Left>",  DefaultOpts({ desc = "Move cursor left" }) },
 	{ "i", "<C-l>", "<Right>", DefaultOpts({ desc = "Move cursor right" }) },
 	{ "i", "<Esc>", "<Esc>`^" }, -- don't move the cursor after leaving insert mode
 
@@ -396,7 +430,7 @@ M.keymaps = {
 
 ---@type table<string, table>
 M.which_key_defaults = {
-	{ "<Leader>", group = icons.ui.Files .. " Leader shortcuts" },
+	{ "<Leader>",  group = icons.ui.Files .. " Leader shortcuts" },
 	{ "<Leader>L", group = icons.ui.Lightbulb .. " LSP" },
 	{ "<Leader>D", group = icons.debug.Debug .. " Debug" },
 	{ "<Leader>s", group = icons.ui.Gear .. " Settings" },
@@ -404,17 +438,17 @@ M.which_key_defaults = {
 	{ "<Leader>P", group = icons.ui.ToolBox .. " Plugins" },
 	{ "<Leader>b", group = icons.ui.Files .. " Buffers" },
 	{ "<Leader>t", group = icons.ui.Tab .. " Tabs" },
-	{ "<C-w>", group = icons.ui.Window .. " Manage windows" },
-	{ "<C-w>H", group = icons.ui.ChevronLeftBoxOutline .. " Go to the left window" },
-	{ "<C-w>J", group = icons.ui.ChevronDownBoxOutline .. " Go to the down window" },
-	{ "<C-w>K", group = icons.ui.ChevronUpBoxOutline .. " Go to the up window" },
-	{ "<C-w>L", group = icons.ui.ChevronRightBoxOutline .. " Go to the right window" },
-	{ "*", group = icons.ui.Search .. " Search forwards (whole word)", mode = { "n", "x", "o" } },
-	{ "#", group = icons.ui.Search .. " Search backwards (whole word)", mode = { "n", "x", "o" } },
-	{ "g*", group = icons.ui.Search .. " Search forwards", mode = { "n", "x", "o" } },
-	{ "g#", group = icons.ui.Search .. " Search backwards", mode = { "n", "x", "o" } },
-	{ "g<C-g>", group = icons.ui.Note .. " Count lines, words, and characters", mode = { "n", "x" } },
-	{ "Y", group = "Yank to end of line" },
+	{ "<C-w>",     group = icons.ui.Window .. " Manage windows" },
+	{ "<C-w>H",    group = icons.ui.ChevronLeftBoxOutline .. " Go to the left window" },
+	{ "<C-w>J",    group = icons.ui.ChevronDownBoxOutline .. " Go to the down window" },
+	{ "<C-w>K",    group = icons.ui.ChevronUpBoxOutline .. " Go to the up window" },
+	{ "<C-w>L",    group = icons.ui.ChevronRightBoxOutline .. " Go to the right window" },
+	{ "*",         group = icons.ui.Search .. " Search forwards (whole word)",          mode = { "n", "x", "o" } },
+	{ "#",         group = icons.ui.Search .. " Search backwards (whole word)",         mode = { "n", "x", "o" } },
+	{ "g*",        group = icons.ui.Search .. " Search forwards",                       mode = { "n", "x", "o" } },
+	{ "g#",        group = icons.ui.Search .. " Search backwards",                      mode = { "n", "x", "o" } },
+	{ "g<C-g>",    group = icons.ui.Note .. " Count lines, words, and characters",      mode = { "n", "x" } },
+	{ "Y",         group = "Yank to end of line" },
 }
 
 M.autocmd_keybinds = {
